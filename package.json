@@ -15,6 +15,7 @@
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
     "@types/express": "^4.17.8",
+    "dotenv": "^8.2.0",
     "nodemon": "^2.0.6",
     "nodemon-webpack-plugin": "^4.3.2",
     "rimraf": "^3.0.2",
@@ -27,6 +28,8 @@
     "node": ">=14.15.0"
   },
   "babel": {
-    "presets": ["@babel/preset-env"]
+    "presets": [
+      "@babel/preset-env"
+    ]
   }
 }
