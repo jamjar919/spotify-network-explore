@@ -13,5 +13,7 @@ This compiles both the server and client side code, then runs the server at [htt
 ### Ok, nice, but I'm developing, what else is useful?
  - `yarn run build` will run tests as well as build the server/client
  - `yarn run server:build` or `yarn run client:build` builds just the server or client. 
- - You can also use `yarn run server:build:dev` and `yarn run client:build:dev` to run both of these processes in watch mode, which will automatically recompile your code if files are changes. It's smart enough to not rebuild the server when you only change client code which is handy.
+ - You can also use `yarn run server:build:dev` and `yarn run client:build:dev` to run both of these processes in watch mode, which will automatically recompile your code if files are changed. It's smart enough to not rebuild the server when you only change client code which is handy.
  - `yarn run test` runs tests, obviously
+ 
+My workflow is to run `yarn run server:build:dev` and `yarn run client:build:dev` in seperate tabs and keep an eye on the output whilst I work.
