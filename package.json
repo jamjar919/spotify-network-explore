@@ -2,34 +2,50 @@
   "name": "spotify-network-explore",
   "version": "1.0.0",
   "description": "Explore playlists with a network view animated over time",
-  "main": "./src/index.ts",
+  "main": "src/server/index.ts",
   "repository": "https://github.com/jamjar919/spotify-network-explore.git",
   "author": "James Paterson <james@mjsquare.com>",
   "license": "None",
   "private": true,
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "scripts": {
+    "server:build": "npx webpack --config webpack.config.server.js",
+    "server:dev": "npx webpack -w --config webpack.config.server.js",
+    "client:build": "npx webpack --config webpack.config.client.js",
+    "client:dev": "npx webpack -w --config webpack.config.client.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.5",
     "@types/express": "^4.17.8",
+    "@types/react": "^16.9.56",
+    "@types/react-dom": "^16.9.9",
+    "babel-loader": "^8.2.1",
     "dotenv": "^8.2.0",
+    "html-webpack-plugin": "^4.5.0",
+    "mini-css-extract-plugin": "^1.3.0",
     "nodemon": "^2.0.6",
     "nodemon-webpack-plugin": "^4.3.2",
     "rimraf": "^3.0.2",
     "ts-loader": "^8.0.11",
     "typescript": "^4.0.5",
     "webpack": "^5.4.0",
-    "webpack-cli": "^4.2.0"
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
   },
   "engines": {
     "node": ">=14.15.0"
   },
   "babel": {
     "presets": [
-      "@babel/preset-env"
+      "@babel/preset-env",
+      "@babel/react"
     ]
   }
 }

@@ -2,11 +2,11 @@ const path = require('path');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.ts',
+    entry: './src/server/index.ts',
     target: 'node', // support native modules
     devtool: "inline-source-map",
     output: {
-        filename: 'bundle.js',
+        filename: 'server.js',
         path: path.resolve(__dirname, 'dist')
     },
     resolve: {
@@ -14,7 +14,13 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.tsx?$/, loader: "ts-loader" }
+            {
+                test: /\.tsx?$/,
+                loader: "ts-loader",
+                include: [
+                    path.resolve(__dirname, "src/server")
+                ]
+            },
         ]
     },
     plugins: [
