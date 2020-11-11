@@ -16,11 +16,11 @@
     "build": "npm-run-all server:build client:build test",
     "assemble": "npm-run-all server:build client:build",
     "test": "jest",
-    "server:start": "node ./dist/server.js",
-    "server:build": "npx webpack --config webpack.config.server.js",
-    "server:build:dev": "npx webpack -w --config webpack.config.server.js",
-    "client:build": "npx webpack --config webpack.config.client.js",
-    "client:build:dev": "npx webpack -w --config webpack.config.client.js"
+    "start": "node ./dist/server.js",
+    "build:server": "npx webpack --config webpack.config.server.js",
+    "build:server:dev": "npx webpack -w --config webpack.config.server.js",
+    "build:client": "npx webpack --config webpack.config.client.js",
+    "build:client:dev": "npx webpack -w --config webpack.config.client.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
