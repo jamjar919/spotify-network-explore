@@ -13,6 +13,8 @@
     "react-dom": "^17.0.1"
   },
   "scripts": {
+    "build": "npm-run-all server:build client:build server:start",
+    "server:start": "node ./dist/server.js",
     "server:build": "npx webpack --config webpack.config.server.js",
     "server:dev": "npx webpack -w --config webpack.config.server.js",
     "client:build": "npx webpack --config webpack.config.client.js",
@@ -32,6 +34,7 @@
     "mini-css-extract-plugin": "^1.3.0",
     "nodemon": "^2.0.6",
     "nodemon-webpack-plugin": "^4.3.2",
+    "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "ts-loader": "^8.0.11",
     "typescript": "^4.0.5",

@@ -11,5 +11,5 @@ app.get('/', root);
 app.get('/client.js', clientJavascript);
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}!`)
+    console.log(`Active on port ${port}!`)
 });
