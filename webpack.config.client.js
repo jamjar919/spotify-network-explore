@@ -31,7 +31,7 @@ module.exports = {
             },
             {
                 loader: 'ts-loader',
-                test: /\.tsx$/,
+                test: /\.ts(x?)$/,
                 exclude,
                 include
             },
