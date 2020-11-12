@@ -1,6 +1,18 @@
 const path = require('path');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 
+const SRC_DIR = './src/server/';
+const COMMON_DIR = './src/common/';
+
+const include = [
+    path.resolve(__dirname, SRC_DIR),
+    path.resolve(__dirname, COMMON_DIR)
+];
+
+const exclude = [
+    path.resolve(__dirname, "./src/client")
+];
+
 module.exports = {
     entry: './src/server/index.ts',
     target: 'node', // support native modules
@@ -17,9 +29,8 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 loader: "ts-loader",
-                include: [
-                    path.resolve(__dirname, "src/server")
-                ]
+                include,
+                exclude
             },
         ]
     },

@@ -4,6 +4,16 @@ const path = require('path');
 const devMode = process.env.NODE_ENV !== 'production';
 
 const SRC_DIR = './src/client/';
+const COMMON_DIR = './src/common/';
+
+const include = [
+    path.resolve(__dirname, SRC_DIR),
+    path.resolve(__dirname, COMMON_DIR)
+];
+
+const exclude = [
+    path.resolve(__dirname, "./src/server")
+];
 
 module.exports = {
     entry: SRC_DIR + 'index.js',
@@ -16,22 +26,14 @@ module.exports = {
             {
                 loader: 'babel-loader',
                 test: /\.js$/,
-                exclude: [
-                    path.resolve(__dirname, "./src/server")
-                ],
-                include: [
-                    path.resolve(__dirname, SRC_DIR)
-                ]
+                exclude,
+                include
             },
             {
                 loader: 'ts-loader',
                 test: /\.tsx$/,
-                exclude: [
-                    path.resolve(__dirname, "./src/server")
-                ],
-                include: [
-                    path.resolve(__dirname, SRC_DIR)
-                ]
+                exclude,
+                include
             },
             {
                 test: /\.scss$/i,
@@ -40,12 +42,8 @@ module.exports = {
                     { loader: 'css-loader', options: { url: false, sourceMap: true } },
                     { loader: 'sass-loader', options: { sourceMap: true } }
                 ],
-                exclude: [
-                    path.resolve(__dirname, "./src/server")
-                ],
-                include: [
-                    path.resolve(__dirname, SRC_DIR)
-                ]
+                exclude,
+                include
             }
         ]
     },
