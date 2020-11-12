@@ -10,7 +10,7 @@ describe('PaginationUtil', () => {
     const EXPECTED_AUTH_TOKEN = "Bearer " + ACCESS_TOKEN;
     const MAX_PER_REQUEST = 5;
 
-    let paginationUtil: PaginationUtil;
+    let paginationUtil: PaginationUtil<number>;
 
     beforeEach(() => {
         paginationUtil = new PaginationUtil(
