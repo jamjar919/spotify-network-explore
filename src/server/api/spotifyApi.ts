@@ -59,7 +59,7 @@ export const urlWithQueryParams = (apiEndpoint: SpotifyEndpoint, params: QueryPa
     return `${apiEndpoint.url}?${queryParams}`
 };
 
-type SpotifyEndpoint = {
+export type SpotifyEndpoint = {
     url: string,
     method: Method,
     requiresAuth?: boolean,
