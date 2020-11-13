@@ -22,9 +22,9 @@ const App = () => {
 
     return (
     <>
-        <strong>{profile.display_name}</strong>
+        <strong>{profile?.display_name}</strong>
         {
-            playlists.map(playlist => (
+            playlists?.map(playlist => (
                 <div>{playlist.name}</div>
             ))
         }
