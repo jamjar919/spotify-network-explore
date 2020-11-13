@@ -17,18 +17,16 @@ const App = () => {
     }, []);
 
     if (profile === null || playlists === null) {
-        return (<>failed to fetch profile/playlists</>);
+        return (<>fetching profile/playlists</>);
     }
 
     return (
     <>
-        <div>{JSON.stringify(profile)}</div>
+        <strong>{profile.display_name}</strong>
         {
-            playlists.map(playlist => {
-                return (
-                    <div>{playlist.name}</div>
-                )
-            })
+            playlists.map(playlist => (
+                <div>{playlist.name}</div>
+            ))
         }
     </>
     );
