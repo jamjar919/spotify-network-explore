@@ -11,7 +11,7 @@ const fetchProfileSuccess = (profile: UserObjectPrivate): Action<UserObjectPriva
 });
 
 const fetchProfileError: Action<void> = {
-    type: ActionName.FETCH_PROFILE_SUCCESS,
+    type: ActionName.FETCH_PROFILE_ERROR,
 };
 
 export const fetchProfileAction = () => {

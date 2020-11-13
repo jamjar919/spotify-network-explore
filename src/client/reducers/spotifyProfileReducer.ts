@@ -1,17 +1,15 @@
 import UserObjectPrivate = SpotifyApi.UserObjectPrivate;
 import {Action, ActionName} from "../actions/action";
 
-export type SpotifyProfileState = { profile?: UserObjectPrivate }
+export type SpotifyProfileState = UserObjectPrivate | null
 
-export default (state: SpotifyProfileState = {}, action: Action<UserObjectPrivate | void>) => {
+export default (state: SpotifyProfileState = null, action: Action<UserObjectPrivate | void>): SpotifyProfileState => {
     switch (action.type) {
         case ActionName.FETCH_PROFILE_ERROR: {
-            return {};
+            return null;
         }
         case ActionName.FETCH_PROFILE_SUCCESS: {
-            return {
-                profile: action.payload as UserObjectPrivate
-            };
+            return action.payload as UserObjectPrivate;
         }
     }
     return state;
