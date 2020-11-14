@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import * as querystring from "querystring";
 import fetch from "node-fetch";
 import cryptoRandomString from "crypto-random-string";
-import {RequestParameter} from "../constants/requestParameter";
+import {RequestParameter} from "../../common/requestParameter";
 import {Cookies} from "../constants/cookies";
 import URLSearchParams from 'url-search-params';
 import {SpotifyApi, Endpoint, urlWithQueryParams} from "../api/spotifyApi";
@@ -21,7 +21,7 @@ export const login = (_req: Request, res: Response) => {
 
     res.cookie(Cookies.STATE_KEY, state);
     res.redirect(urlWithQueryParams(
-        SpotifyApi[Endpoint.AUTHORISE], {
+        SpotifyApi[Endpoint.AUTHORISE].url, {
             response_type: 'code',
             client_id: CLIENT_ID,
             redirect_uri: REDIRECT_URI,

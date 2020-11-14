@@ -10,6 +10,7 @@ export class Path {
 
     public static readonly Spotify = {
         USER: '/spotify/user',
-        PLAYLISTS: '/spotify/playlists'
+        PLAYLISTS: '/spotify/playlists',
+        TRACKS: '/spotify/tracks'
     }
 }

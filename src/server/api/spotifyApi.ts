@@ -1,13 +1,14 @@
 import {Method} from "../constants/method";
-import {ContentType} from "../constants/contentType";
+import {ContentType} from "../../common/contentType";
 import * as querystring from "querystring";
-import {RequestParameter} from "../constants/requestParameter";
+import {RequestParameter} from "../../common/requestParameter";
 
 export const enum Endpoint {
     AUTHORISE = 'authorise',
     TOKEN = 'token',
     ME = 'me',
-    PLAYLIST_LIST = 'playlist_list'
+    PLAYLIST_LIST = 'playlist_list',
+    PLAYLIST_TRACKS = 'playlist_tracks'
 }
 
 export const SpotifyApi: {[key: string]: SpotifyEndpoint} = {
@@ -26,6 +27,10 @@ export const SpotifyApi: {[key: string]: SpotifyEndpoint} = {
         requiresAuth: true
     },
     [Endpoint.PLAYLIST_LIST]: {
+        url: 'https://api.spotify.com/v1/me/playlists',
+        method: Method.GET,
+        requiresAuth: true
+    },[Endpoint.PLAYLIST_TRACKS]: {
         url: 'https://api.spotify.com/v1/me/playlists',
         method: Method.GET,
         requiresAuth: true
@@ -54,9 +59,9 @@ export const getFetchOptions = (
     return options;
 };
 
-export const urlWithQueryParams = (apiEndpoint: SpotifyEndpoint, params: QueryParametersMap) => {
+export const urlWithQueryParams = (url: string, params: QueryParametersMap) => {
     const queryParams = querystring.encode(params);
-    return `${apiEndpoint.url}?${queryParams}`
+    return `${url}?${queryParams}`
 };
 
 export type SpotifyEndpoint = {

@@ -10,6 +10,7 @@ export class PaginationUtil<PagedObject> {
     private readonly accessToken: string;
     private readonly totalLimit: number;
     private readonly maxPerRequest: number;
+    private readonly getUrl: (url: string) => string;
 
     constructor(
         api: SpotifyEndpoint,
@@ -17,12 +18,14 @@ export class PaginationUtil<PagedObject> {
         options: {
             totalLimit?: number,
             maxPerRequest?: number,
+            getUrl?: (url: string) => string
         } = {}
     ) {
         this.api = api;
         this.accessToken = accessToken;
         this.totalLimit = options.totalLimit || PaginationUtil.DEFAULT_LIMIT;
         this.maxPerRequest = options.maxPerRequest || PaginationUtil.DEFAULT_MAX_PER_REQUEST;
+        this.getUrl = options.getUrl || ((url: string) => url);
     }
 
     public getAll = (): Promise<PagedObject[]> => this.recursivelyPaginateApi(0, []);
@@ -45,7 +48,7 @@ export class PaginationUtil<PagedObject> {
     };
 
     private callApi = (offset: number): Promise<PagingObject<PagedObject>> => {
-        const url = urlWithQueryParams(this.api, {
+        const url = urlWithQueryParams(this.getUrl(this.api.url), {
             offset: offset,
             limit: this.maxPerRequest
         });
