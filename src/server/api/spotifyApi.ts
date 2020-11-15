@@ -31,7 +31,7 @@ export const SpotifyApi: {[key: string]: SpotifyEndpoint} = {
         method: Method.GET,
         requiresAuth: true
     },[Endpoint.PLAYLIST_TRACKS]: {
-        url: 'https://api.spotify.com/v1/me/playlists',
+        url: 'https://api.spotify.com/v1/playlists',
         method: Method.GET,
         requiresAuth: true
     }

@@ -25,7 +25,7 @@ const App = () => {
             const playlistIds = playlists.map(playlist => playlist.id);
             dispatch(fetchTracksAction(playlistIds));
         }
-    });
+    }, [playlists]);
 
     if (profile === null || playlists === null) {
         return (<>fetching profile/playlists</>);
@@ -36,12 +36,12 @@ const App = () => {
         <strong>{profile?.display_name}</strong>
         {
             playlists && playlists.map(playlist => (<>
-                <div>{playlist.name}</div>
+                <div>{playlist.name} | {playlist.id}</div>
                 <ul>
                     {
-                        tracks && tracks[playlist.id].map((track: PlaylistTrackObject) => {
+                        tracks && tracks[playlist.id] && tracks[playlist.id].map((track: PlaylistTrackObject) => (
                             <li>{track.track.name}</li>
-                        })
+                        ))
                     }
                 </ul>
             </>))
