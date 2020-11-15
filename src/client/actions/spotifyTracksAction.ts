@@ -3,8 +3,10 @@ import {Path} from "../../common/path";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {RequestParameter} from "../../common/requestParameter";
 import {ContentType} from "../../common/contentType";
+import {Method} from "../../common/method";
 
 const fetchTracks = (playlistIds: string[]): Promise<PlaylistBaseObject[]> => fetch(Path.Spotify.TRACKS, {
+    method: Method.POST,
     body: JSON.stringify(playlistIds),
     headers: {
         [RequestParameter.CONTENT_TYPE]: ContentType.JSON

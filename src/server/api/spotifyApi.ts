@@ -1,4 +1,4 @@
-import {Method} from "../constants/method";
+import {Method} from "../../common/method";
 import {ContentType} from "../../common/contentType";
 import * as querystring from "querystring";
 import {RequestParameter} from "../../common/requestParameter";

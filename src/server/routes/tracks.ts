@@ -6,10 +6,12 @@ import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 
 export const tracks = (req: Request, res: Response) => {
     const accessToken = getAccessTokenFromRequest(req);
-    const playListIds: string[] = req.body;
+    const playListIds: string[] = [req.body[0]];
     const playlistToTracks: {
         [playlistId: string] : PlaylistTrackObject[]
     } = {};
+
+    console.log(playListIds);
 
     const requests = playListIds.map(id => new PaginationUtil<PlaylistTrackObject>(
             SpotifyApi[Endpoint.PLAYLIST_TRACKS],
@@ -19,9 +21,17 @@ export const tracks = (req: Request, res: Response) => {
                 maxPerRequest: 100,
                 getUrl: (url) => `${url}/${id}/tracks`
             }
-        ).getAll().then((tracks: PlaylistTrackObject[]) => playlistToTracks[id] = tracks)
+        ).getAll().then(
+            (tracks: PlaylistTrackObject[]) => {
+                playlistToTracks[id] = tracks;
+                console.log(id, tracks);
+            })
     );
 
     Promise.all(requests)
         .then(() => res.send(playlistToTracks))
+        .catch((err) => {
+            res.status(500);
+            res.send({error: err});
+        })
 };

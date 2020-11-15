@@ -23,7 +23,7 @@ const App = () => {
     useEffect(() => {
         if (playlists !== null) {
             const playlistIds = playlists.map(playlist => playlist.id);
-            fetchTracksAction(playlistIds);
+            dispatch(fetchTracksAction(playlistIds));
         }
     });
 

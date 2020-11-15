@@ -1,6 +1,7 @@
 import {getFetchOptions, SpotifyEndpoint, urlWithQueryParams} from "../api/spotifyApi";
 import fetch from "node-fetch";
 import PagingObject = SpotifyApi.PagingObject;
+import ErrorObject = SpotifyApi.ErrorObject;
 
 export class PaginationUtil<PagedObject> {
     private static readonly DEFAULT_LIMIT = 500;
@@ -33,18 +34,25 @@ export class PaginationUtil<PagedObject> {
     private recursivelyPaginateApi = (
         offset: number,
         currentItems: any[]
-    ): Promise<any> => {
+    ): Promise<PagedObject[]> => {
         return this.callApi(offset)
-            .then((result: PagingObject<PagedObject>) => {
-                const items: PagedObject[] = currentItems.concat(result.items);
-                if (items.length < this.totalLimit && result.next !== null) {
+            .then((result: PagingObject<PagedObject> |  { error: ErrorObject }) => {
+                if (result.hasOwnProperty("error")) {
+                    const errorWrapper = result as  { error: ErrorObject };
+                    throw new Error(errorWrapper.error.message);
+                }
+
+                const pagedResult = result as PagingObject<PagedObject>;
+
+                const items: PagedObject[] = currentItems.concat(pagedResult.items);
+                if (items.length < this.totalLimit && pagedResult.next !== null) {
                     return this.recursivelyPaginateApi(
                         offset + this.maxPerRequest,
                         items
                     )
                 }
                 return items;
-            });
+            })
     };
 
     private callApi = (offset: number): Promise<PagingObject<PagedObject>> => {
@@ -52,6 +60,8 @@ export class PaginationUtil<PagedObject> {
             offset: offset,
             limit: this.maxPerRequest
         });
+
+        console.log(url);
 
         return fetch(url, getFetchOptions(this.api, this.accessToken))
             .then(spotifyResponse => spotifyResponse.json())

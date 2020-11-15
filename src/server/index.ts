@@ -28,7 +28,7 @@ app.get(Path.SignIn.SPOTIFY_REFRESH_TOKEN, refreshToken);
 // Spotify API
 app.get(Path.Spotify.USER, userInformation);
 app.get(Path.Spotify.PLAYLISTS, playlistList);
-app.get(Path.Spotify.TRACKS, tracks);
+app.post(Path.Spotify.TRACKS, tracks);
 
 app.listen(port, () => {
     console.log(`Active on port ${port}!`)
