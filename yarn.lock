@@ -5985,6 +5985,11 @@ react-shallow-renderer@^16.13.1:
     object-assign "^4.1.1"
     react-is "^16.12.0 || ^17.0.0"
 
+react-sigma@^1.2.35:
+  version "1.2.35"
+  resolved "https://registry.yarnpkg.com/react-sigma/-/react-sigma-1.2.35.tgz#4c69c0b5d9f6d145478d426e3e58b5c05f3560bf"
+  integrity sha512-amjKjaQusefDp8dD9er3wE/lfubSQT5fJSRF4SsS0LjxRue4bpSapAQ1WpmSM6nQEgawbrKel+bQBmatl7MAIw==
+
 react-test-renderer@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-17.0.1.tgz#3187e636c3063e6ae498aedf21ecf972721574c7"

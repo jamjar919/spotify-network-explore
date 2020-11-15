@@ -7,7 +7,7 @@ import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import UserObjectPrivate = SpotifyApi.UserObjectPrivate;
 import {fetchTracksAction} from "../actions/spotifyTracksAction";
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
-import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
+import PlaylistNetwork from "./playlistNetwork";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -27,27 +27,11 @@ const App = () => {
         }
     }, [playlists]);
 
-    if (profile === null || playlists === null) {
+    if (profile === null || playlists === null || tracks === null) {
         return (<>fetching profile/playlists</>);
     }
 
-    return (
-    <>
-        <strong>{profile?.display_name}</strong>
-        {
-            playlists && playlists.map(playlist => (<>
-                <div>{playlist.name} | {playlist.id}</div>
-                <ul>
-                    {
-                        tracks && tracks[playlist.id] && tracks[playlist.id].map((track: PlaylistTrackObject) => (
-                            <li>{track.track.name}</li>
-                        ))
-                    }
-                </ul>
-            </>))
-        }
-    </>
-    );
+    return (<PlaylistNetwork playlists={playlists} tracks={tracks}/>);
 };
 
 export default App;
