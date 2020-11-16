@@ -38,7 +38,8 @@ export class PaginationUtil<PagedObject> {
         return this.callApi(offset)
             .then((result: PagingObject<PagedObject> |  { error: ErrorObject }) => {
                 if (result.hasOwnProperty("error")) {
-                    const errorWrapper = result as  { error: ErrorObject };
+                    const errorWrapper = result as { error: ErrorObject };
+                    console.error(errorWrapper.error);
                     throw new Error(errorWrapper.error.message);
                 }
 

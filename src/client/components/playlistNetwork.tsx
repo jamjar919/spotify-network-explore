@@ -15,7 +15,7 @@ const PlaylistNetwork = ({ playlists, tracks }: PlaylistNetworkPropTypes) => {
     return (
         <Sigma graph={myGraph} settings={{drawEdges: true}}>
             <RandomizeNodePositions/>
-            <ForceAtlas2 />
+            <ForceAtlas2 linLogMode barnesHutOptimize edgeWeightInfluence={1} gravity={0}/>
         </Sigma>
     );
 };
