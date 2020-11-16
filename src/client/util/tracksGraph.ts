@@ -55,6 +55,7 @@ export const tracksGraph = (
             id: `${playlistId}:${track.track.id}`,
             source: track.track.id,
             target: playlistId,
+            timeAdded: track.added_at,
             color: colorFromString(playlistId)
         })));
 
