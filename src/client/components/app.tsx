@@ -8,6 +8,7 @@ import UserObjectPrivate = SpotifyApi.UserObjectPrivate;
 import {fetchTracksAction} from "../actions/spotifyTracksAction";
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistNetwork from "./playlistNetwork";
+import Login from "./login";
 
 import "../scss/app.scss";
 
@@ -30,7 +31,7 @@ const App = () => {
     }, [playlists]);
 
     if (profile === null || playlists === null || tracks === null) {
-        return (<>fetching profile/playlists</>);
+        return (<Login />);
     }
 
     return (<PlaylistNetwork playlists={playlists} tracks={tracks}/>);
