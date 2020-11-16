@@ -1844,6 +1844,18 @@ array-back@^4.0.1:
   resolved "https://registry.yarnpkg.com/array-back/-/array-back-4.0.1.tgz#9b80312935a52062e1a233a9c7abeb5481b30e90"
   integrity sha512-Z/JnaVEXv+A9xabHzN43FiiiWEE7gPCRXMrVmRm00tWbjZRul1iHm7ECzlyNq1p4a4ATXz+G9FJ3GqGOkOV3fg==
 
+array-dedupe@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/array-dedupe/-/array-dedupe-1.2.0.tgz#1ea991bbcdce2f2e9e9150330fd209d602afe220"
+  integrity sha512-yMssYCRbkxYyMwsVJ6+ZfWAhMBbkgYpv1sgMwz03JTrqG4jPGV27p2P9M+DfPRCOc3k+aZ5M9ASr8lbSYEA54A==
+  dependencies:
+    array-find-index "~1.0.2"
+
+array-find-index@~1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/array-find-index/-/array-find-index-1.0.2.tgz#df010aa1287e164bbda6f9723b0a96a1ec4187a1"
+  integrity sha1-3wEKoSh+Fku9pvlyOwqWoexBh6E=
+
 array-flatten@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-1.1.1.tgz#9a5f699051b1e7073328f2a008968b64ea2955d2"
