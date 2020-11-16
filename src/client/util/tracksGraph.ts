@@ -3,18 +3,51 @@ import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {getNodesFromPlaylists, getNodesFromTracks} from "./nodeGenerators";
 import {colorFromString} from "./color";
 
+const RANDOMISE_SCALE = 10;
+
+type NodePosition =  { x: number, y: number };
+
+const getRandomPosition = (): NodePosition => ({
+    x: Math.random(),
+    y: Math.random()
+});
+
+const randomisePosition = (position: NodePosition): NodePosition => ({
+    x: position.x + (Math.random() - .5)/RANDOMISE_SCALE,
+    y: position.y + (Math.random() - .5)/RANDOMISE_SCALE
+});
+
 export const tracksGraph = (
     playlists: PlaylistBaseObject[],
     tracks: SpotifyTracksMap
 ): SigmaGraph => {
+    const playlistNodeCoords: {[playlistId: string]: NodePosition} = {};
+
     let nodes: SigmaNode[] = [];
     nodes = nodes.concat(getNodesFromPlaylists(
         playlists,
-        () => 20
+        (playlist) => {
+            const position = getRandomPosition();
+            playlistNodeCoords[playlist.id] = position;
+            return {
+                size: 20,
+                color: colorFromString(playlist.id),
+                fixed: true,
+                ...position
+            }
+        }
     ));
+
+
     nodes = nodes.concat(getNodesFromTracks(
         tracks,
-        () => 1
+        (_track, playlistId) => {
+            const initialPosition = playlistNodeCoords[playlistId];
+            return {
+                size: 1,
+                ...randomisePosition(initialPosition)
+            }
+        }
     ));
 
     const edges: SigmaEdge[] = Object.entries(tracks)

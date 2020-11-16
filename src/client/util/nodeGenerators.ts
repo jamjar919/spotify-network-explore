@@ -2,30 +2,30 @@ import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 import dedupe from 'array-dedupe';
-import {colorFromString} from "./color";
 
 export const getNodesFromPlaylists = (
     playlists: PlaylistBaseObject[],
-    getNodeSize: (id: string) => number
+    getAdditionalProps:
+        (playlist: PlaylistBaseObject) => any = () => ({})
 ) => {
     return playlists.map(playlist => ({
         id: playlist.id,
         label: playlist.name,
-        size: getNodeSize(playlist.id),
-        color: colorFromString(playlist.id)
+        ...getAdditionalProps(playlist)
     }));
 };
 
 export const getNodesFromTracks = (
     trackMap: SpotifyTracksMap,
-    getNodeSize: (id: string) => number
+    getAdditionalProps:
+        (track: PlaylistTrackObject, playlistId: string) => any = () => ({})
 ) => {
-    return dedupe(Object.values(trackMap)
-        .flatMap((tracks: PlaylistTrackObject[]) =>
+    return dedupe(Object.entries(trackMap)
+        .flatMap(([playlistId, tracks]) =>
             tracks.map(track => ({
                 id: track.track.id,
                 label: track.track.name,
-                size: getNodeSize(track.track.id)
+                ...getAdditionalProps(track, playlistId)
             }))
         )
     , ['id'])

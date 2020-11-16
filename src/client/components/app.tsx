@@ -9,6 +9,8 @@ import {fetchTracksAction} from "../actions/spotifyTracksAction";
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistNetwork from "./playlistNetwork";
 
+import "../scss/app.scss";
+
 const App = () => {
     const dispatch = useDispatch();
     const profile: UserObjectPrivate | null  = useSelector((state: State) => state.spotifyProfile);

@@ -9,7 +9,9 @@ export const playlistGraph = (
 ): SigmaGraph => {
     const nodes = getNodesFromPlaylists(
         playlists,
-        (id) => tracks[id].length
+        (playlist) => ({
+            size: tracks[playlist.id].length
+        })
     );
 
     const edges: any[] = [];

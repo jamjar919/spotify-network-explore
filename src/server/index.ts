@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import {root, clientJavascript} from "./routes/root";
+import {root, clientJavascript, style} from "./routes/root";
 import {callback, login, refreshToken} from "./routes/spotifyLogin";
 import {userInformation} from "./routes/user";
 import {Path} from "../common/path";
@@ -19,6 +19,7 @@ app.use(express.static('public'))
 // React
 app.get(Path.ROOT, root);
 app.get(Path.CLIENTJS, clientJavascript);
+app.get(Path.STYLE, style);
 
 // Spotify sign in
 app.get(Path.SignIn.SPOTIFY_SIGN_IN, login);

@@ -8,3 +8,7 @@ export const root = (_req: Request, res: Response) => {
 export const clientJavascript = (_req: Request, res: Response) => {
     res.sendFile(path.join(__dirname + '/client/client.js'));
 };
+
+export const style = (_req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname + '/client/style.css'));
+};

@@ -1,21 +1,41 @@
 import React from "react";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
-import {Sigma, RandomizeNodePositions, ForceAtlas2} from 'react-sigma';
+import {Sigma, ForceAtlas2} from 'react-sigma';
 import {tracksGraph} from "../util/tracksGraph";
 
 type PlaylistNetworkPropTypes = {
     playlists: PlaylistBaseObject[],
-    tracks: SpotifyTracksMap
+    tracks: SpotifyTracksMap,
+    animate?: boolean
 };
 
-const PlaylistNetwork = ({ playlists, tracks }: PlaylistNetworkPropTypes) => {
+const PlaylistNetwork = ({
+    playlists,
+    tracks,
+    animate = true
+}: PlaylistNetworkPropTypes) => {
     const myGraph = tracksGraph(playlists, tracks);
     console.log(myGraph);
     return (
-        <Sigma graph={myGraph} settings={{drawEdges: true}}>
-            <RandomizeNodePositions/>
-            <ForceAtlas2 linLogMode barnesHutOptimize edgeWeightInfluence={1} gravity={0}/>
+        <Sigma
+            graph={myGraph}
+            renderer="webgl"
+            settings={{
+                clone: false,
+                batchEdgesDrawing: true,
+            }}
+            style={{
+                height: "100vh"
+            }}
+        >
+            {animate && <ForceAtlas2
+                iterationsPerRender={1}
+                barnesHutOptimize
+                barnesHutTheta={1}
+                timeout={50000}
+                worker
+            />}
         </Sigma>
     );
 };
