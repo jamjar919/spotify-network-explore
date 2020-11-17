@@ -2,7 +2,7 @@ import React from "react";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import {Sigma, ForceAtlas2} from 'react-sigma';
-import {tracksGraph} from "../util/tracksGraph";
+import {tracksGraph} from "../graph/tracksGraph";
 
 type PlaylistNetworkPropTypes = {
     playlists: PlaylistBaseObject[],
@@ -11,9 +11,9 @@ type PlaylistNetworkPropTypes = {
 };
 
 const PlaylistNetwork = ({
-    playlists,
-    tracks,
-    animate = true
+     playlists,
+     tracks,
+     animate = true
 }: PlaylistNetworkPropTypes) => {
     const myGraph = tracksGraph(playlists, tracks);
     console.log(myGraph);
@@ -33,7 +33,7 @@ const PlaylistNetwork = ({
                 iterationsPerRender={1}
                 barnesHutOptimize
                 barnesHutTheta={1}
-                timeout={50000}
+                timeout={1}
                 worker
             />}
         </Sigma>

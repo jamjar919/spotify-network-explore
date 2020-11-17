@@ -1,4 +1,4 @@
-import {playlistDiff} from "./playlistDiff";
+import {playlistDiff} from "../util/playlistDiff";
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {getNodesFromPlaylists} from "./nodeGenerators";

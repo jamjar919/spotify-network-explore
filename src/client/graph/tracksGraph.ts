@@ -1,21 +1,8 @@
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {getNodesFromPlaylists, getNodesFromTracks} from "./nodeGenerators";
-import {colorFromString} from "./color";
-
-const RANDOMISE_SCALE = 10;
-
-type NodePosition =  { x: number, y: number };
-
-const getRandomPosition = (): NodePosition => ({
-    x: Math.random(),
-    y: Math.random()
-});
-
-const randomisePosition = (position: NodePosition): NodePosition => ({
-    x: position.x + (Math.random() - .5)/RANDOMISE_SCALE,
-    y: position.y + (Math.random() - .5)/RANDOMISE_SCALE
-});
+import {colorFromString} from "../util/color";
+import {getRandomPosition, NodePosition, randomisePosition} from "./positionUtil";
 
 export const tracksGraph = (
     playlists: PlaylistBaseObject[],
@@ -37,7 +24,6 @@ export const tracksGraph = (
             }
         }
     ));
-
 
     nodes = nodes.concat(getNodesFromTracks(
         tracks,
