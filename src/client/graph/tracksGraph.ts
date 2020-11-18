@@ -3,6 +3,21 @@ import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {getNodesFromPlaylists, getNodesFromTracks} from "./nodeGenerators";
 import {colorFromString} from "../util/color";
 import {getRandomPosition, NodePosition, randomisePosition} from "./positionUtil";
+import ImageObject = SpotifyApi.ImageObject;
+
+const getImageFromSpotifyArray = (images: ImageObject[]) => {
+    if (images[0]) {
+        const biggestImage = images[0];
+        return {
+            url: biggestImage.url,
+            scale: 1,
+            clip: 1,
+            w: biggestImage.width,
+            h: biggestImage.height
+        };
+    }
+    return undefined;
+};
 
 export const tracksGraph = (
     playlists: PlaylistBaseObject[],
@@ -17,9 +32,10 @@ export const tracksGraph = (
             const position = getRandomPosition();
             playlistNodeCoords[playlist.id] = position;
             return {
-                size: 20,
+                size: 50,
                 color: colorFromString(playlist.id),
-                fixed: true,
+                type: 'square',
+                image: getImageFromSpotifyArray(playlist.images),
                 ...position
             }
         }
@@ -27,10 +43,11 @@ export const tracksGraph = (
 
     nodes = nodes.concat(getNodesFromTracks(
         tracks,
-        (_track, playlistId) => {
+        (track, playlistId) => {
             const initialPosition = playlistNodeCoords[playlistId];
             return {
                 size: 1,
+                image: getImageFromSpotifyArray(track.track.album.images),
                 ...randomisePosition(initialPosition)
             }
         }

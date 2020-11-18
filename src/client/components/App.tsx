@@ -7,8 +7,8 @@ import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import UserObjectPrivate = SpotifyApi.UserObjectPrivate;
 import {fetchTracksAction} from "../actions/spotifyTracksAction";
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
-import PlaylistNetwork from "./playlistNetwork";
-import Login from "./login";
+import PlaylistNetwork from "./PlaylistNetwork";
+import Login from "./Login";
 
 import "../scss/app.scss";
 

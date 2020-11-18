@@ -1,5 +1,5 @@
 import React from "react";
-import App from "../../../src/client/components/app";
+import App from "../../../src/client/components/App";
 import {expectToMatchSnapshot} from "../../util";
 
 describe('<App />', () => {
