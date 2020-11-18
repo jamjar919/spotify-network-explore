@@ -33,7 +33,7 @@ const PlaylistNetwork = ({
         <Sigma
             renderer="canvas"
             settings={{
-                clone: false,
+                clone: false
             }}
             style={{
                 height: "100vh"

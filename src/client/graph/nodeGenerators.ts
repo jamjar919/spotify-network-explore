@@ -10,7 +10,7 @@ export const getNodesFromPlaylists = (
 ) => {
     return playlists.map(playlist => ({
         id: playlist.id,
-        label: playlist.name,
+        label: `  ${playlist.name}`,
         ...getAdditionalProps(playlist)
     }));
 };
