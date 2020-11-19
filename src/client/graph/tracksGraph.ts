@@ -49,6 +49,7 @@ export const tracksGraph = (
             return {
                 size: 1,
                 image: getImageFromSpotifyArray(track.track.album.images),
+                timeAdded: Date.parse(track.added_at),
                 ...randomisePosition(initialPosition)
             }
         }
@@ -59,7 +60,7 @@ export const tracksGraph = (
             id: `${playlistId}:${track.track.id}`,
             source: track.track.id,
             target: playlistId,
-            timeAdded: track.added_at,
+            timeAdded: Date.parse(track.added_at),
             color: colorFromString(playlistId)
         })));
 

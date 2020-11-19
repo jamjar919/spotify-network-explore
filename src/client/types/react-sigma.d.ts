@@ -30,6 +30,7 @@ type SigmaNode = {
     y?: number;
     size?: number;
     color?: string;
+    timeAdded?: number;
 }
 
 type SigmaEdge = {
@@ -38,4 +39,5 @@ type SigmaEdge = {
     target: string;
     label?: string,
     color?: string;
+    timeAdded?: number;
 }

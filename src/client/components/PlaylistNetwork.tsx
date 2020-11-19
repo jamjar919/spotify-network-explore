@@ -4,6 +4,7 @@ import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import {Sigma, ForceAtlas2, NodeShapes} from 'react-sigma';
 import {tracksGraph} from "../graph/tracksGraph";
 import GraphLoader from "./GraphLoader";
+import {graphTimeBatcher} from "../graph/graphTimeBatcher";
 
 type PlaylistNetworkPropTypes = {
     playlists: PlaylistBaseObject[],
@@ -28,6 +29,8 @@ const PlaylistNetwork = ({
     if (graph === null) {
         return <>loading graph</>;
     }
+
+    console.log(graphTimeBatcher(graph, { removeEmpty: true }));
 
     return (
         <Sigma
