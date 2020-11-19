@@ -1,8 +1,7 @@
 import moment from "moment";
-import {graphTimeBatcher, TimeBatchedGraph} from "../../../src/client/graph/graphTimeBatcher";
-moment.locale('en_gb');
+import {graphTimeBatcher} from "../../../src/client/graph/graphTimeBatcher";
 
-const DAY_AND_A_BIT_MS = 8.64e+7 + 10000;
+const DAY_AND_A_BIT_MS = 86400000 + 10000;
 
 const commonNodeProps = { id: "a", label: "a" }; // usually these would vary but we don't mind
 const commonEdgeProps = { id: "a:b", source: "a", target: "b" };
@@ -39,104 +38,157 @@ const testGraph: SigmaGraph = {
     ]
 };
 
-const mapToReadableOutput = (input: TimeBatchedGraph): any => {
-    const mappedOutput: any = {};
-
-    Object.entries(input)
-        .map(([key, value]) => ({
-            days: moment(parseInt(key)).calendar(),
-            value
-        }))
-        .forEach(({ days, value }) => {
-            mappedOutput[days] = value;
-        });
-
-    return mappedOutput;
-};
-
 describe('graphTimeBatcher', () => {
+    beforeAll(() => {
+        moment().utc();
+    });
+
    it('Correctly sorts and batches a graph by time period', () => {
         const output = graphTimeBatcher(testGraph);
-        const mappedOutput = mapToReadableOutput(output);
 
-       expect(mappedOutput).toStrictEqual({
-           "01/01/1970": {
-               nodes: [NODE_NO_TIME],
-               edges: []
+       expect(output).toEqual([
+           {
+               timeRange: jasmine.anything(),
+               parsedTimeRange: ["1970-01-01 00:00:00", "1970-01-02 00:00:00"],
+               graph: {
+                   nodes: [],
+                   edges: []
+               }
            },
-           "02/01/1970": {
-               nodes:[],
-               edges:[]
+           {
+               timeRange: jasmine.anything(),
+               graph: {
+                   nodes: [NODE_NO_TIME],
+                   edges: []
+               }
            },
-           "03/01/1970":{
-               nodes:[],
-               edges:[EDGE_JAN_2, EDGE_JAN_2_PLUS, EDGE_JAN_2_DOUBLEPLUS]
+           {
+               timeRange: jasmine.anything(),
+               parsedTimeRange: ["1970-01-02 00:00:00", "1970-01-03 00:00:00"],
+               graph: {
+                   nodes: [],
+                   edges: [EDGE_JAN_2, EDGE_JAN_2_PLUS, EDGE_JAN_2_DOUBLEPLUS]
+               }
            },
-           "04/01/1970":{
-               nodes:[],
-               edges:[]
+           {
+               timeRange: jasmine.anything(),
+               parsedTimeRange: ["1970-01-03 00:00:00", "1970-01-04 00:00:00"],
+               graph: {
+                   nodes: [],
+                   edges: []
+               }
            },
-           "05/01/1970":{
-               nodes:[],
-               edges:[EDGE_JAN_4]
+           {
+               timeRange: jasmine.anything(),
+               parsedTimeRange: ["1970-01-04 00:00:00", "1970-01-05 00:00:00"],
+               graph: {
+                   nodes: [],
+                   edges: [EDGE_JAN_4]
+               }
            },
-           "06/01/1970":{
-               nodes:[NODE_JAN_5],
-               edges:[EDGE_JAN_5]
+           {
+               timeRange: jasmine.anything(),
+               parsedTimeRange: ["1970-01-05 00:00:00", "1970-01-06 00:00:00"],
+               graph: {
+                   nodes: [NODE_JAN_5],
+                   edges: [EDGE_JAN_5]
+               }
            },
-           "07/01/1970":{
-               nodes:[NODE_JAN_6, NODE_JAN_6_PLUS],
-               edges:[]
+           {
+               timeRange: jasmine.anything(),
+               parsedTimeRange: ["1970-01-06 00:00:00", "1970-01-07 00:00:00"],
+               graph: {
+                   nodes: [NODE_JAN_6, NODE_JAN_6_PLUS],
+                   edges: []
+               }
            },
-           "08/01/1970":{
-               nodes:[],
-               edges:[]
+           {
+               timeRange: jasmine.anything(),
+               parsedTimeRange: ["1970-01-07 00:00:00", "1970-01-08 00:00:00"],
+               graph: {
+                   nodes: [],
+                   edges: []
+               }
            },
-           "09/01/1970":{
-               nodes:[],
-               edges:[]
+           {
+               timeRange: jasmine.anything(),
+               parsedTimeRange: ["1970-01-08 00:00:00", "1970-01-09 00:00:00"],
+               graph: {
+                   nodes: [],
+                   edges: []
+               }
            },
-           "10/01/1970":{
-               nodes:[],
-               edges:[]
+           {
+               timeRange: jasmine.anything(),
+               parsedTimeRange: ["1970-01-09 00:00:00", "1970-01-10 00:00:00"],
+               graph: {
+                   nodes: [],
+                   edges: []
+               }
            },
-           "11/01/1970":{
-               nodes:[NODE_JAN_10],
-               edges:[]
+           {
+               timeRange: jasmine.anything(),
+               parsedTimeRange: ["1970-01-10 00:00:00", "1970-01-11 00:00:00"],
+               graph: {
+                   nodes: [NODE_JAN_10],
+                   edges: []
+               }
            }
-       })
+       ])
    });
 
     it('Correctly sorts and batches a graph by time period when empty units are removed', () => {
         const output = graphTimeBatcher(testGraph, { removeEmpty: true });
-        const mappedOutput = mapToReadableOutput(output);
 
-        expect(mappedOutput).toStrictEqual({
-            "01/01/1970": {
-                nodes: [NODE_NO_TIME],
-                edges: []
+        expect(output).toEqual([
+            {
+                timeRange: jasmine.anything(),
+                graph: {
+                    nodes: [NODE_NO_TIME],
+                    edges: []
+                }
             },
-            "03/01/1970":{
-                nodes:[],
-                edges:[EDGE_JAN_2, EDGE_JAN_2_PLUS, EDGE_JAN_2_DOUBLEPLUS]
+            {
+                timeRange: jasmine.anything(),
+                parsedTimeRange: ["1970-01-02 00:00:00", "1970-01-03 00:00:00"],
+                graph: {
+                    nodes: [],
+                    edges: [EDGE_JAN_2, EDGE_JAN_2_PLUS, EDGE_JAN_2_DOUBLEPLUS]
+                }
             },
-            "05/01/1970":{
-                nodes:[],
-                edges:[EDGE_JAN_4]
+            {
+                timeRange: jasmine.anything(),
+                parsedTimeRange: ["1970-01-04 00:00:00", "1970-01-05 00:00:00"],
+                graph: {
+                    nodes: [],
+                    edges: [EDGE_JAN_4]
+                }
             },
-            "06/01/1970":{
-                nodes:[NODE_JAN_5],
-                edges:[EDGE_JAN_5]
+            {
+                timeRange: jasmine.anything(),
+                parsedTimeRange: ["1970-01-05 00:00:00", "1970-01-06 00:00:00"],
+                graph: {
+                    nodes: [NODE_JAN_5],
+                    edges: [EDGE_JAN_5]
+                }
             },
-            "07/01/1970":{
-                nodes:[NODE_JAN_6, NODE_JAN_6_PLUS],
-                edges:[]
+            {
+                timeRange: jasmine.anything(),
+                parsedTimeRange: ["1970-01-06 00:00:00", "1970-01-07 00:00:00"],
+                graph: {
+                    nodes: [NODE_JAN_6, NODE_JAN_6_PLUS],
+                    edges: []
+                }
             },
-            "11/01/1970":{
-                nodes:[NODE_JAN_10],
-                edges:[]
+            {
+                timeRange: jasmine.anything(),
+                parsedTimeRange: ["1970-01-10 00:00:00", "1970-01-11 00:00:00"],
+                graph: {
+                    nodes: [NODE_JAN_10],
+                    edges: []
+                }
             }
-        })
+        ])
     })
 
 });
