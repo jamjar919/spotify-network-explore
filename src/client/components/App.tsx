@@ -8,11 +8,9 @@ import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistNetwork from "./PlaylistNetwork";
 import Login from "./Login";
 import {AjaxState, isFailedFetch, isLoadingOrEmpty, isSuccessfulFetch} from "../reducers/ajaxState";
-
-import "../scss/app.scss";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import UserObjectPrivate = SpotifyApi.UserObjectPrivate;
-import {Loading} from "./Loading";
+import {LoadingSpotifyData} from "./LoadingSpotifyData";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -45,7 +43,7 @@ const App = () => {
 
     // Show the loading screen when we're loading anything
     if (isLoadingOrEmpty(profileOrAjaxState) || isLoadingOrEmpty(playlistsOrAjaxState) || isLoadingOrEmpty(tracksOrAjaxState)) {
-        return <Loading
+        return <LoadingSpotifyData
             profile={profileOrAjaxState}
             playlists={playlistsOrAjaxState}
             tracks={tracksOrAjaxState}
@@ -54,8 +52,6 @@ const App = () => {
 
     const playlists = playlistsOrAjaxState as PlaylistBaseObject[];
     const tracks = tracksOrAjaxState as SpotifyTracksMap;
-
-    console.log(playlists, tracks);
 
     return (<PlaylistNetwork playlists={playlists} tracks={tracks}/>);
 };

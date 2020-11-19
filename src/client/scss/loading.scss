@@ -1,0 +1,36 @@
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  .loading {
+    display: flex;
+    margin: auto;
+  }
+
+  .loading-spinner {
+    margin: 0 auto;
+    padding: .5em;
+
+    img {
+      height: 64px;
+      width: 64px;
+    }
+  }
+
+  ul.loading-items {
+    margin: .5em;
+
+    li {
+      margin-bottom: .5em;
+
+      &.finished-loading {
+        font-weight: bold;
+
+        &:after {
+          content: ' Done'
+        }
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@ import {Sigma, ForceAtlas2, NodeShapes} from 'react-sigma';
 import {tracksGraph} from "../graph/tracksGraph";
 import GraphLoader from "./GraphLoader";
 import {graphTimeBatcher} from "../graph/graphTimeBatcher";
-import {Loading} from "./Loading";
+import {StatelessLoader} from "./StatelessLoader";
 
 type PlaylistNetworkPropTypes = {
     playlists: PlaylistBaseObject[],
@@ -26,7 +26,7 @@ const PlaylistNetwork = ({
     }, []);
 
     if (graph === null) {
-        return <Loading />;
+        return <StatelessLoader />;
     }
 
     console.log(graphTimeBatcher(graph, { removeEmpty: true }));
