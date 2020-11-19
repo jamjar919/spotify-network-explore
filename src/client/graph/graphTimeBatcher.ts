@@ -72,8 +72,8 @@ export const graphTimeBatcher = (graph: SigmaGraph, options: TimeBatcherOptions 
     }
 
     output[0] = {
-        nodes: graph.nodes.filter(node => typeof node.timeAdded === "undefined"),
-        edges: graph.edges.filter(edge => typeof edge.timeAdded === "undefined")
+        nodes: graph.nodes.filter(node => !node.hasOwnProperty("timeAdded")),
+        edges: graph.edges.filter(edge => !edge.hasOwnProperty("timeAdded"))
     };
 
     return output;
@@ -87,7 +87,7 @@ const sortByTime = (a: any, b: any): number => {
 };
 
 const getDayIterator = function*(start: moment.Moment, timeUnit: any): IterableIterator<number> {
-    const date = start.startOf(timeUnit).subtract(1, timeUnit);
+    const date = start.startOf(timeUnit);
     yield date.valueOf();
     while (true) {
         date.add(1, timeUnit);
