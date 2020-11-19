@@ -11,11 +11,23 @@ const fetchProfileSuccess = (profile: UserObjectPrivate): Action<UserObjectPriva
 });
 
 const fetchProfileError: Action<void> = {
-    type: ActionName.FETCH_PROFILE_ERROR,
+    type: ActionName.FETCH_PROFILE_ERROR
+};
+
+const fetchProfileLoading: Action<void> = {
+    type: ActionName.FETCH_PROFILE
 };
 
 export const fetchProfileAction = () => {
-    return (dispatch: (action: Action<UserObjectPrivate | void>) => void) => fetchProfile()
-        .then((result: UserObjectPrivate) => dispatch(fetchProfileSuccess(result)))
-        .catch(() => dispatch(fetchProfileError));
+    return (dispatch: (action: Action<UserObjectPrivate | void>) => void) => {
+        dispatch(fetchProfileLoading);
+        fetchProfile()
+            .then((result: UserObjectPrivate) => {
+                if (result.hasOwnProperty("error")) {
+                    throw new Error();
+                }
+                dispatch(fetchProfileSuccess(result));
+            })
+            .catch(() => dispatch(fetchProfileError));
+    }
 };

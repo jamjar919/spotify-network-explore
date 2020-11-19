@@ -22,8 +22,15 @@ const fetchTracksError: Action<void> = {
     type: ActionName.FETCH_TRACKS_ERROR,
 };
 
+const fetchTracksLoading: Action<void> = {
+    type: ActionName.FETCH_TRACKS
+};
+
 export const fetchTracksAction = (playlistIds: string[]) => {
-    return (dispatch: (action: Action<PlaylistBaseObject[] | void>) => void) => fetchTracks(playlistIds)
-        .then((result: PlaylistBaseObject[]) => dispatch(fetchTracksSuccess(result)))
-        .catch(() => dispatch(fetchTracksError));
+    return (dispatch: (action: Action<PlaylistBaseObject[] | void>) => void) => {
+        dispatch(fetchTracksLoading);
+        fetchTracks(playlistIds)
+            .then((result: PlaylistBaseObject[]) => dispatch(fetchTracksSuccess(result)))
+            .catch(() => dispatch(fetchTracksError));
+    }
 };

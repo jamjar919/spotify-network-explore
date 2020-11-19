@@ -9,12 +9,13 @@ import {playlistList} from "./routes/playlist";
 import {tracks} from "./routes/tracks";
 
 dotenv.config();
+
 const app = express();
 const port = process.env.PORT || 80;
 
-app.use(express.static('public'))
-    .use(cookieParser())
-    .use(express.json());
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.static(__dirname + "/public"));
 
 // React
 app.get(Path.ROOT, root);

@@ -32,7 +32,7 @@ describe('PaginationUtil', () => {
 
         paginationUtil.getAll()
             .then((result) => {
-                expect(result).toStrictEqual([]);
+                expect(result).toEqual([]);
                 done();
             })
     });
@@ -49,7 +49,7 @@ describe('PaginationUtil', () => {
 
         paginationUtil.getAll()
             .then((result) => {
-                expect(result).toStrictEqual(items);
+                expect(result).toEqual(items);
 
                 expect(fetch).toHaveBeenCalledWith(`${API.url}?offset=0&limit=${MAX_PER_REQUEST}`, {
                     method: 'GET',
@@ -81,7 +81,7 @@ describe('PaginationUtil', () => {
 
         paginationUtil.getAll()
             .then((result) => {
-                expect(result).toStrictEqual(allItems);
+                expect(result).toEqual(allItems);
 
                 expect(fetch).toHaveBeenCalledWith(`${API.url}?offset=0&limit=${MAX_PER_REQUEST}`, {
                     method: 'GET',

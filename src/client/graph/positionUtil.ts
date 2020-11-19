@@ -5,8 +5,8 @@ export const getRandomInt = (max: number) => Math.floor(Math.random() * Math.flo
 const RANDOMISE_SCALE = 10;
 
 export const getRandomPosition = (): NodePosition => ({
-    x: Math.random(),
-    y: Math.random()
+    x: Math.random() * 1000,
+    y: Math.random() * 1000
 });
 
 export const randomisePosition = (position: NodePosition): NodePosition => ({

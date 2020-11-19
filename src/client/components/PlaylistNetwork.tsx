@@ -5,6 +5,7 @@ import {Sigma, ForceAtlas2, NodeShapes} from 'react-sigma';
 import {tracksGraph} from "../graph/tracksGraph";
 import GraphLoader from "./GraphLoader";
 import {graphTimeBatcher} from "../graph/graphTimeBatcher";
+import {Loading} from "./Loading";
 
 type PlaylistNetworkPropTypes = {
     playlists: PlaylistBaseObject[],
@@ -24,10 +25,8 @@ const PlaylistNetwork = ({
         );
     }, []);
 
-    console.log(graph);
-
     if (graph === null) {
-        return <>loading graph</>;
+        return <Loading />;
     }
 
     console.log(graphTimeBatcher(graph, { removeEmpty: true }));
@@ -36,7 +35,8 @@ const PlaylistNetwork = ({
         <Sigma
             renderer="canvas"
             settings={{
-                clone: false
+                clone: false,
+                batchEdgesDrawing: true
             }}
             style={{
                 height: "100vh"
@@ -46,7 +46,7 @@ const PlaylistNetwork = ({
             <NodeShapes />
             <GraphLoader graph={graph}>
                 {animate && <ForceAtlas2
-                    linLogMode
+                    slowDown={5}
                     iterationsPerRender={1}
                     barnesHutOptimize
                     barnesHutTheta={1}

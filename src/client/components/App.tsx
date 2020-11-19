@@ -3,20 +3,22 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchProfileAction} from "../actions/spotifyProfileAction";
 import {State} from "../reducers/rootReducer";
 import {fetchPlaylistsAction} from "../actions/spotifyPlaylistsAction";
-import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
-import UserObjectPrivate = SpotifyApi.UserObjectPrivate;
 import {fetchTracksAction} from "../actions/spotifyTracksAction";
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistNetwork from "./PlaylistNetwork";
 import Login from "./Login";
+import {AjaxState, isFailedFetch, isLoadingOrEmpty, isSuccessfulFetch} from "../reducers/ajaxState";
 
 import "../scss/app.scss";
+import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
+import UserObjectPrivate = SpotifyApi.UserObjectPrivate;
+import {Loading} from "./Loading";
 
 const App = () => {
     const dispatch = useDispatch();
-    const profile: UserObjectPrivate | null  = useSelector((state: State) => state.spotifyProfile);
-    const playlists: PlaylistBaseObject[] | null = useSelector((state: State) => state.spotifyPlaylists);
-    const tracks: SpotifyTracksMap | null = useSelector((state: State) => state.spotifyTracks);
+    const profileOrAjaxState: UserObjectPrivate | AjaxState  = useSelector((state: State) => state.spotifyProfile);
+    const playlistsOrAjaxState: PlaylistBaseObject[] | AjaxState = useSelector((state: State) => state.spotifyPlaylists);
+    const tracksOrAjaxState: SpotifyTracksMap | AjaxState = useSelector((state: State) => state.spotifyTracks);
 
     useEffect(() => {
         dispatch(fetchProfileAction());
@@ -24,15 +26,36 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        if (playlists !== null) {
-            const playlistIds = playlists.map(playlist => playlist.id);
+        if (isSuccessfulFetch(playlistsOrAjaxState)) {
+            const playlists = playlistsOrAjaxState as PlaylistBaseObject[];
+            const playlistIds = playlists.map((playlist: PlaylistBaseObject) => playlist.id);
             dispatch(fetchTracksAction(playlistIds));
         }
-    }, [playlists]);
+    }, [playlistsOrAjaxState]);
 
-    if (profile === null || playlists === null || tracks === null) {
+    // Failed fetch for profile probably means they need to log in
+    if (isFailedFetch(profileOrAjaxState)) {
         return (<Login />);
     }
+
+    // Failed fetch for playlist/tracks - who knows
+    if (isFailedFetch(playlistsOrAjaxState) || isFailedFetch(tracksOrAjaxState)) {
+        return (<>Failed to load playlists or tracks</>);
+    }
+
+    // Show the loading screen when we're loading anything
+    if (isLoadingOrEmpty(profileOrAjaxState) || isLoadingOrEmpty(playlistsOrAjaxState) || isLoadingOrEmpty(tracksOrAjaxState)) {
+        return <Loading
+            profile={profileOrAjaxState}
+            playlists={playlistsOrAjaxState}
+            tracks={tracksOrAjaxState}
+        />
+    }
+
+    const playlists = playlistsOrAjaxState as PlaylistBaseObject[];
+    const tracks = tracksOrAjaxState as SpotifyTracksMap;
+
+    console.log(playlists, tracks);
 
     return (<PlaylistNetwork playlists={playlists} tracks={tracks}/>);
 };
