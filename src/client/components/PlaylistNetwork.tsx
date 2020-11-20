@@ -29,7 +29,7 @@ const PlaylistNetwork = ({
         return <StatelessLoader />;
     }
 
-    console.log(graphTimeBatcher(graph, { removeEmpty: true }));
+    console.log(graphTimeBatcher(graph));
 
     return (
         <Sigma
