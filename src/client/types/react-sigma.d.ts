@@ -3,6 +3,9 @@ declare module "react-sigma";
 type Sigma = {
     graph: ActiveSigmaGraph;
     refresh: () => void;
+    startForceAtlas2: (options?: ForceAtlas2Options) => void;
+    stopForceAtlas2: () => void;
+    killForceAtlas2: () => void;
 };
 
 type ActiveSigmaGraph = {
@@ -40,4 +43,20 @@ type SigmaEdge = {
     label?: string,
     color?: string;
     timeAdded?: number;
+}
+
+type ForceAtlas2Options = {
+    worker: boolean,
+    barnesHutOptimize?: boolean,
+    barnesHutTheta?: number,
+    adjustSizes?: boolean,
+    iterationsPerRender?: number,
+    linLogMode: boolean,
+    outboundAttractionDistribution?: boolean,
+    edgeWeightInfluence?: number,
+    scalingRatio?: number,
+    strongGravityMode?: boolean,
+    slowDown?: number,
+    gravity?: number,
+    timeout?: number,
 }

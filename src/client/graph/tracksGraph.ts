@@ -4,6 +4,7 @@ import {getNodesFromPlaylists, getNodesFromTracks} from "./nodeGenerators";
 import {colorFromString} from "../util/color";
 import {getRandomPosition, NodePosition, randomisePosition} from "./positionUtil";
 import ImageObject = SpotifyApi.ImageObject;
+import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 
 const getImageFromSpotifyArray = (images: ImageObject[]) => {
     if (images[0]) {
@@ -56,12 +57,13 @@ export const tracksGraph = (
     ));
 
     const edges: SigmaEdge[] = Object.entries(tracks)
-        .flatMap(([playlistId, trackList]) => trackList.map((track) => ({
+        .flatMap(([playlistId, trackList]) => trackList.map((track: PlaylistTrackObject) => ({
             id: `${playlistId}:${track.track.id}`,
             source: track.track.id,
             target: playlistId,
             timeAdded: Date.parse(track.added_at),
-            color: colorFromString(playlistId)
+            color: colorFromString(playlistId),
+            desc: `Added ${track.track.name}`
         })));
 
     return {

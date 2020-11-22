@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
-import {Sigma, ForceAtlas2, NodeShapes} from 'react-sigma';
+import {Sigma} from 'react-sigma';
 import {tracksGraph} from "../graph/tracksGraph";
-import GraphLoader from "./GraphLoader";
-import {graphTimeBatcher} from "../graph/graphTimeBatcher";
+import {graphTimeBatcher, TimeBatchedGraph} from "../graph/graphTimeBatcher";
 import {StatelessLoader} from "./StatelessLoader";
+import BatchedGraphLoader from "./BatchedGraphLoader";
+import CustomForceAtlas2 from "./CustomForceAtlas2";
 
 type PlaylistNetworkPropTypes = {
     playlists: PlaylistBaseObject[],
@@ -14,45 +15,50 @@ type PlaylistNetworkPropTypes = {
 };
 
 const PlaylistNetwork = ({
-     playlists,
-     tracks,
-     animate = true
+    playlists,
+    tracks,
 }: PlaylistNetworkPropTypes) => {
-    const [graph, setGraph] = useState<SigmaGraph | null>(null);
+    const [graph, setGraph] = useState<TimeBatchedGraph[] | null>(null);
+    const [batch, setBatch] = useState<number>(0);
+
     useEffect(() => {
         const batched = graphTimeBatcher(
-            tracksGraph(playlists, tracks)
+            tracksGraph(playlists, tracks),
+            { removeEmpty: true }
         );
-        setGraph(batched[0].graph);
+        setGraph(batched);
     }, []);
 
     if (graph === null) {
         return <StatelessLoader />;
     }
 
+    setTimeout(() => {
+        setBatch(batch + 1);
+    }, 500);
+
     return (
         <Sigma
             renderer="canvas"
             settings={{
-                clone: false,
-                batchEdgesDrawing: true
+                clone: true
             }}
             style={{
                 height: "100vh"
             }}
             onSigmaException={(e: any) => console.error(e)}
         >
-            <NodeShapes />
-            <GraphLoader graph={graph}>
-                {animate && <ForceAtlas2
-                    slowDown={5}
+               <CustomForceAtlas2
+                    slowDown={2}
                     iterationsPerRender={1}
                     barnesHutOptimize
                     barnesHutTheta={1}
                     timeout={50000}
+                    linLogMode={true}
                     worker
-                />}
-            </GraphLoader>
+                >
+                   <BatchedGraphLoader batchedGraph={graph} batchToLoad={batch} />
+               </CustomForceAtlas2>
         </Sigma>
     );
 };
