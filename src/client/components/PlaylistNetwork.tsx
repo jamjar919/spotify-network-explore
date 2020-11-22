@@ -20,16 +20,15 @@ const PlaylistNetwork = ({
 }: PlaylistNetworkPropTypes) => {
     const [graph, setGraph] = useState<SigmaGraph | null>(null);
     useEffect(() => {
-        setGraph(
+        const batched = graphTimeBatcher(
             tracksGraph(playlists, tracks)
         );
+        setGraph(batched[0].graph);
     }, []);
 
     if (graph === null) {
         return <StatelessLoader />;
     }
-
-    console.log(graphTimeBatcher(graph));
 
     return (
         <Sigma
