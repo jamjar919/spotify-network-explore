@@ -38,7 +38,6 @@ const CustomForceAtlas2: FunctionComponent<Props> = (props) => {
     // Setup
     useEffect(() => {
         if (sigma && !running) {
-            console.log("starting fa2");
             sigma.startForceAtlas2(stripOptions(props));
             setRunning(true);
         }
@@ -46,7 +45,6 @@ const CustomForceAtlas2: FunctionComponent<Props> = (props) => {
         // Cleanup
         return () => {
             if (sigma) {
-                console.log("killing fa2");
                 sigma.killForceAtlas2();
             }
         }
@@ -54,7 +52,6 @@ const CustomForceAtlas2: FunctionComponent<Props> = (props) => {
 
     useEffect(() => {
         if (running && sigma) {
-            console.log("restarting");
             sigma.killForceAtlas2();
             sigma.startForceAtlas2(stripOptions(props));
         }
