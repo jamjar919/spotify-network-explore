@@ -16,7 +16,6 @@ type Props = {
     strongGravityMode?: boolean,
     slowDown?: number,
     gravity?: number,
-    timeout?: number,
     sigma?: Sigma,
 };
 

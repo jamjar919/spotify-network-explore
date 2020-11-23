@@ -3,9 +3,9 @@ import embedProps from "../util/embedProps";
 import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 
 type BatchedGraphLoaderProps = {
-    batchedGraph: TimeBatchedGraph[],
-    batchToLoad: number,
-    sigma?: Sigma,
+    batchedGraph: TimeBatchedGraph[];
+    batchToLoad: number;
+    sigma?: Sigma;
 }
 
 /**

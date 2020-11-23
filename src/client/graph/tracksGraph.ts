@@ -27,8 +27,7 @@ export const tracksGraph = (
 ): SigmaGraph => {
     const playlistNodeCoords: {[playlistId: string]: NodePosition} = {};
 
-    let nodes: SigmaNode[] = [];
-    nodes = nodes.concat(getNodesFromPlaylists(
+    const playListNodes = getNodesFromPlaylists(
         playlists,
         (playlist) => {
             const position = getRandomPosition();
@@ -41,30 +40,36 @@ export const tracksGraph = (
                 ...position
             }
         }
-    ));
+    );
 
-    nodes = nodes.concat(getNodesFromTracks(
-        tracks,
-        (track, playlistId) => {
+
+    Object.entries(tracks)
+        .forEach(([playlistId, trackList]) => trackList.forEach((track: PlaylistTrackObject) => {
+            const playlistName = playlists.filter(p => p.id === playlistId)[0].name;
             const initialPosition = playlistNodeCoords[playlistId];
-            return {
-                size: 1,
-                image: getImageFromSpotifyArray(track.track.album.images),
-                timeAdded: Date.parse(track.added_at),
-                ...randomisePosition(initialPosition)
-            }
-        }
-    ));
+            const timeAdded = Date.parse(track.added_at);
 
-    const edges: SigmaEdge[] = Object.entries(tracks)
-        .flatMap(([playlistId, trackList]) => trackList.map((track: PlaylistTrackObject) => ({
-            id: `${playlistId}:${track.track.id}`,
-            source: track.track.id,
-            target: playlistId,
-            timeAdded: Date.parse(track.added_at),
-            color: colorFromString(playlistId),
-            desc: `Added ${track.track.name}`
-        })));
+            const node = {
+                image: getImageFromSpotifyArray(track.track.album.images),
+                timeAdded,
+                ...randomisePosition(initialPosition)
+            };
+
+            const edge = {
+                id: `${playlistId}:${track.track.id}`,
+                source: track.track.id,
+                target: playlistId,
+                color: colorFromString(playlistId),
+                desc: `Added ${track.track.name} to ${playlistName}`,
+                timeAdded
+            };
+
+        }));
+
+    let nodes: SigmaNode[] = [];
+    nodes = nodes.concat(playListNodes);
+
+    let edges: SigmaEdge[] = [];
 
     return {
         nodes,

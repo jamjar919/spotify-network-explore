@@ -1,0 +1,22 @@
+.batched-graph-control {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  .batched-graph-slice {
+    flex: 1 1;
+    min-height: 50px;
+    background-color: darkgrey;
+
+    &.selected {
+      background-color: blue;
+    }
+
+    &:hover {
+      background-color: aquamarine;
+    }
+  }
+}

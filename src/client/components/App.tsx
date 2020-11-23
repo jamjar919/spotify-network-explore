@@ -5,13 +5,16 @@ import {State} from "../reducers/rootReducer";
 import {fetchPlaylistsAction} from "../actions/spotifyPlaylistsAction";
 import {fetchTracksAction} from "../actions/spotifyTracksAction";
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
-import PlaylistNetwork from "./PlaylistNetwork";
 import Login from "./Login";
 import {AjaxState, isFailedFetch, isLoadingOrEmpty, isSuccessfulFetch} from "../reducers/ajaxState";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import UserObjectPrivate = SpotifyApi.UserObjectPrivate;
 import {LoadingSpotifyData} from "./LoadingSpotifyData";
+import PlaylistNetworkViewer from "./PlaylistNetworkViewer";
 
+/**
+ * Class responsible for loading data + deciding what to render
+ */
 const App = () => {
     const dispatch = useDispatch();
     const profileOrAjaxState: UserObjectPrivate | AjaxState  = useSelector((state: State) => state.spotifyProfile);
@@ -53,7 +56,7 @@ const App = () => {
     const playlists = playlistsOrAjaxState as PlaylistBaseObject[];
     const tracks = tracksOrAjaxState as SpotifyTracksMap;
 
-    return (<PlaylistNetwork playlists={playlists} tracks={tracks}/>);
+    return (<PlaylistNetworkViewer playlists={playlists} tracks={tracks}/>);
 };
 
 export default App;
