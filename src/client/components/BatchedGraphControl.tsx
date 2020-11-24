@@ -20,6 +20,7 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = ({
             {
                 batchedGraph.map((batch, index) =>
                     <BatchedGraphTimeSlice
+                        key={index}
                         batchIndex={index}
                         batch={batch}
                         isSelected={currentBatch === index}

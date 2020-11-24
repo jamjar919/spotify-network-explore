@@ -49,14 +49,7 @@ describe('graphTimeBatcher', () => {
        expect(output).toEqual([
            {
                timeRange: jasmine.anything(),
-               parsedTimeRange: ["1970-01-01 00:00:00", "1970-01-02 00:00:00"],
-               graph: {
-                   nodes: [],
-                   edges: []
-               }
-           },
-           {
-               timeRange: jasmine.anything(),
+               parsedTimeRange: ["1970-01-01 01:00:00", "1970-01-02 01:00:00"],
                graph: {
                    nodes: [NODE_NO_TIME],
                    edges: []
@@ -68,6 +61,14 @@ describe('graphTimeBatcher', () => {
                graph: {
                    nodes: [],
                    edges: [EDGE_JAN_2, EDGE_JAN_2_PLUS, EDGE_JAN_2_DOUBLEPLUS]
+               }
+           },
+           {
+               timeRange: jasmine.anything(),
+               parsedTimeRange: ["1970-01-02 01:00:10", "1970-01-03 01:00:10"],
+               graph: {
+                   nodes: [],
+                   edges: []
                }
            },
            {
@@ -143,6 +144,7 @@ describe('graphTimeBatcher', () => {
         expect(output).toEqual([
             {
                 timeRange: jasmine.anything(),
+                parsedTimeRange: ["1970-01-01 01:00:00", "1970-01-02 01:00:00"],
                 graph: {
                     nodes: [NODE_NO_TIME],
                     edges: []

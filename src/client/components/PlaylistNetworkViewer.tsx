@@ -23,7 +23,7 @@ const PlaylistNetworkViewer = ({
     useEffect(() => {
         const batched = graphTimeBatcher(
             tracksGraph(playlists, tracks),
-            { timeUnit: 'month', removeEmpty: true }
+            { timeUnit: 'month', removeEmpty: false }
         );
         setGraph(batched);
     }, []);

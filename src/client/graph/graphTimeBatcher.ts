@@ -25,70 +25,55 @@ export const graphTimeBatcher = (graph: SigmaGraph, options: TimeBatcherOptions 
         throw new Error();
     }
 
-    const firstTimestamp =
-        (firstNodeTimeStamp.timeAdded < firstEdgeTimeStamp.timeAdded) ?
-            firstNodeTimeStamp.timeAdded : firstEdgeTimeStamp.timeAdded;
-
-    const nodeIterator = graph.nodes.values();
-    const edgeIterator = graph.edges.values();
-    const daysIterator = getDayIterator(moment(firstTimestamp), timeUnit);
-
-    let output: TimeBatchedGraph[] = [];
-
-    let nextNode;
-    let nextEdge;
-    while (true) {
-        let didAddNode = false;
-        let didAddEdge = false;
-        const day = daysIterator.next().value;
-
-        const graph: SigmaGraph = { nodes: [], edges: [] };
-
-        if (didAddNode || !nextNode || !nextNode?.timeAdded) {
-            nextNode = nodeIterator.next()?.value;
+    type TimeUnitMap = { [time: number]: SigmaGraph }
+    const timeUnitToGraphMap: TimeUnitMap = {};
+    const createGraphIfNotPresent = (map: TimeUnitMap, key: number) => {
+        if (!(key in map)) {
+            map[key] = { nodes: [], edges: [] };
         }
-        while (nextNode?.timeAdded && nextNode?.timeAdded < day) {
-            didAddNode = true;
-            graph.nodes.push(nextNode);
-            nextNode = nodeIterator.next()?.value;
-        }
-
-        if (didAddEdge || !nextEdge || !nextEdge?.timeAdded) {
-            nextEdge = edgeIterator.next()?.value;
-        }
-        while (nextEdge?.timeAdded && nextEdge?.timeAdded < day) {
-            didAddEdge = true;
-            graph.edges.push(nextEdge);
-            nextEdge = edgeIterator.next()?.value;
-        }
-
-        const timeRange = [
-            moment(day).subtract('1', timeUnit).valueOf(),
-            moment(day).valueOf()
-        ];
-        output.push({
-            timeRange,
-            parsedTimeRange: timeRange.map(time => moment(time).format('YYYY-MM-DD HH:mm:ss')),
-            graph
-        });
-
-        if (typeof nextNode === "undefined" && typeof nextEdge === "undefined") {
-            break;
-        }
-    }
-
-    const noTimeAdded: SigmaGraph = {
-        nodes: graph.nodes.filter(node => !node.hasOwnProperty("timeAdded")),
-        edges: graph.edges.filter(edge => !edge.hasOwnProperty("timeAdded"))
     };
-    output.push({
-        timeRange: [-1, -1],
-        graph: noTimeAdded
+
+    graph.nodes.forEach(node => {
+        let timeStamp = 0;
+        if (node.timeAdded) {
+            timeStamp = moment(node.timeAdded).startOf(timeUnit).valueOf();
+        }
+        createGraphIfNotPresent(timeUnitToGraphMap, timeStamp);
+        timeUnitToGraphMap[timeStamp].nodes.push(node);
     });
 
-    if (removeEmpty) {
-        output = output.filter(batch => batch.graph.nodes.length > 0 || batch.graph.edges.length > 0);
+    graph.edges.forEach(edge => {
+        let timeStamp = 0;
+        if (edge.timeAdded) {
+            timeStamp = moment(edge.timeAdded).startOf(timeUnit).valueOf();
+        }
+        createGraphIfNotPresent(timeUnitToGraphMap, timeStamp);
+        timeUnitToGraphMap[timeStamp].edges.push(edge);
+    });
+
+    // Add missing entries
+    if (!removeEmpty) {
+        const maxTime = Math.max(...Object.keys(timeUnitToGraphMap).map(time => parseInt(time)));
+        let currentTime = Math.min(firstNodeTimeStamp.timeAdded, firstEdgeTimeStamp.timeAdded);
+        const timeIterator = getTimeIterator(moment(currentTime), timeUnit);
+        while (currentTime < maxTime) {
+            createGraphIfNotPresent(timeUnitToGraphMap, currentTime);
+            currentTime = timeIterator.next().value;
+        }
     }
+
+    let output: TimeBatchedGraph[] = [];
+    Object.entries(timeUnitToGraphMap)
+          .forEach(([time, graph]) => {
+              const start = parseInt(time);
+              const end = moment(start).add(1, timeUnit).valueOf();
+              const range: number[] = [start, end];
+              output.push({
+                  timeRange: range,
+                  parsedTimeRange: range.map(time => moment(time).format('YYYY-MM-DD HH:mm:ss')),
+                  graph
+              })
+          });
 
     output.sort((a, b) => a.timeRange[0] - b.timeRange[0]);
 
@@ -102,7 +87,7 @@ const sortByTime = (a: any, b: any): number => {
     return 0;
 };
 
-const getDayIterator = function*(start: moment.Moment, timeUnit: any): IterableIterator<number> {
+const getTimeIterator = function*(start: moment.Moment, timeUnit: any): IterableIterator<number> {
     const date = start.startOf(timeUnit);
     yield date.valueOf();
     while (true) {

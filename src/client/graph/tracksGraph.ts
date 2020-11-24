@@ -1,6 +1,6 @@
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
-import {getNodesFromPlaylists, getNodesFromTracks} from "./nodeGenerators";
+import {getNodesFromPlaylists} from "./nodeGenerators";
 import {colorFromString} from "../util/color";
 import {getRandomPosition, NodePosition, randomisePosition} from "./positionUtil";
 import ImageObject = SpotifyApi.ImageObject;
@@ -42,7 +42,8 @@ export const tracksGraph = (
         }
     );
 
-
+    let edges: SigmaEdge[] = [];
+    let uniqueNodeMap: { [id: string]: SigmaNode } = {};
     Object.entries(tracks)
         .forEach(([playlistId, trackList]) => trackList.forEach((track: PlaylistTrackObject) => {
             const playlistName = playlists.filter(p => p.id === playlistId)[0].name;
@@ -50,13 +51,27 @@ export const tracksGraph = (
             const timeAdded = Date.parse(track.added_at);
 
             const node = {
+                id: track.track.id,
+                label: track.track.name,
+                size: 1,
                 image: getImageFromSpotifyArray(track.track.album.images),
                 timeAdded,
                 ...randomisePosition(initialPosition)
             };
 
+            // Verify uniqueness (as songs can be added to multiple playlists)
+            if (uniqueNodeMap[node.id] === undefined) {
+                uniqueNodeMap[node.id] = node;
+            } else {
+                // We want the timestamp where it was added first
+                const currentTimeAdded = uniqueNodeMap[node.id].timeAdded || 0;
+                if (currentTimeAdded > node.timeAdded) {
+                    uniqueNodeMap[node.id] = node;
+                }
+            }
+
             const edge = {
-                id: `${playlistId}:${track.track.id}`,
+                id: `${track.track.id}:${playlistId}`,
                 source: track.track.id,
                 target: playlistId,
                 color: colorFromString(playlistId),
@@ -64,12 +79,12 @@ export const tracksGraph = (
                 timeAdded
             };
 
+            edges.push(edge);
         }));
 
     let nodes: SigmaNode[] = [];
     nodes = nodes.concat(playListNodes);
-
-    let edges: SigmaEdge[] = [];
+    nodes = nodes.concat(Object.values(uniqueNodeMap));
 
     return {
         nodes,
