@@ -23,7 +23,9 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
     children
 }) => {
     const [loaded, setLoaded] = useState(false);
-    const prevBatch = usePrevious(batchToLoad);
+    const prevBatch = usePrevious(batchToLoad) || 0;
+
+    console.log(prevBatch, batchToLoad);
 
     useEffect(() => {
         // Can we load the batch?
@@ -31,30 +33,36 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
             return;
         }
 
-        const batch = batchedGraph[batchToLoad].graph;
-        console.log("loading", batchToLoad, batch);
 
-        if (batchedGraph && batch && typeof sigma !== "undefined") {
-            const {
-                nodes,
-                edges
-            } = batch;
+        if (batchedGraph && typeof sigma !== "undefined") {
 
-            const segments = 
+            if (prevBatch === batchToLoad) {
+                // Are we adding nodes from just one batch?
+                const batch = batchedGraph[batchToLoad];
+                batch.graph.nodes.forEach(node => sigma.graph.addNode(node));
+                batch.graph.edges.forEach(edge => sigma.graph.addEdge(edge));
 
-            if (batchToLoad > prevBatch) {
+            } else if (prevBatch < batchToLoad) {
+                // Are we going forward in time, eg adding nodes?
+                const segments = batchedGraph.slice(prevBatch + 1, batchToLoad + 1); // include selected batch and exclude previously added nodes
 
+                console.log("adding nodes: ", prevBatch + 1, "to", batchToLoad + 1, segments);
+
+                segments.forEach((segment) => {
+                    segment.graph.nodes.forEach(node => sigma.graph.addNode(node));
+                    segment.graph.edges.forEach(edge => sigma.graph.addEdge(edge));
+                });
+            } else {
+                // Else we're removing nodes
+                const segments = batchedGraph.slice(batchToLoad + 1, prevBatch + 1);
+
+                console.log("removing nodes: ", batchToLoad + 1, "to", prevBatch + 1, segments);
+
+                segments.forEach((segment) => {
+                    segment.graph.nodes.forEach(node => sigma.graph.dropNode(node.id));
+                    segment.graph.edges.forEach(edge => sigma.graph.dropEdge(edge.id));
+                });
             }
-
-            nodes.forEach(node => sigma.graph.addNode(node));
-
-            edges.forEach(edge => {
-                const matchingNodes = sigma.graph.nodes().filter(node => node.id === edge.source);
-                if (matchingNodes.length > 0) {
-                    sigma.graph.addEdge(edge);
-                }
-            });
-
             sigma.refresh();
         }
 
