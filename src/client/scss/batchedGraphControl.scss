@@ -3,6 +3,23 @@
   bottom: 0;
   width: 100vw;
 
+  ul.batched-graph-display {
+    margin: 20px;
+
+    li {
+      margin-top: 10px;
+    }
+
+    li.current-selected-batch {
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    li.current-hovered-batch {
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
 
   .batched-graph-slice-container {
     display: flex;
@@ -12,22 +29,20 @@
 
     .batched-graph-slice {
       flex: 1 1;
-      min-height: 50px;
-      background-color: $grey-200;
-      border-top: 2px solid $black;
-      border-left: 1px solid $grey-200;
+      height: 50px;
+      background-color: $grey-700;
+      border-top: 1px solid $grey-300;
 
       &.selected {
-        background-color: $ebony;
-        border-left: 1px solid $middle-green;
+        background-color: $grey-300;
 
         & + :not(.selected) {
-          border-left: 5px solid $celadon;
+          border-left: 5px solid $spotify-green;
         }
       }
 
       &:hover {
-        background-color: $middle-green;
+        background-color: $spotify-green;
       }
     }
   }

@@ -16,10 +16,14 @@ const BatchedNetwork = ({
     <Sigma
         renderer="canvas"
         settings={{
-            clone: true
+            clone: true,
+            defaultLabelColor: "#f2f2f2",
+            defaultLabelHoverColor: "#2a2d32",
+            defaultHoverLabelBGColor: "#f2f2f2",
+            defaultNodeColor: "#f2f2f2"
         }}
         style={{
-            height: "100vh"
+            height: "100vh",
         }}
         onSigmaException={(e: any) => console.error(e)}
     >

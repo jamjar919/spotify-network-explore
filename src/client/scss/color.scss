@@ -1,0 +1,20 @@
+$white:    #fff;
+$grey-100: #f2f2f2;
+$grey-200: #edf0f4;
+$grey-300: #e5e5e5;
+$grey-400: #a6a6a6;
+$grey-500: #8c8c8c;
+$grey-600: #737373;
+$grey-700: #595959;
+$grey-800: #55575b;
+$grey-900: #2a2d32;
+$black:    #000 !default;
+
+$background: #1A1A1D;
+
+$spotify-green: #1DB954;
+
+body {
+  background-color: $background;
+  color: $grey-100;
+}

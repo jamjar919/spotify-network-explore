@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from "react";
+import React, {FunctionComponent, useState} from "react";
 import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 import classNames from 'classnames';
 import moment from "moment";
@@ -7,18 +7,20 @@ type BatchedGraphControlProps = {
     batchedGraph: TimeBatchedGraph[];
     currentBatch: number | null;
     onClickSlice: (batch: TimeBatchedGraph, batchIndex: number) => void;
-    onHoverSlice: (batch: TimeBatchedGraph, batchIndex: number) => void;
 }
 
 const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = ({
     batchedGraph,
     currentBatch,
-    onClickSlice,
-    onHoverSlice
+    onClickSlice
 }) => {
+    const [currentHoveredBatch, setHoveredBatch] = useState<TimeBatchedGraph | undefined>(undefined);
+
     return (
         <div className="batched-graph-control">
-            { currentBatch !== null ? <BatchedGraphControlDisplay currentBatch={batchedGraph[currentBatch]} /> : "" }
+            { currentBatch !== null ?
+                <BatchedGraphControlDisplay currentBatch={batchedGraph[currentBatch]} currentHoveredBatch={currentHoveredBatch} /> : ""
+            }
             <div className="batched-graph-slice-container">
             {
                 batchedGraph.map((batch, index) =>
@@ -28,7 +30,8 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = ({
                         batch={batch}
                         isSelected={(currentBatch != null) && (currentBatch >= index)}
                         onClick={onClickSlice}
-                        onHover={onHoverSlice}
+                        onMouseEnter={(batch) => setHoveredBatch(batch)}
+                        onMouseLeave={() => setHoveredBatch(undefined)}
                     />
                 )
             }
@@ -38,11 +41,15 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = ({
 };
 
 
-type BatchedGraphControlDisplayProps = { currentBatch: TimeBatchedGraph };
-const BatchedGraphControlDisplay: FunctionComponent<BatchedGraphControlDisplayProps> = ({ currentBatch }) => (
-    <div className="batched-graph-display">
-        {getLocalisedDate(currentBatch)}
-    </div>
+type BatchedGraphControlDisplayProps = { currentBatch?: TimeBatchedGraph, currentHoveredBatch?: TimeBatchedGraph };
+const BatchedGraphControlDisplay: FunctionComponent<BatchedGraphControlDisplayProps> = ({
+    currentBatch,
+    currentHoveredBatch
+}) => (
+    <ul className="batched-graph-display">
+        { currentBatch ? <li className="current-selected-batch">{getLocalisedDate(currentBatch)}</li> : "" }
+        { currentHoveredBatch ? <li className="current-hovered-batch">Selected: {getLocalisedDate(currentHoveredBatch)}</li> : "" }
+    </ul>
 );
 
 const getLocalisedDate = (currentBatch: TimeBatchedGraph): string => {
@@ -58,7 +65,8 @@ type BatchedGraphTimeSliceProps = {
     batch: TimeBatchedGraph;
     isSelected: boolean;
     onClick: (batch: TimeBatchedGraph, batchIndex: number) => void;
-    onHover: (batch: TimeBatchedGraph, batchIndex: number) => void;
+    onMouseEnter: (batch: TimeBatchedGraph, batchIndex: number) => void;
+    onMouseLeave: (batch: TimeBatchedGraph, batchIndex: number) => void;
 }
 
 const BatchedGraphTimeSlice: FunctionComponent<BatchedGraphTimeSliceProps> = ({
@@ -66,12 +74,14 @@ const BatchedGraphTimeSlice: FunctionComponent<BatchedGraphTimeSliceProps> = ({
     batch,
     isSelected,
     onClick,
-    onHover
+    onMouseEnter,
+    onMouseLeave
 }) => (
     <div
         className={classNames("batched-graph-slice", isSelected ? "selected" : "")}
         onClick={() => onClick(batch, batchIndex)}
-        onMouseOver={() => onHover(batch, batchIndex)}
+        onMouseEnter={() => onMouseEnter(batch, batchIndex)}
+        onMouseLeave={() => onMouseLeave(batch, batchIndex)}
     />
 );
 

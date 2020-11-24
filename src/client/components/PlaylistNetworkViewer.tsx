@@ -45,9 +45,6 @@ const PlaylistNetworkViewer = ({
                     console.log(batch, batchIndex);
                     setCurrentBatch(batchIndex);
                 }}
-                onHoverSlice={(batch, batchIndex) => {
-                    console.log(batch, batchIndex)
-                }}
             />
         </>
     );

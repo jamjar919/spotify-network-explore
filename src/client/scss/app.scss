@@ -1,24 +1,5 @@
-$white:    #fff;
-$grey-100: #f2f2f2;
-$grey-200: #edf0f4;
-$grey-300: #e5e5e5;
-$grey-400: #a6a6a6;
-$grey-500: #8c8c8c;
-$grey-600: #737373;
-$grey-700: #595959;
-$grey-800: #55575b;
-$grey-900: #2a2d32;
-$black:    #000 !default;
-
-$mint-cream: #f1fffaff;
-$tea-green: #ccfccbff;
-$celadon: #96e6b3ff;
-$middle-green: #568259ff;
-$ebony: #464e47ff;
-
-
-
 @import "reset";
+@import "color";
 @import "typography";
 @import "loading";
 @import "login";
