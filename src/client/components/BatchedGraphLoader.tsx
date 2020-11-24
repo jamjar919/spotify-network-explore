@@ -24,7 +24,7 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
 }) => {
     const [loaded, setLoaded] = useState(false);
     const prevBatch = usePrevious(batchToLoad) || 0;
-    
+
     useEffect(() => {
         // Can we load the batch?
         if (batchToLoad >= batchedGraph.length) {

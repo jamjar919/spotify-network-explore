@@ -1,6 +1,7 @@
 import React, {FunctionComponent} from "react";
 import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 import classNames from 'classnames';
+import moment from "moment";
 
 type BatchedGraphControlProps = {
     batchedGraph: TimeBatchedGraph[];
@@ -17,20 +18,39 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = ({
 }) => {
     return (
         <div className="batched-graph-control">
+            { currentBatch !== null ? <BatchedGraphControlDisplay currentBatch={batchedGraph[currentBatch]} /> : "" }
+            <div className="batched-graph-slice-container">
             {
                 batchedGraph.map((batch, index) =>
                     <BatchedGraphTimeSlice
                         key={index}
                         batchIndex={index}
                         batch={batch}
-                        isSelected={currentBatch === index}
+                        isSelected={(currentBatch != null) && (currentBatch >= index)}
                         onClick={onClickSlice}
                         onHover={onHoverSlice}
                     />
                 )
             }
+            </div>
         </div>
     );
+};
+
+
+type BatchedGraphControlDisplayProps = { currentBatch: TimeBatchedGraph };
+const BatchedGraphControlDisplay: FunctionComponent<BatchedGraphControlDisplayProps> = ({ currentBatch }) => (
+    <div className="batched-graph-display">
+        {getLocalisedDate(currentBatch)}
+    </div>
+);
+
+const getLocalisedDate = (currentBatch: TimeBatchedGraph): string => {
+    const to = currentBatch.timeRange[1];
+    if (to <= 3.154e+10) {
+        return "";
+    }
+    return moment(to).format("MMMM Do YYYY");
 };
 
 type BatchedGraphTimeSliceProps = {
@@ -52,9 +72,7 @@ const BatchedGraphTimeSlice: FunctionComponent<BatchedGraphTimeSliceProps> = ({
         className={classNames("batched-graph-slice", isSelected ? "selected" : "")}
         onClick={() => onClick(batch, batchIndex)}
         onMouseOver={() => onHover(batch, batchIndex)}
-    >
-        {batchIndex}
-    </div>
+    />
 );
 
 export default BatchedGraphControl;

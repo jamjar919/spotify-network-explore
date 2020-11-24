@@ -2,21 +2,33 @@
   position: fixed;
   bottom: 0;
   width: 100vw;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
 
-  .batched-graph-slice {
-    flex: 1 1;
-    min-height: 50px;
-    background-color: darkgrey;
 
-    &.selected {
-      background-color: blue;
-    }
+  .batched-graph-slice-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
 
-    &:hover {
-      background-color: aquamarine;
+    .batched-graph-slice {
+      flex: 1 1;
+      min-height: 50px;
+      background-color: $grey-200;
+      border-top: 2px solid $black;
+      border-left: 1px solid $grey-200;
+
+      &.selected {
+        background-color: $ebony;
+        border-left: 1px solid $middle-green;
+
+        & + :not(.selected) {
+          border-left: 5px solid $celadon;
+        }
+      }
+
+      &:hover {
+        background-color: $middle-green;
+      }
     }
   }
 }
