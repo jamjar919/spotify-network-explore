@@ -24,15 +24,12 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
 }) => {
     const [loaded, setLoaded] = useState(false);
     const prevBatch = usePrevious(batchToLoad) || 0;
-
-    console.log(prevBatch, batchToLoad);
-
+    
     useEffect(() => {
         // Can we load the batch?
         if (batchToLoad >= batchedGraph.length) {
             return;
         }
-
 
         if (batchedGraph && typeof sigma !== "undefined") {
 
@@ -46,8 +43,6 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
                 // Are we going forward in time, eg adding nodes?
                 const segments = batchedGraph.slice(prevBatch + 1, batchToLoad + 1); // include selected batch and exclude previously added nodes
 
-                console.log("adding nodes: ", prevBatch + 1, "to", batchToLoad + 1, segments);
-
                 segments.forEach((segment) => {
                     segment.graph.nodes.forEach(node => sigma.graph.addNode(node));
                     segment.graph.edges.forEach(edge => sigma.graph.addEdge(edge));
@@ -56,11 +51,13 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
                 // Else we're removing nodes
                 const segments = batchedGraph.slice(batchToLoad + 1, prevBatch + 1);
 
-                console.log("removing nodes: ", batchToLoad + 1, "to", prevBatch + 1, segments);
+                // Remove edges first to avoid removing edges twice (as they're removed automatically on node removal)
+                segments.forEach((segment) => {
+                    segment.graph.edges.forEach(edge => sigma.graph.dropEdge(edge.id));
+                });
 
                 segments.forEach((segment) => {
                     segment.graph.nodes.forEach(node => sigma.graph.dropNode(node.id));
-                    segment.graph.edges.forEach(edge => sigma.graph.dropEdge(edge.id));
                 });
             }
             sigma.refresh();

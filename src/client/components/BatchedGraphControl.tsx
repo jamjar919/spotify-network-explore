@@ -53,7 +53,7 @@ const BatchedGraphTimeSlice: FunctionComponent<BatchedGraphTimeSliceProps> = ({
         onClick={() => onClick(batch, batchIndex)}
         onMouseOver={() => onHover(batch, batchIndex)}
     >
-
+        {batchIndex}
     </div>
 );
 
