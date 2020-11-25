@@ -12,9 +12,28 @@ $black:    #000 !default;
 
 $background: #1A1A1D;
 
+$dark-spring-green: #1b7d4bff;
+$green-cyan: #2f9963ff;
+$medium-sea-green: #43b47aff;
+$ocean-green: #56c98eff;
+$medium-aquamarine: #68dea1ff;
+$nadeshiko-pink: #fdb0cdff;
+$amaranth-pink: #fd97bdff;
+$cyclamen: #fc7dadff;
+$french-rose: #fb4a8dff;
+$paradise-pink: #f90c66ff;
+
 $spotify-green: #1DB954;
 
 body {
   background-color: $background;
   color: $grey-100;
+}
+
+a {
+  color: $spotify-green;
+
+  &:hover {
+    opacity: .9;
+  }
 }
