@@ -8,7 +8,7 @@ import {tracksGraph} from "../graph/tracksGraph";
 import {StatelessLoader} from "./StatelessLoader";
 import {selectCurrentBatchIndex, selectCurrentGraph} from "../selectors/batchedGraphSelector";
 import {useDispatch} from "react-redux";
-import {setBatchNumber, setGraphAction} from "../actions/batchedGraphActions";
+import {setGraphAction} from "../actions/batchedGraphActions";
 
 type PlaylistNetworkViewerPropTypes = {
     playlists: PlaylistBaseObject[],
@@ -46,14 +46,7 @@ const PlaylistNetworkViewer = ({
                 batchedGraph={graph}
                 currentBatch={currentBatchIndex}
             />
-            <BatchedGraphControl
-                batchedGraph={graph}
-                currentBatch={currentBatchIndex}
-                onClickSlice={(batch, batchIndex) => {
-                    console.log(batch, batchIndex);
-                    setBatchNumber(batchIndex)(dispatch);
-                }}
-            />
+            <BatchedGraphControl />
         </>
     );
 };

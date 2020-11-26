@@ -33,6 +33,7 @@ const BatchedNetwork = ({
                 barnesHutOptimize
                 barnesHutTheta={1}
                 linLogMode={true}
+                gravity={0.1}
                 worker
             >
                <BatchedGraphLoader batchedGraph={batchedGraph} batchToLoad={currentBatch} />

@@ -2,34 +2,39 @@ import React, {FunctionComponent, useState} from "react";
 import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 import classNames from 'classnames';
 import moment from "moment";
+import {selectCurrentBatch, selectCurrentBatchIndex, selectCurrentGraph} from "../selectors/batchedGraphSelector";
+import {StatelessLoader} from "./StatelessLoader";
+import {useDispatch} from "react-redux";
+import {setBatchNumber} from "../actions/batchedGraphActions";
 
-type BatchedGraphControlProps = {
-    batchedGraph: TimeBatchedGraph[];
-    currentBatch: number | null;
-    onClickSlice: (batch: TimeBatchedGraph, batchIndex: number) => void;
-}
+type BatchedGraphControlProps = {}
 
-const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = ({
-    batchedGraph,
-    currentBatch,
-    onClickSlice
-}) => {
+const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = () => {
+    const dispatch = useDispatch();
+
     const [currentHoveredBatch, setHoveredBatch] = useState<TimeBatchedGraph | undefined>(undefined);
+    const graph = selectCurrentGraph();
+    const currentBatch = selectCurrentBatch();
+    const currentBatchIndex = selectCurrentBatchIndex();
+
+    if (graph === null || currentBatchIndex === null) {
+        return <StatelessLoader/>;
+    }
 
     return (
         <div className="batched-graph-control">
             { currentBatch !== null ?
-                <BatchedGraphControlDisplay currentBatch={batchedGraph[currentBatch]} currentHoveredBatch={currentHoveredBatch} /> : ""
+                <BatchedGraphControlDisplay currentBatch={currentBatch} currentHoveredBatch={currentHoveredBatch} /> : ""
             }
             <div className="batched-graph-slice-container">
             {
-                batchedGraph.map((batch, index) =>
+                graph.map((batch, index) =>
                     <BatchedGraphTimeSlice
                         key={index}
                         batchIndex={index}
                         batch={batch}
-                        isSelected={(currentBatch != null) && (currentBatch >= index)}
-                        onClick={onClickSlice}
+                        isSelected={(currentBatch != null) && (currentBatchIndex >= index)}
+                        onClick={(_batch, batchIndex) => setBatchNumber(batchIndex)(dispatch)}
                         onMouseEnter={(batch) => setHoveredBatch(batch)}
                         onMouseLeave={() => setHoveredBatch(undefined)}
                     />
