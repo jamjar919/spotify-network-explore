@@ -43,8 +43,6 @@ export const tracksGraph = (
         }
     );
 
-    console.log(playListNodes.map(node => node.color));
-
     let edges: SigmaEdge[] = [];
     let uniqueNodeMap: { [id: string]: SigmaNode } = {};
     Object.entries(tracks)
