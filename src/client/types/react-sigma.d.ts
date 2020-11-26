@@ -60,3 +60,14 @@ type ForceAtlas2Options = {
     gravity?: number,
     timeout?: number,
 }
+
+type SigmaEvent = {
+    data: {
+        node?: SigmaNode,
+        edge?: SigmaEdge,
+        captor: {
+            clientX: number,
+            clientY: number
+        }
+    }
+};

@@ -43,12 +43,11 @@ const updateSelectedNodesList = (list: string[], newNode: string): string[] => {
         return [newNode];
     }
 
-    // Deselect a node if it was last selected
-    if (list[0] === newNode) {
-        list.pop();
-    } else {
-        list.push(newNode);
+    // Deselect a node if it was already selected
+    if (list.indexOf(newNode) > -1) {
+        return Object.assign([], list.filter(id => id !== newNode));
     }
 
+    list.push(newNode);
     return Object.assign([], list);
 };
