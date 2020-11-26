@@ -17,7 +17,7 @@ export default (state: BatchedGraphState = null, action: Action<TimeBatchedGraph
         case ActionName.SET_BATCH_NUMBER: {
             if (state) {
                 return {
-                    graph: Object.assign({}, state.graph),
+                    graph: Object.assign([], state.graph),
                     currentBatchIndex: action.payload as number
                 };
             }

@@ -1,11 +1,14 @@
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import BatchedNetwork from "./BatchedNetwork";
 import BatchedGraphControl from "./BatchedGraphControl";
-import {graphTimeBatcher, TimeBatchedGraph} from "../graph/graphTimeBatcher";
+import {graphTimeBatcher} from "../graph/graphTimeBatcher";
 import {tracksGraph} from "../graph/tracksGraph";
 import {StatelessLoader} from "./StatelessLoader";
+import {selectCurrentBatchIndex, selectCurrentGraph} from "../selectors/batchedGraphSelector";
+import {useDispatch} from "react-redux";
+import {setBatchNumber, setGraphAction} from "../actions/batchedGraphActions";
 
 type PlaylistNetworkViewerPropTypes = {
     playlists: PlaylistBaseObject[],
@@ -16,19 +19,24 @@ const PlaylistNetworkViewer = ({
     playlists,
     tracks,
  }: PlaylistNetworkViewerPropTypes) => {
-    const [graph, setGraph] = useState<TimeBatchedGraph[] | null>(null);
-    const [currentBatch, setCurrentBatch] = useState<number>(0);
+    const dispatch = useDispatch();
+    const graph = selectCurrentGraph();
+    const currentBatchIndex = selectCurrentBatchIndex();
 
     // Load the graph on render
     useEffect(() => {
-        const batched = graphTimeBatcher(
+        const graph = graphTimeBatcher(
             tracksGraph(playlists, tracks),
             { timeUnit: 'month', removeEmpty: false }
         );
-        setGraph(batched);
+
+        setGraphAction(graph)(dispatch);
     }, []);
 
-    if (graph === null) {
+    if (
+        graph === null ||
+        currentBatchIndex === null
+    ) {
         return <StatelessLoader />;
     }
 
@@ -36,14 +44,14 @@ const PlaylistNetworkViewer = ({
         <>
             <BatchedNetwork
                 batchedGraph={graph}
-                currentBatch={currentBatch}
+                currentBatch={currentBatchIndex}
             />
             <BatchedGraphControl
                 batchedGraph={graph}
-                currentBatch={currentBatch}
+                currentBatch={currentBatchIndex}
                 onClickSlice={(batch, batchIndex) => {
                     console.log(batch, batchIndex);
-                    setCurrentBatch(batchIndex);
+                    setBatchNumber(batchIndex)(dispatch);
                 }}
             />
         </>
