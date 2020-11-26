@@ -14,3 +14,10 @@ export const setBatchNumber = (batchIndex: number) => {
         payload: batchIndex
     })
 };
+
+export const selectNode = (nodeId: string) => {
+    return (dispatch: (action: Action<string>) => void) => dispatch({
+        type: ActionName.SELECT_NODE,
+        payload: nodeId
+    })
+};
