@@ -21,3 +21,9 @@ export const selectNode = (nodeId: string) => {
         payload: nodeId
     })
 };
+
+export const toggleGraphAnimation = () => {
+    return (dispatch: (action: Action<void>) => void) => dispatch({
+        type: ActionName.TOGGLE_GRAPH_ANIMATION
+    });
+};

@@ -5,6 +5,7 @@ import BatchedGraphLoader from "./BatchedGraphLoader";
 import CustomForceAtlas2 from "./CustomForceAtlas2";
 import {useDispatch} from "react-redux";
 import {selectNode} from "../actions/batchedGraphActions";
+import {selectShouldAnimateGraph} from "../selectors/batchedGraphSelector";
 
 type BatchedNetworkPropTypes = {
     batchedGraph: TimeBatchedGraph[],
@@ -16,6 +17,7 @@ const BatchedNetwork = ({
     currentBatch
 }: BatchedNetworkPropTypes) => {
     const dispatch = useDispatch();
+    const animating = selectShouldAnimateGraph();
 
     return (
         <Sigma
@@ -38,6 +40,7 @@ const BatchedNetwork = ({
             }}
         >
                <CustomForceAtlas2
+                    stopSimulation={!animating}
                     slowDown={2}
                     iterationsPerRender={1}
                     barnesHutOptimize

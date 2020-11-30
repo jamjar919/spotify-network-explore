@@ -17,6 +17,7 @@ type Props = {
     slowDown?: number,
     gravity?: number,
     sigma?: Sigma,
+    stopSimulation?: boolean
 };
 
 const stripOptions = (props: Props): Props => {
@@ -29,7 +30,8 @@ const stripOptions = (props: Props): Props => {
 const CustomForceAtlas2: FunctionComponent<Props> = (props) => {
     const {
         children,
-        sigma
+        sigma,
+        stopSimulation
     } = props;
 
     const [running, setRunning] = useState(false);
@@ -50,9 +52,14 @@ const CustomForceAtlas2: FunctionComponent<Props> = (props) => {
     }, []);
 
     useEffect(() => {
-        if (running && sigma) {
-            sigma.killForceAtlas2();
-            sigma.startForceAtlas2(stripOptions(props));
+        if (sigma) {
+            if (stopSimulation) {
+                sigma.killForceAtlas2();
+            } else if (running) {
+                // Restart to pick up changes to nodes
+                sigma.killForceAtlas2();
+                sigma.startForceAtlas2(stripOptions(props));
+            }
         }
     });
 

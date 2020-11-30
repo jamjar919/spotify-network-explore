@@ -2,11 +2,11 @@ import {useSelector} from "react-redux";
 import {State} from "../reducers/rootReducer";
 import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 
-export const selectCurrentGraph = (): TimeBatchedGraph[] | null =>
-    useSelector((state: State) => state.batchedGraph?.graph || null);
+export const selectCurrentGraph = (): TimeBatchedGraph[] | null => useSelector((state: State) =>
+    state.batchedGraph?.graph || null
+);
 
-export const selectCurrentBatchIndex = (): number | null =>
-    useSelector((state: State) => {
+export const selectCurrentBatchIndex = (): number | null => useSelector((state: State) => {
         if (state.batchedGraph && state.batchedGraph.currentBatchIndex > -1) {
             return state.batchedGraph.currentBatchIndex;
         }
@@ -22,3 +22,7 @@ export const selectCurrentBatch = (): TimeBatchedGraph | null =>
         }
         return null;
     });
+
+export const selectShouldAnimateGraph = (): boolean => useSelector((state: State) =>
+    state.batchedGraph?.animate || false
+);

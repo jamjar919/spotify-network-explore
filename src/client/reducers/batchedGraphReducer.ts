@@ -4,7 +4,8 @@ import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 export type BatchedGraphState = {
     graph: TimeBatchedGraph[],
     currentBatchIndex: number,
-    selectedNodes: string[]
+    selectedNodes: string[],
+    animate: boolean
 } | null;
 
 export default (state: BatchedGraphState = null, action: Action<TimeBatchedGraph[] | string | number>): BatchedGraphState => {
@@ -13,7 +14,8 @@ export default (state: BatchedGraphState = null, action: Action<TimeBatchedGraph
             return {
                 graph: action.payload as TimeBatchedGraph[],
                 currentBatchIndex: 0,
-                selectedNodes: []
+                selectedNodes: [],
+                animate: true
             };
         }
         case ActionName.SET_BATCH_NUMBER: {
@@ -30,6 +32,15 @@ export default (state: BatchedGraphState = null, action: Action<TimeBatchedGraph
                 return {
                     ...state,
                     selectedNodes: updateSelectedNodesList(state.selectedNodes, action.payload as string)
+                }
+            }
+            return state;
+        }
+        case ActionName.TOGGLE_GRAPH_ANIMATION: {
+            if (state) {
+                return {
+                    ...state,
+                    animate: !state.animate
                 }
             }
             return state;
