@@ -28,7 +28,7 @@ const PlaylistNetworkViewer = ({
     useEffect(() => {
         const graph = graphTimeBatcher(
             tracksGraph(playlists, tracks),
-            { timeUnit: 'month', removeEmpty: false }
+            { timeUnit: 'week', removeEmpty: false }
         );
 
         setGraphAction(graph)(dispatch);

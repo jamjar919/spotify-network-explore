@@ -8,7 +8,7 @@ Quickstart:
  - `yarn install`
  - `yarn run assemble start`
 
-This compiles both the server and client side code, then runs the server at [http://localhost.com:80](http://localhost.com:80), which you can then open in your browser and go to.
+This compiles both the server and client side code, then runs the server at [http://localhost:80](http://localhost:80), which you can then open in your browser and go to.
 
 ### Ok, nice, but I'm developing, what else is useful?
  - `yarn run build` will run tests as well as build the server/client

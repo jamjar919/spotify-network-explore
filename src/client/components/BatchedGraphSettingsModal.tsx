@@ -21,7 +21,7 @@ const BatchedGraphSettingsModal: FunctionComponent<BatchedGraphSettingsModalProp
         >
             <Checkbox
                 checked={shouldAnimate}
-                label="Animate the graph"
+                label="Enable ForceAtlas2 (graph animation)"
                 onChange={() => toggleGraphAnimation()(dispatch)}
             />
         </Modal>
