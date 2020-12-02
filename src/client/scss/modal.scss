@@ -1,0 +1,52 @@
+.modal-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  display: none;
+  &.visible {
+    display: flex;
+  }
+
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0,0,0,.8);
+
+  .modal {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 1em;
+
+    min-width: 33vw;
+
+    color: $grey-100;
+    background-color: $grey-800;
+    border-radius: 1em;
+  }
+
+  .modal-header {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+  }
+
+  .modal-close {
+    margin-left: auto;
+
+    button {
+      background: none;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      color: $grey-100;
+      font-size: 20px;
+
+      &:hover {
+        opacity: .5;
+      }
+    }
+  }
+
+}

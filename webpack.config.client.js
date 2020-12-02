@@ -36,6 +36,10 @@ module.exports = {
                 include
             },
             {
+                test: /\.svg$/,
+                use: ['@svgr/webpack'],
+            },
+            {
                 test: /\.scss$/i,
                 use: [
                     MiniCssExtractPlugin.loader,

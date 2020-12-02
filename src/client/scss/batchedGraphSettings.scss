@@ -1,0 +1,14 @@
+.settings-icon-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+
+  .settings-icon {
+    width: 32px;
+    height: 32px;
+    stroke: $white;
+    fill: $white;
+    cursor: pointer;
+  }
+}
