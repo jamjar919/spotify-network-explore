@@ -6,7 +6,7 @@ import BatchedGraphControl from "./BatchedGraphControl";
 import {graphTimeBatcher} from "../graph/graphTimeBatcher";
 import {tracksGraph} from "../graph/tracksGraph";
 import {StatelessLoader} from "./StatelessLoader";
-import {selectCurrentBatchIndex, selectCurrentGraph} from "../selectors/batchedGraphSelector";
+import {selectCurrentBatchIndex, selectCurrentGraph, selectCurrentTimeUnit} from "../selectors/batchedGraphSelector";
 import {useDispatch} from "react-redux";
 import {setGraphAction} from "../actions/batchedGraphActions";
 import BatchedGraphSettings from "./BatchedGraphSettings";
@@ -23,16 +23,17 @@ const PlaylistNetworkViewer = ({
     const dispatch = useDispatch();
     const graph = selectCurrentGraph();
     const currentBatchIndex = selectCurrentBatchIndex();
+    const timeUnit = selectCurrentTimeUnit();
 
     // Load the graph on render
     useEffect(() => {
         const graph = graphTimeBatcher(
             tracksGraph(playlists, tracks),
-            { timeUnit: 'week', removeEmpty: false }
+            { timeUnit, removeEmpty: false }
         );
 
         setGraphAction(graph)(dispatch);
-    }, []);
+    }, [timeUnit]);
 
     if (
         graph === null ||

@@ -3,7 +3,7 @@ import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 import {selectCurrentBatch, selectCurrentBatchIndex, selectCurrentGraph} from "../selectors/batchedGraphSelector";
 import {StatelessLoader} from "./StatelessLoader";
 import {useDispatch} from "react-redux";
-import {setBatchNumber} from "../actions/batchedGraphActions";
+import {setBatchNumberAction} from "../actions/batchedGraphActions";
 import BatchedGraphControlDisplay from "./BatchedGraphControlDisplay";
 import BatchedGraphControlTimeSlice from "./BatchedGraphControlTimeSlice";
 
@@ -34,7 +34,7 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = () => {
                         batchIndex={index}
                         batch={batch}
                         isSelected={(currentBatch != null) && (currentBatchIndex >= index)}
-                        onClick={(_batch, batchIndex) => setBatchNumber(batchIndex)(dispatch)}
+                        onClick={(_batch, batchIndex) => setBatchNumberAction(batchIndex)(dispatch)}
                         onMouseEnter={(batch) => setHoveredBatch(batch)}
                         onMouseLeave={() => setHoveredBatch(undefined)}
                     />

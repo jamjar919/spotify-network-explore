@@ -1,21 +1,24 @@
 import {Action, ActionName} from "../actions/action";
 import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 
+export type BatchTimeUnit = "day" | "week" | "month" | "year";
 export type BatchedGraphState = {
     graph: TimeBatchedGraph[],
     currentBatchIndex: number,
     selectedNodes: string[],
-    animate: boolean
+    animate: boolean,
+    batchUnit: BatchTimeUnit
 } | null;
 
-export default (state: BatchedGraphState = null, action: Action<TimeBatchedGraph[] | string | number>): BatchedGraphState => {
+export default (state: BatchedGraphState = null, action: Action<TimeBatchedGraph[] | string | number | BatchTimeUnit>): BatchedGraphState => {
     switch (action.type) {
         case ActionName.SET_GRAPH: {
             return {
                 graph: action.payload as TimeBatchedGraph[],
                 currentBatchIndex: 0,
                 selectedNodes: [],
-                animate: true
+                animate: true,
+                batchUnit: "week"
             };
         }
         case ActionName.SET_BATCH_NUMBER: {
@@ -41,6 +44,15 @@ export default (state: BatchedGraphState = null, action: Action<TimeBatchedGraph
                 return {
                     ...state,
                     animate: !state.animate
+                }
+            }
+            return state;
+        }
+        case ActionName.UPDATE_BATCH_UNIT: {
+            if (state) {
+                return {
+                    ...state,
+                    batchUnit: action.payload as BatchTimeUnit
                 }
             }
             return state;

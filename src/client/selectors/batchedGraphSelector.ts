@@ -1,6 +1,7 @@
 import {useSelector} from "react-redux";
 import {State} from "../reducers/rootReducer";
 import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
+import {BatchTimeUnit} from "../reducers/batchedGraphReducer";
 
 export const selectCurrentGraph = (): TimeBatchedGraph[] | null => useSelector((state: State) =>
     state.batchedGraph?.graph || null
@@ -26,3 +27,7 @@ export const selectCurrentBatch = (): TimeBatchedGraph | null =>
 export const selectShouldAnimateGraph = (): boolean => useSelector((state: State) =>
     state.batchedGraph?.animate || false
 );
+
+export const selectCurrentTimeUnit = (): BatchTimeUnit => useSelector((state: State) =>
+    state.batchedGraph?.batchUnit || "week"
+)

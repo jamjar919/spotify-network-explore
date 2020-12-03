@@ -4,7 +4,7 @@ import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 import BatchedGraphLoader from "./BatchedGraphLoader";
 import CustomForceAtlas2 from "./CustomForceAtlas2";
 import {useDispatch} from "react-redux";
-import {selectNode} from "../actions/batchedGraphActions";
+import {selectNodeAction} from "../actions/batchedGraphActions";
 import {selectShouldAnimateGraph} from "../selectors/batchedGraphSelector";
 
 type BatchedNetworkPropTypes = {
@@ -35,7 +35,7 @@ const BatchedNetwork = ({
             onSigmaException={(e: any) => console.error(e)}
             onClickNode={(e: SigmaEvent) => {
                 if (e.data.node?.id) {
-                    selectNode(e.data.node?.id)(dispatch);
+                    selectNodeAction(e.data.node?.id)(dispatch);
                 }
             }}
         >

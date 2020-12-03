@@ -3,7 +3,7 @@ import React, {FunctionComponent} from "react";
 import Checkbox from "./generic/Checkbox";
 import {selectShouldAnimateGraph} from "../selectors/batchedGraphSelector";
 import {useDispatch} from "react-redux";
-import {toggleGraphAnimation} from "../actions/batchedGraphActions";
+import {toggleGraphAnimationAction} from "../actions/batchedGraphActions";
 
 type BatchedGraphSettingsModalProps = {
     visible: boolean,
@@ -22,7 +22,7 @@ const BatchedGraphSettingsModal: FunctionComponent<BatchedGraphSettingsModalProp
             <Checkbox
                 checked={shouldAnimate}
                 label="Enable ForceAtlas2 (graph animation)"
-                onChange={() => toggleGraphAnimation()(dispatch)}
+                onChange={() => toggleGraphAnimationAction()(dispatch)}
             />
         </Modal>
     );
