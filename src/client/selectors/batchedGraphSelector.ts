@@ -30,4 +30,4 @@ export const selectShouldAnimateGraph = (): boolean => useSelector((state: State
 
 export const selectCurrentTimeUnit = (): BatchTimeUnit => useSelector((state: State) =>
     state.batchedGraph?.batchUnit || "week"
-)
+);

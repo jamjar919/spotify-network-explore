@@ -2,10 +2,11 @@ import {Action, ActionName} from "./action";
 import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 import {BatchTimeUnit} from "../reducers/batchedGraphReducer";
 
-export const setGraphAction = (graph: TimeBatchedGraph[]) => {
-    return (dispatch: (action: Action<TimeBatchedGraph[]>) => void) => dispatch({
+export type SetGraphPayload = { graph: TimeBatchedGraph[], batchUnit: BatchTimeUnit };
+export const setGraphAction = (graph: TimeBatchedGraph[], batchUnit: BatchTimeUnit) => {
+    return (dispatch: (action: Action<SetGraphPayload>) => void) => dispatch({
         type: ActionName.SET_GRAPH,
-        payload: graph
+        payload: { graph, batchUnit }
     })
 };
 
@@ -29,7 +30,7 @@ export const toggleGraphAnimationAction = () => {
     });
 };
 
-export const updateBatchUnitAction = (unit: BatchTimeUnit) => {
+export const setGraphBatchUnitAction = (unit: BatchTimeUnit) => {
     return (dispatch: (action: Action<BatchTimeUnit>) => void) => dispatch({
         type: ActionName.UPDATE_BATCH_UNIT,
         payload: unit

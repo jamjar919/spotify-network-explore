@@ -24,6 +24,7 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
 }) => {
     const [loaded, setLoaded] = useState(false);
     const prevBatch = usePrevious(batchToLoad) || 0;
+    const prevBatchGraphSize = usePrevious(batchedGraph.length) || 0;
 
     useEffect(() => {
         // Can we load the batch?
@@ -33,7 +34,17 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
 
         if (batchedGraph && typeof sigma !== "undefined") {
 
-            if (prevBatch === batchToLoad) {
+            // If we completely swap out the graph, reload the whole thing
+            if (prevBatchGraphSize !== batchedGraph.length) {
+                console.debug("Reloading graph");
+                sigma.graph.clear();
+                sigma.refresh();
+            }
+
+            if (
+                (prevBatch === batchToLoad) ||
+                (prevBatchGraphSize !== batchedGraph.length)
+            ) {
                 // Are we adding nodes from just one batch?
                 const batch = batchedGraph[batchToLoad];
                 batch.graph.nodes.forEach(node => sigma.graph.addNode(node));
@@ -64,7 +75,7 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
         }
 
         setLoaded(true);
-    }, [batchToLoad]);
+    }, [batchedGraph.length, batchToLoad]);
 
     if (!loaded) {
         return null

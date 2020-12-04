@@ -1,9 +1,11 @@
 import Modal from "./generic/Modal";
 import React, {FunctionComponent} from "react";
 import Checkbox from "./generic/Checkbox";
-import {selectShouldAnimateGraph} from "../selectors/batchedGraphSelector";
+import {selectCurrentTimeUnit, selectShouldAnimateGraph} from "../selectors/batchedGraphSelector";
 import {useDispatch} from "react-redux";
-import {toggleGraphAnimationAction} from "../actions/batchedGraphActions";
+import {setGraphBatchUnitAction, toggleGraphAnimationAction} from "../actions/batchedGraphActions";
+import DiscreteSelector from "./generic/DiscreteSelector";
+import {BatchTimeUnit} from "../reducers/batchedGraphReducer";
 
 type BatchedGraphSettingsModalProps = {
     visible: boolean,
@@ -12,6 +14,7 @@ type BatchedGraphSettingsModalProps = {
 const BatchedGraphSettingsModal: FunctionComponent<BatchedGraphSettingsModalProps> = ({ visible, onClickClose }) => {
     const dispatch = useDispatch();
     const shouldAnimate = selectShouldAnimateGraph();
+    const timeUnit = selectCurrentTimeUnit();
 
     return (
         <Modal
@@ -23,6 +26,18 @@ const BatchedGraphSettingsModal: FunctionComponent<BatchedGraphSettingsModalProp
                 checked={shouldAnimate}
                 label="Enable ForceAtlas2 (graph animation)"
                 onChange={() => toggleGraphAnimationAction()(dispatch)}
+            />
+            <DiscreteSelector
+                options={[
+                    { label: "Day", value: "day" },
+                    { label: "Week", value: "week" },
+                    { label: "Month", value: "month" },
+                    { label: "year", value: "Year" }
+                ]}
+                currentSelectedOption={timeUnit}
+                groupName={"time-unit"}
+                groupLabel={"Graph Time Step"}
+                onSelectOption={(selectedValue: string) => setGraphBatchUnitAction(selectedValue as BatchTimeUnit)(dispatch)}
             />
         </Modal>
     );

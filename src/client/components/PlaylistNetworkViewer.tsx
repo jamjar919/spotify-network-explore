@@ -32,7 +32,7 @@ const PlaylistNetworkViewer = ({
             { timeUnit, removeEmpty: false }
         );
 
-        setGraphAction(graph)(dispatch);
+        setGraphAction(graph, timeUnit)(dispatch);
     }, [timeUnit]);
 
     if (

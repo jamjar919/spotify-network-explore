@@ -10,15 +10,15 @@ export type BatchedGraphState = {
     batchUnit: BatchTimeUnit
 } | null;
 
-export default (state: BatchedGraphState = null, action: Action<TimeBatchedGraph[] | string | number | BatchTimeUnit>): BatchedGraphState => {
+export default (state: BatchedGraphState = null, action: Action<any>): BatchedGraphState => {
     switch (action.type) {
         case ActionName.SET_GRAPH: {
             return {
-                graph: action.payload as TimeBatchedGraph[],
+                graph: action.payload.graph as TimeBatchedGraph[],
+                batchUnit: action.payload.batchUnit as BatchTimeUnit,
                 currentBatchIndex: 0,
                 selectedNodes: [],
-                animate: true,
-                batchUnit: "week"
+                animate: state ? state.animate : true
             };
         }
         case ActionName.SET_BATCH_NUMBER: {
