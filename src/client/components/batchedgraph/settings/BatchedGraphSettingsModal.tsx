@@ -1,11 +1,11 @@
-import Modal from "./generic/Modal";
+import Modal from "../../generic/Modal";
 import React, {FunctionComponent} from "react";
-import Checkbox from "./generic/Checkbox";
-import {selectCurrentTimeUnit, selectShouldAnimateGraph} from "../selectors/batchedGraphSelector";
+import Checkbox from "../../generic/Checkbox";
+import {selectCurrentTimeUnit, selectShouldAnimateGraph} from "../../../selectors/batchedGraphSelector";
 import {useDispatch} from "react-redux";
-import {setGraphBatchUnitAction, toggleGraphAnimationAction} from "../actions/batchedGraphActions";
-import DiscreteSelector from "./generic/DiscreteSelector";
-import {BatchTimeUnit} from "../reducers/batchedGraphReducer";
+import {setGraphBatchUnitAction, toggleGraphAnimationAction} from "../../../actions/batchedGraphActions";
+import DiscreteSelector from "../../generic/DiscreteSelector";
+import {BatchTimeUnit} from "../../../reducers/batchedGraphReducer";
 
 type BatchedGraphSettingsModalProps = {
     visible: boolean,

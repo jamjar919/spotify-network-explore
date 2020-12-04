@@ -1,11 +1,12 @@
 import React, {FunctionComponent, useState} from "react";
-import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
-import {selectCurrentBatch, selectCurrentBatchIndex, selectCurrentGraph} from "../selectors/batchedGraphSelector";
-import {StatelessLoader} from "./StatelessLoader";
+import {TimeBatchedGraph} from "../../../graph/graphTimeBatcher";
+import {selectCurrentBatch, selectCurrentBatchIndex, selectCurrentGraph} from "../../../selectors/batchedGraphSelector";
+import {StatelessLoader} from "../../StatelessLoader";
 import {useDispatch} from "react-redux";
-import {setBatchNumberAction} from "../actions/batchedGraphActions";
+import {setBatchNumberAction} from "../../../actions/batchedGraphActions";
 import BatchedGraphControlDisplay from "./BatchedGraphControlDisplay";
 import BatchedGraphControlTimeSlice from "./BatchedGraphControlTimeSlice";
+import BatchedGraphControlBatchControl from "./BatchedGraphControlBatchControl";
 
 type BatchedGraphControlProps = {}
 
@@ -23,8 +24,10 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = () => {
 
     return (
         <div className="batched-graph-control">
-            { currentBatch !== null ?
-                <BatchedGraphControlDisplay currentBatch={currentBatch} currentHoveredBatch={currentHoveredBatch} /> : ""
+            { currentBatch !== null ? (<>
+                    <BatchedGraphControlDisplay currentBatch={currentBatch} currentHoveredBatch={currentHoveredBatch} />
+                    <BatchedGraphControlBatchControl />
+                </>) : ""
             }
             <div className="batched-graph-slice-container">
             {

@@ -1,15 +1,15 @@
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import React, {useEffect} from "react";
-import BatchedNetwork from "./BatchedNetwork";
-import BatchedGraphControl from "./BatchedGraphControl";
+import BatchedNetwork from "./batchedgraph/BatchedNetwork";
+import BatchedGraphControl from "./batchedgraph/control/BatchedGraphControl";
 import {graphTimeBatcher} from "../graph/graphTimeBatcher";
 import {tracksGraph} from "../graph/tracksGraph";
 import {StatelessLoader} from "./StatelessLoader";
 import {selectCurrentBatchIndex, selectCurrentGraph, selectCurrentTimeUnit} from "../selectors/batchedGraphSelector";
 import {useDispatch} from "react-redux";
 import {setGraphAction} from "../actions/batchedGraphActions";
-import BatchedGraphSettings from "./BatchedGraphSettings";
+import BatchedGraphSettings from "./batchedgraph/settings/BatchedGraphSettings";
 
 type PlaylistNetworkViewerPropTypes = {
     playlists: PlaylistBaseObject[],

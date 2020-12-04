@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import embedProps from "../util/embedProps";
-import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
-import {usePrevious} from "../hooks/usePrevious";
+import embedProps from "../../util/embedProps";
+import {TimeBatchedGraph} from "../../graph/graphTimeBatcher";
+import {usePrevious} from "../../hooks/usePrevious";
 
 type BatchedGraphLoaderProps = {
     batchedGraph: TimeBatchedGraph[];

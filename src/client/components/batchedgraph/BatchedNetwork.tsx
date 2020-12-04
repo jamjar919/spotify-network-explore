@@ -1,11 +1,11 @@
 import React from "react";
 import {Sigma} from 'react-sigma';
-import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
+import {TimeBatchedGraph} from "../../graph/graphTimeBatcher";
 import BatchedGraphLoader from "./BatchedGraphLoader";
-import CustomForceAtlas2 from "./CustomForceAtlas2";
+import CustomForceAtlas2 from "../CustomForceAtlas2";
 import {useDispatch} from "react-redux";
-import {selectNodeAction} from "../actions/batchedGraphActions";
-import {selectShouldAnimateGraph} from "../selectors/batchedGraphSelector";
+import {selectNodeAction} from "../../actions/batchedGraphActions";
+import {selectShouldAnimateGraph} from "../../selectors/batchedGraphSelector";
 
 type BatchedNetworkPropTypes = {
     batchedGraph: TimeBatchedGraph[],

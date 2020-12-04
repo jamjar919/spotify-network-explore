@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {FunctionComponent} from "react";
-import Cog from "../svg/cog.svg";
+import Cog from "../../../svg/cog.svg";
 import BatchedGraphSettingsModal from "./BatchedGraphSettingsModal";
 
 type BatchedGraphSettingsProps = {}

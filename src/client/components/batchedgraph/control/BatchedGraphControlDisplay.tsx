@@ -1,4 +1,4 @@
-import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
+import {TimeBatchedGraph} from "../../../graph/graphTimeBatcher";
 import React, {FunctionComponent} from "react";
 import moment from "moment";
 
