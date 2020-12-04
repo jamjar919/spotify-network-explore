@@ -18,7 +18,7 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
                 batchUnit: action.payload.batchUnit as BatchTimeUnit,
                 currentBatchIndex: 0,
                 selectedNodes: [],
-                animate: state ? state.animate : true
+                animate: state ? state.animate : false
             };
         }
         case ActionName.SET_BATCH_NUMBER: {

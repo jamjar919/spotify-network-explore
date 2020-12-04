@@ -1,4 +1,5 @@
 import React, {FunctionComponent} from "react";
+import classNames from "classnames";
 
 type Option = { label: string, value: string }
 type DiscreteSelectorOptionProps = {
@@ -13,7 +14,7 @@ const DiscreteSelectorOption: FunctionComponent<DiscreteSelectorOptionProps> = (
     groupName,
     onSelect
 }) => (
-    <label className="discreet-selector-option">
+    <label className={classNames("discrete-selector-option", selected ? "selected" : "")}>
         <input
             type="radio"
             value={option.value}
@@ -21,7 +22,7 @@ const DiscreteSelectorOption: FunctionComponent<DiscreteSelectorOptionProps> = (
             checked={selected}
             onChange={() => onSelect(option.value)}
         />
-        <span className="discreet-selector-label">{option.label}</span>
+        <div className="discrete-selector-label">{option.label}</div>
     </label>
 );
 

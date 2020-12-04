@@ -32,7 +32,7 @@ const BatchedGraphSettingsModal: FunctionComponent<BatchedGraphSettingsModalProp
                     { label: "Day", value: "day" },
                     { label: "Week", value: "week" },
                     { label: "Month", value: "month" },
-                    { label: "year", value: "Year" }
+                    { label: "Year", value: "year" }
                 ]}
                 currentSelectedOption={timeUnit}
                 groupName={"time-unit"}
