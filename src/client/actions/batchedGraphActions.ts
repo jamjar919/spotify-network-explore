@@ -17,6 +17,18 @@ export const setBatchNumberAction = (batchIndex: number) => {
     })
 };
 
+export const incrementBatchNumberAction = () => {
+    return (dispatch: (action: Action<void>) => void) => dispatch({
+        type: ActionName.INCREMENT_BATCH_NUMBER
+    })
+};
+
+export const decrementBatchNumberAction = () => {
+    return (dispatch: (action: Action<void>) => void) => dispatch({
+        type: ActionName.DECREMENT_BATCH_NUMBER
+    })
+};
+
 export const selectNodeAction = (nodeId: string) => {
     return (dispatch: (action: Action<string>) => void) => dispatch({
         type: ActionName.SELECT_NODE,

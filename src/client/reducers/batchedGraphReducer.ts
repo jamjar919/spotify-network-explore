@@ -30,6 +30,24 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
             }
             return state;
         }
+        case ActionName.INCREMENT_BATCH_NUMBER: {
+            if (state && state.currentBatchIndex + 1 < state.graph.length) {
+                return {
+                    ...state,
+                    currentBatchIndex: state.currentBatchIndex + 1
+                }
+            }
+            return state;
+        }
+        case ActionName.DECREMENT_BATCH_NUMBER: {
+            if (state && state.currentBatchIndex - 1 > 0) {
+                return {
+                    ...state,
+                    currentBatchIndex: state.currentBatchIndex - 1
+                }
+            }
+            return state;
+        }
         case ActionName.SELECT_NODE: {
             if (state) {
                 return {
