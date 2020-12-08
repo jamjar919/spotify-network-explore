@@ -40,7 +40,7 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
             return state;
         }
         case ActionName.DECREMENT_BATCH_NUMBER: {
-            if (state && state.currentBatchIndex - 1 > 0) {
+            if (state && state.currentBatchIndex - 1 >= 0) {
                 return {
                     ...state,
                     currentBatchIndex: state.currentBatchIndex - 1
