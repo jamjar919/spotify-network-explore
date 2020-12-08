@@ -10,5 +10,9 @@
     stroke: $white;
     fill: $white;
     cursor: pointer;
+
+    &:hover {
+      opacity: .6;
+    }
   }
 }

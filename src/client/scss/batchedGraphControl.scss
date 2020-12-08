@@ -4,7 +4,7 @@
   width: 100vw;
 
   ul.batched-graph-display {
-    margin: 20px;
+    margin: 0 20px;
 
     li {
       margin-top: 10px;
@@ -46,4 +46,28 @@
       }
     }
   }
+
+  .batch-controller {
+    display: flex;
+    flex-direction: row;
+
+    button {
+      margin: 0 7px;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+
+      &:hover {
+        opacity: .6;
+      }
+    }
+
+    svg {
+      height: 64px;
+      width: 64px;
+      fill: $white;
+    }
+  }
+
 }
