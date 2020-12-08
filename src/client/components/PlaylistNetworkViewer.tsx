@@ -10,6 +10,7 @@ import {selectCurrentBatchIndex, selectCurrentGraph, selectCurrentTimeUnit} from
 import {useDispatch} from "react-redux";
 import {setGraphAction} from "../actions/batchedGraphActions";
 import BatchedGraphSettings from "./batchedgraph/settings/BatchedGraphSettings";
+import NotificationsBar from "./notificationsbar/NotificationsBar";
 
 type PlaylistNetworkViewerPropTypes = {
     playlists: PlaylistBaseObject[],
@@ -44,6 +45,7 @@ const PlaylistNetworkViewer = ({
 
     return (
         <>
+            <NotificationsBar />
             <BatchedNetwork
                 batchedGraph={graph}
                 currentBatch={currentBatchIndex}

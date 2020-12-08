@@ -6,18 +6,12 @@ export const initialiseGraphColour = (): NodeColourRetriever => {
     const mapToColour: { [id: string]: string } = {};
     const colorIterator: Iterator<string> = (function*() {
         const allHex: string[] = [
-            "#16643C",
-            "#1b7d4b",
-            "#2f9963",
-            "#43b47a",
-            "#56c98e",
-            "#68dea1",
-            "#fdb0cd",
-            "#fd97bd",
-            "#fc7dad",
-            "#fb4a8d",
-            "#f90c66",
-            "#B30547"
+            "#019935",
+            "#ebb904",
+            "#dd4401",
+            "#db0020",
+            "#ae0076",
+            "#01479a"
         ];
 
         let i = -1;

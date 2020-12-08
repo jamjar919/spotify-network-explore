@@ -52,7 +52,7 @@
     flex-direction: row;
 
     button {
-      margin: 0 7px;
+      margin: 7px;
       background-color: transparent;
       border: none;
       outline: none;
@@ -64,8 +64,8 @@
     }
 
     svg {
-      height: 32px;
-      width: 32px;
+      height: 50px;
+      width: 50px;
       fill: $white;
     }
   }
