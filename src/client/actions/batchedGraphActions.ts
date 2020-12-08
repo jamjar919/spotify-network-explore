@@ -29,6 +29,12 @@ export const decrementBatchNumberAction = () => {
     })
 };
 
+export const toggleGraphPlaybackAction = () => {
+    return (dispatch: (action: Action<void>) => void) => dispatch({
+        type: ActionName.TOGGLE_GRAPH_PLAYBACK
+    });
+};
+
 export const selectNodeAction = (nodeId: string) => {
     return (dispatch: (action: Action<string>) => void) => dispatch({
         type: ActionName.SELECT_NODE,

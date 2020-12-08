@@ -7,7 +7,8 @@ export type BatchedGraphState = {
     currentBatchIndex: number,
     selectedNodes: string[],
     animate: boolean,
-    batchUnit: BatchTimeUnit
+    batchUnit: BatchTimeUnit,
+    playback: boolean
 } | null;
 
 export default (state: BatchedGraphState = null, action: Action<any>): BatchedGraphState => {
@@ -18,11 +19,12 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
                 batchUnit: action.payload.batchUnit as BatchTimeUnit,
                 currentBatchIndex: 0,
                 selectedNodes: [],
-                animate: state ? state.animate : false
+                animate: state ? state.animate : false,
+                playback: false
             };
         }
         case ActionName.SET_BATCH_NUMBER: {
-            if (state) {
+            if (state && isBatchNumberValid(action.payload as number, state)) {
                 return {
                     ...state,
                     currentBatchIndex: action.payload as number
@@ -31,7 +33,7 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
             return state;
         }
         case ActionName.INCREMENT_BATCH_NUMBER: {
-            if (state && state.currentBatchIndex + 1 < state.graph.length) {
+            if (state && isBatchNumberValid(state.currentBatchIndex + 1, state)) {
                 return {
                     ...state,
                     currentBatchIndex: state.currentBatchIndex + 1
@@ -40,10 +42,19 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
             return state;
         }
         case ActionName.DECREMENT_BATCH_NUMBER: {
-            if (state && state.currentBatchIndex - 1 >= 0) {
+            if (state && isBatchNumberValid(state.currentBatchIndex - 1, state)) {
                 return {
                     ...state,
                     currentBatchIndex: state.currentBatchIndex - 1
+                }
+            }
+            return state;
+        }
+        case ActionName.TOGGLE_GRAPH_PLAYBACK: {
+            if (state) {
+                return {
+                    ...state,
+                    playback: !state.playback
                 }
             }
             return state;
@@ -77,6 +88,13 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
         }
     }
     return state;
+};
+
+const isBatchNumberValid = (batchNumber: number, state: BatchedGraphState): boolean => {
+    if (!state) {
+        return false;
+    }
+    return (batchNumber >= 0) && (batchNumber < state.graph.length)
 };
 
 const updateSelectedNodesList = (list: string[], newNode: string): string[] => {
