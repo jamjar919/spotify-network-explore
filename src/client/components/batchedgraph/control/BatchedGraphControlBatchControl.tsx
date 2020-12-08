@@ -3,27 +3,28 @@ import Play from "../../../svg/play.svg";
 import Pause from "../../../svg/pause.svg";
 import Prev from "../../../svg/prev.svg";
 import Next from "../../../svg/next.svg";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {
     decrementBatchNumberAction,
     incrementBatchNumberAction,
     toggleGraphPlaybackAction
 } from "../../../actions/batchedGraphActions";
-import {State} from "../../../reducers/rootReducer";
 import {usePrevious} from "../../../hooks/usePrevious";
+import {selectIsPlaying, selectPlaybackTimeStep} from "../../../selectors/batchedGraphSelector";
 
 const BatchedGraphControlBatchControl: FunctionComponent<{}> = () => {
     const dispatch = useDispatch();
     const [iteratorReference, setIteratorReference] = useState<NodeJS.Timeout | null>(null);
-    const isPlaying = useSelector((state: State) => state.batchedGraph?.playback || false);
+    const isPlaying = selectIsPlaying();
     const wasPlaying = usePrevious(isPlaying);
-    
-    useEffect(() => {
 
+    const playbackTimeStep = selectPlaybackTimeStep();
+
+    useEffect(() => {
         // Playback was started
         if (!wasPlaying && isPlaying) {
             setIteratorReference(
-                setInterval(() => incrementBatchNumberAction()(dispatch), 100)
+                setInterval(() => incrementBatchNumberAction()(dispatch), playbackTimeStep)
             );
         }
 
@@ -32,6 +33,12 @@ const BatchedGraphControlBatchControl: FunctionComponent<{}> = () => {
             clearInterval(iteratorReference);
         }
 
+        // Cleanup
+        return () => {
+            if (iteratorReference) {
+                clearInterval(iteratorReference)
+            }
+        };
     }, [wasPlaying, isPlaying]);
 
     return (

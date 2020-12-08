@@ -31,3 +31,11 @@ export const selectShouldAnimateGraph = (): boolean => useSelector((state: State
 export const selectCurrentTimeUnit = (): BatchTimeUnit => useSelector((state: State) =>
     state.batchedGraph?.batchUnit || "week"
 );
+
+export const selectPlaybackTimeStep = (): number => useSelector((state: State) =>
+    state.batchedGraph?.playbackTimeStep || 100
+);
+
+export const selectIsPlaying = (): boolean => useSelector((state: State) =>
+    state.batchedGraph?.playback || false
+);

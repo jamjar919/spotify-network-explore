@@ -35,6 +35,13 @@ export const toggleGraphPlaybackAction = () => {
     });
 };
 
+export const setPlaybackTimestepAction = (timestep: number) => {
+    return (dispatch: (action: Action<number>) => void) => dispatch({
+        type: ActionName.SET_PLAYBACK_TIMESTEP,
+        payload: timestep
+    })
+};
+
 export const selectNodeAction = (nodeId: string) => {
     return (dispatch: (action: Action<string>) => void) => dispatch({
         type: ActionName.SELECT_NODE,

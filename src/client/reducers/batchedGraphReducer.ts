@@ -8,7 +8,8 @@ export type BatchedGraphState = {
     selectedNodes: string[],
     animate: boolean,
     batchUnit: BatchTimeUnit,
-    playback: boolean
+    playback: boolean,
+    playbackTimeStep: number
 } | null;
 
 export default (state: BatchedGraphState = null, action: Action<any>): BatchedGraphState => {
@@ -20,7 +21,8 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
                 currentBatchIndex: 0,
                 selectedNodes: [],
                 animate: state ? state.animate : false,
-                playback: false
+                playback: false,
+                playbackTimeStep: 100
             };
         }
         case ActionName.SET_BATCH_NUMBER: {
@@ -36,6 +38,7 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
             if (state && isBatchNumberValid(state.currentBatchIndex + 1, state)) {
                 return {
                     ...state,
+                    playback: state.playback && isBatchNumberValid(state.currentBatchIndex + 2, state),
                     currentBatchIndex: state.currentBatchIndex + 1
                 }
             }
@@ -45,6 +48,7 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
             if (state && isBatchNumberValid(state.currentBatchIndex - 1, state)) {
                 return {
                     ...state,
+                    playback: state.playback && isBatchNumberValid(state.currentBatchIndex - 2, state),
                     currentBatchIndex: state.currentBatchIndex - 1
                 }
             }
@@ -55,6 +59,15 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
                 return {
                     ...state,
                     playback: !state.playback
+                }
+            }
+            return state;
+        }
+        case ActionName.SET_PLAYBACK_TIMESTEP: {
+            if (state) {
+                return {
+                    ...state,
+                    playbackTimeStep: action.payload as number
                 }
             }
             return state;
