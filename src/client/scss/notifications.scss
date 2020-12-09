@@ -1,0 +1,14 @@
+.notifications-bar {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0 0 5px;
+
+  .notification {
+    max-width: 300px;
+    padding: 5px 10px;
+    color: $background;
+    background-color: $white;
+    border-radius: 10px;
+  }
+}
