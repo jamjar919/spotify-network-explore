@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {fetchProfileAction} from "../actions/spotifyProfileAction";
-import {State} from "../reducers/rootReducer";
 import {fetchPlaylistsAction} from "../actions/spotifyPlaylistsAction";
 import {fetchTracksAction} from "../actions/spotifyTracksAction";
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
@@ -11,15 +10,16 @@ import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import UserObjectPrivate = SpotifyApi.UserObjectPrivate;
 import {LoadingSpotifyData} from "./LoadingSpotifyData";
 import PlaylistNetworkViewer from "./PlaylistNetworkViewer";
+import {selectSpotifyPlaylists, selectSpotifyProfile, selectSpotifyTracks} from "../selectors/spotifySelector";
 
 /**
  * Class responsible for loading data + deciding what to render
  */
 const App = () => {
     const dispatch = useDispatch();
-    const profileOrAjaxState: UserObjectPrivate | AjaxState  = useSelector((state: State) => state.spotifyProfile);
-    const playlistsOrAjaxState: PlaylistBaseObject[] | AjaxState = useSelector((state: State) => state.spotifyPlaylists);
-    const tracksOrAjaxState: SpotifyTracksMap | AjaxState = useSelector((state: State) => state.spotifyTracks);
+    const profileOrAjaxState: UserObjectPrivate | AjaxState = selectSpotifyProfile();
+    const playlistsOrAjaxState: PlaylistBaseObject[] | AjaxState = selectSpotifyPlaylists();
+    const tracksOrAjaxState: SpotifyTracksMap | AjaxState = selectSpotifyTracks();
 
     useEffect(() => {
         dispatch(fetchProfileAction());
