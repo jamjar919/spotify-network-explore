@@ -22,13 +22,37 @@ export default () => {
             const playlists = playlistsOrAjaxState as PlaylistBaseObject[];
             const tracks = tracksOrAjaxState as SpotifyTracksMap;
 
+            const playlistsAddedToMap: { [id: string]: {
+                    name: string,
+                    trackNames: string[]
+                }
+            } = {};
+
             currentBatch?.graph.edges.forEach((edge) => {
                 const playlist = playlists.filter(p => p.id === edge.target)[0];
                 const track = tracks[playlist.id].filter(track => track.track.id === edge.source)[0];
 
-                const id = uuidv4();
-                const text = `Added ${track.track.name} to ${playlist.name}`;
-                displayNotificationAction(id, text)(dispatch);
+                if (!(playlist.id in playlistsAddedToMap)) {
+                    playlistsAddedToMap[playlist.id] = {
+                        name: playlist.name,
+                        trackNames: []
+                    }
+                }
+
+                playlistsAddedToMap[playlist.id].trackNames.push(track.track.name);
+            });
+
+            Object.entries(playlistsAddedToMap).forEach(([_id, data]) => {
+                if (data.trackNames.length > 0) {
+                    let text = `Added ${data.trackNames[0]}`;
+                    if (data.trackNames.length > 1) {
+                        text += ` and ${data.trackNames.length - 1} others`;
+                    }
+                    text += ` to ${data.name}`;
+
+                    const id = uuidv4();
+                    displayNotificationAction(id, text)(dispatch);
+                }
             })
         }
     }, [currentBatch])
