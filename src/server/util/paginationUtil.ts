@@ -19,6 +19,7 @@ export class PaginationUtil<PagedObject> {
         options: {
             totalLimit?: number,
             maxPerRequest?: number,
+            rateLimitTimeout?: number,
             getUrl?: (url: string) => string
         } = {}
     ) {
@@ -39,12 +40,12 @@ export class PaginationUtil<PagedObject> {
             .then((result: PagingObject<PagedObject> |  { error: ErrorObject }) => {
                 if (result.hasOwnProperty("error")) {
                     const errorWrapper = result as { error: ErrorObject };
-                    console.error(errorWrapper.error);
+
+                    console.error("Fatal error:", errorWrapper.error);
                     throw new Error(errorWrapper.error.message);
                 }
 
                 const pagedResult = result as PagingObject<PagedObject>;
-
                 const items: PagedObject[] = currentItems.concat(pagedResult.items);
                 if (items.length < this.totalLimit && pagedResult.next !== null) {
                     return this.recursivelyPaginateApi(
@@ -53,7 +54,7 @@ export class PaginationUtil<PagedObject> {
                     )
                 }
                 return items;
-            })
+            });
     };
 
     private callApi = (offset: number): Promise<PagingObject<PagedObject>> => {
@@ -64,8 +65,25 @@ export class PaginationUtil<PagedObject> {
 
         console.log(url);
 
-        return fetch(url, getFetchOptions(this.api, this.accessToken))
-            .then(spotifyResponse => spotifyResponse.json())
+        return new Promise((resolve) => {
+            fetch(url, getFetchOptions(this.api, this.accessToken))
+                .then(response => {
+                    if (response.status === 429) {
+                        const retryAfter =
+                            Number.parseInt(response.headers.get('retry-after')) * 1000
+                            + 100;
+
+                        setTimeout(() => {
+                            resolve(
+                                this.callApi(offset)
+                            );
+                        }, retryAfter)
+                    }
+                    return response;
+                })
+                .then(spotifyResponse => spotifyResponse.json())
+                .then(resolve);
+        });
     };
 
 }

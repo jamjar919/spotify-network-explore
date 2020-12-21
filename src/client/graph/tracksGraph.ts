@@ -55,7 +55,8 @@ export const tracksGraph = (
                 id: track.track.id,
                 label: track.track.name,
                 size: 10,
-                image: getImageFromSpotifyArray(track.track.album.images),
+                // image: getImageFromSpotifyArray(track.track.album.images),
+                type: 'square',
                 color: colorFromString(track.track.album.id),
                 timeAdded,
                 ...randomisePosition(initialPosition)
