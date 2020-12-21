@@ -20,6 +20,7 @@ export const tracks = (req: Request, res: Response) => {
                 getUrl: (url) => `${url}/${id}/tracks`
             }
         ).getAll().then((tracks: PlaylistTrackObject[]) => {
+            console.log(id);
             playlistToTracks[id] = tracks;
         })
     );

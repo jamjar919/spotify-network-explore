@@ -70,19 +70,20 @@ export class PaginationUtil<PagedObject> {
                 .then(response => {
                     if (response.status === 429) {
                         const retryAfter =
-                            Number.parseInt(response.headers.get('retry-after')) * 1000
+                            Number.parseInt(response.headers.get('retry-after') as string) * 1000
                             + 100;
 
+                        console.log("Retrying after", retryAfter);
                         setTimeout(() => {
+                            console.log("Retrying...");
                             resolve(
                                 this.callApi(offset)
                             );
-                        }, retryAfter)
+                        }, retryAfter);
+                    } else {
+                        resolve(response.json());
                     }
-                    return response;
-                })
-                .then(spotifyResponse => spotifyResponse.json())
-                .then(resolve);
+                });
         });
     };
 
