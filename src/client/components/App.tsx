@@ -27,9 +27,12 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        if (isSuccessfulFetch(playlistsOrAjaxState)) {
+        if (isSuccessfulFetch(playlistsOrAjaxState) && isSuccessfulFetch(profileOrAjaxState)) {
             const playlists = playlistsOrAjaxState as PlaylistBaseObject[];
-            const playlistIds = playlists.map((playlist: PlaylistBaseObject) => playlist.id);
+            const profile = profileOrAjaxState as UserObjectPrivate;
+            const playlistIds = playlists
+                .filter(playlist => playlist.owner.id === profile.id)
+                .map((playlist: PlaylistBaseObject) => playlist.id);
             dispatch(fetchTracksAction(playlistIds));
         }
     }, [playlistsOrAjaxState]);
@@ -53,10 +56,14 @@ const App = () => {
         />
     }
 
+    const profile = profileOrAjaxState as UserObjectPrivate;
     const playlists = playlistsOrAjaxState as PlaylistBaseObject[];
     const tracks = tracksOrAjaxState as SpotifyTracksMap;
 
-    return (<PlaylistNetworkViewer playlists={playlists} tracks={tracks}/>);
+    return (<PlaylistNetworkViewer
+        playlists={playlists.filter(playlist => playlist.owner.id === profile.id)}
+        tracks={tracks}
+    />);
 };
 
 export default App;
