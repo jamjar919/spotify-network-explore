@@ -6,6 +6,7 @@ import {userInformation} from "./routes/user";
 import {Path} from "../common/path";
 import {playlistList} from "./routes/playlist";
 import {tracks} from "./routes/tracks";
+import {affinity} from "./routes/affinity";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.get(Path.SignIn.SPOTIFY_REFRESH_TOKEN, refreshToken);
 app.get(Path.Spotify.USER, userInformation);
 app.get(Path.Spotify.PLAYLISTS, playlistList);
 app.post(Path.Spotify.TRACKS, tracks);
+app.get(Path.Spotify.AFFINITY, affinity);
 
 app.listen(port, () => {
     console.log(`Active on port ${port}!`)

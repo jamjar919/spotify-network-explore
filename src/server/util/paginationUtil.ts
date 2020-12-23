@@ -80,9 +80,9 @@ export class PaginationUtil<PagedObject> {
                                 this.callApi(offset)
                             );
                         }, retryAfter);
-                    } else {
-                        resolve(response.json());
                     }
+
+                    resolve(response.json());
                 });
         });
     };

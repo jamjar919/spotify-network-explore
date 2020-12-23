@@ -10,7 +10,7 @@ import {SpotifyApi, Endpoint, urlWithQueryParams} from "../api/spotifyApi";
 import dotenv from "dotenv";
 dotenv.config();
 
-const permissionsNeeded = 'user-read-private playlist-read-private user-read-email';
+const permissionsNeeded = 'user-read-private playlist-read-private user-read-email user-top-read';
 
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
