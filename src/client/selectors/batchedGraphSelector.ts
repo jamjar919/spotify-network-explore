@@ -39,3 +39,7 @@ export const selectPlaybackTimeStep = (): number => useSelector((state: State) =
 export const selectIsPlaying = (): boolean => useSelector((state: State) =>
     state.batchedGraph?.playback || false
 );
+
+export const selectSelectedNodes = (): string[] => useSelector((state: State) =>
+    state.batchedGraph?.selectedNodes || []
+);
