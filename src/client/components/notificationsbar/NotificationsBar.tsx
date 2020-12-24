@@ -5,7 +5,6 @@ import useNotificationGenerator from "../../hooks/useNotificationGenerator";
 import { v4 as uuidv4 } from 'uuid';
 
 const NotificationsBar: FunctionComponent<{}> = () => {
-    // Listen to events
     useNotificationGenerator();
 
     const notifications = selectNotifications();

@@ -4,7 +4,7 @@ import {getRandomPosition, NodePosition, randomisePosition} from "./positionUtil
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import ImageObject = SpotifyApi.ImageObject;
 import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
-import {initialiseGraphColour} from "../util/color";
+import {colorFromString, initialiseGraphColour} from "../util/color";
 
 const getImageFromSpotifyArray = (images: ImageObject[]) => {
     if (images[0]) {
@@ -35,7 +35,6 @@ export const tracksGraph = (
             playlistNodeCoords[playlist.id] = position;
             return {
                 size: 500,
-                color: getColor(playlist.id),
                 type: 'square',
                 image: getImageFromSpotifyArray(playlist.images),
                 ...position
@@ -56,12 +55,17 @@ export const tracksGraph = (
                 return;
             }
 
+            const genre: string = track.track.artists
+                .map(artist => artist.id)
+                .flatMap(id => tracks.artistsMap[id])
+                .flatMap(artist => artist && artist.genres)[0] || "no genre";
+
             const node = {
                 id: track.track.id,
-                label: track.track.name,
+                label: `${track.track.name} (${genre})`,
                 size: 10,
-                // image: getImageFromSpotifyArray(track.track.album.images),
                 type: 'square',
+                color: colorFromString(genre),
                 timeAdded,
                 ...randomisePosition(initialPosition)
             };
