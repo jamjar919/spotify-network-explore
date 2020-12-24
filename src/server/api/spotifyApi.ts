@@ -10,7 +10,8 @@ export const enum Endpoint {
     PLAYLIST_LIST = 'playlist_list',
     PLAYLIST_TRACKS = 'playlist_tracks',
     AFFINITY_ARTISTS = 'affinity_artists',
-    AFFINITY_TRACKS = 'affinity_tracks'
+    AFFINITY_TRACKS = 'affinity_tracks',
+    ARTISTS = 'artists'
 }
 
 export const SpotifyApi: {[key: string]: SpotifyEndpoint} = {
@@ -42,6 +43,10 @@ export const SpotifyApi: {[key: string]: SpotifyEndpoint} = {
         requiresAuth: true
     },[Endpoint.AFFINITY_TRACKS]: {
         url: 'https://api.spotify.com/v1/me/top/tracks',
+        method: Method.GET,
+        requiresAuth: true
+    },[Endpoint.ARTISTS]: {
+        url: 'https://api.spotify.com/v1/artists',
         method: Method.GET,
         requiresAuth: true
     }

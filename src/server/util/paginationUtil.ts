@@ -1,7 +1,7 @@
-import {getFetchOptions, SpotifyEndpoint, urlWithQueryParams} from "../api/spotifyApi";
-import fetch from "node-fetch";
+import {SpotifyEndpoint, urlWithQueryParams} from "../api/spotifyApi";
 import PagingObject = SpotifyApi.PagingObject;
 import ErrorObject = SpotifyApi.ErrorObject;
+import {fetchWithRetry} from "./fetchWithRetryUtil";
 
 export class PaginationUtil<PagedObject> {
     private static readonly DEFAULT_LIMIT = 500;
@@ -65,26 +65,11 @@ export class PaginationUtil<PagedObject> {
 
         console.log(url);
 
-        return new Promise((resolve) => {
-            fetch(url, getFetchOptions(this.api, this.accessToken))
-                .then(response => {
-                    if (response.status === 429) {
-                        const retryAfter =
-                            Number.parseInt(response.headers.get('retry-after') as string) * 1000
-                            + 100;
-
-                        console.log("Retrying after", retryAfter);
-                        setTimeout(() => {
-                            console.log("Retrying...");
-                            resolve(
-                                this.callApi(offset)
-                            );
-                        }, retryAfter);
-                    }
-
-                    resolve(response.json());
-                });
-        });
+        return fetchWithRetry(
+            url,
+            this.api,
+            this.accessToken
+        );
     };
 
 }

@@ -19,7 +19,7 @@ export const getNodesFromTracks = (
     getAdditionalProps:
         (track: PlaylistTrackObject, playlistId: string) => any = () => ({})
 ) => {
-    return Object.entries(trackMap)
+    return Object.entries(trackMap.tracksMap)
         .flatMap(([playlistId, tracks]) =>
             tracks.map(track => ({
                 id: track.track.id,

@@ -10,7 +10,7 @@ export const playlistGraph = (
     const nodes = getNodesFromPlaylists(
         playlists,
         (playlist) => ({
-            size: tracks[playlist.id].length
+            size: tracks.tracksMap[playlist.id].length
         })
     );
 
@@ -24,7 +24,7 @@ export const playlistGraph = (
                 return;
             }
 
-            const diff = playlistDiff(tracks[playlistOneId], tracks[playlistTwoId]);
+            const diff = playlistDiff(tracks.tracksMap[playlistOneId], tracks.tracksMap[playlistTwoId]);
             if (diff.common.length > 0) {
                 edges.push({
                     id: `${playlistOneId}:${playlistTwoId}`,

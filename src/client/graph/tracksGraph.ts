@@ -45,7 +45,7 @@ export const tracksGraph = (
 
     let uniqueNodeMap: { [id: string]: SigmaNode } = {};
     let uniqueEdgeMap: { [id: string]: SigmaEdge } = {};
-    Object.entries(tracks)
+    Object.entries(tracks.tracksMap)
         .forEach(([playlistId, trackList]) => trackList.forEach((track: PlaylistTrackObject) => {
             const playlistName = playlists.filter(p => p.id === playlistId)[0].name;
             const initialPosition = playlistNodeCoords[playlistId];
