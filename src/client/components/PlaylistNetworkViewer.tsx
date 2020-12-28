@@ -4,13 +4,13 @@ import React, {useEffect} from "react";
 import BatchedNetwork from "./batchedgraph/BatchedNetwork";
 import BatchedGraphControl from "./batchedgraph/control/BatchedGraphControl";
 import {graphTimeBatcher} from "../graph/graphTimeBatcher";
-import {tracksGraph} from "../graph/tracksGraph";
 import {StatelessLoader} from "./StatelessLoader";
 import {selectCurrentBatchIndex, selectCurrentGraph, selectCurrentTimeUnit} from "../selectors/batchedGraphSelector";
 import {useDispatch} from "react-redux";
 import {setGraphAction} from "../actions/batchedGraphActions";
 import BatchedGraphSettings from "./batchedgraph/settings/BatchedGraphSettings";
 import NotificationsBar from "./notificationsbar/NotificationsBar";
+import {genreGraph} from "../graph/genreGraph";
 
 type PlaylistNetworkViewerPropTypes = {
     playlists: PlaylistBaseObject[],
@@ -29,7 +29,7 @@ const PlaylistNetworkViewer = ({
     // Load the graph on render
     useEffect(() => {
         const graph = graphTimeBatcher(
-            tracksGraph(playlists, tracks),
+            genreGraph(playlists, tracks),
             { timeUnit, removeEmpty: false }
         );
 

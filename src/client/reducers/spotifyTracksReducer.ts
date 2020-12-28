@@ -3,9 +3,10 @@ import {AjaxState} from "./ajaxState";
 import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
 
+export type SpotifyArtistMap = {[artistId: string]: ArtistObjectFull};
 export type SpotifyTracksMap = {
     tracksMap: {[playlistId: string]: PlaylistTrackObject[]},
-    artistsMap: {[artistId: string]: ArtistObjectFull[]}
+    artistsMap: SpotifyArtistMap
 }
 export type SpotifyTracksState = SpotifyTracksMap | AjaxState
 

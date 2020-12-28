@@ -5,6 +5,7 @@ import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import ImageObject = SpotifyApi.ImageObject;
 import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 import {colorFromString, initialiseGraphColour} from "../util/color";
+import {UniqueGraphObjectUtil} from "../util/uniqueGraphObjectUtil";
 
 const getImageFromSpotifyArray = (images: ImageObject[]) => {
     if (images[0]) {
@@ -42,8 +43,8 @@ export const tracksGraph = (
         }
     );
 
-    let uniqueNodeMap: { [id: string]: SigmaNode } = {};
-    let uniqueEdgeMap: { [id: string]: SigmaEdge } = {};
+    let uniqueNodes = new UniqueGraphObjectUtil<SigmaNode>();
+    let uniqueEdges = new UniqueGraphObjectUtil<SigmaEdge>();
     Object.entries(tracks.tracksMap)
         .forEach(([playlistId, trackList]) => trackList.forEach((track: PlaylistTrackObject) => {
             const playlistName = playlists.filter(p => p.id === playlistId)[0].name;
@@ -60,7 +61,7 @@ export const tracksGraph = (
                 .flatMap(id => tracks.artistsMap[id])
                 .flatMap(artist => artist && artist.genres)[0] || "no genre";
 
-            const node = {
+            uniqueNodes.add({
                 id: track.track.id,
                 label: `${track.track.name} (${genre})`,
                 size: 10,
@@ -68,45 +69,24 @@ export const tracksGraph = (
                 color: colorFromString(genre),
                 timeAdded,
                 ...randomisePosition(initialPosition)
-            };
+            });
 
-            // Verify uniqueness (as songs can be added to multiple playlists)
-            if (uniqueNodeMap[node.id] === undefined) {
-                uniqueNodeMap[node.id] = node;
-            } else {
-                // We want the timestamp where it was added first
-                const currentTimeAdded = uniqueNodeMap[node.id].timeAdded || 0;
-                if (currentTimeAdded > node.timeAdded) {
-                    uniqueNodeMap[node.id] = node;
-                }
-            }
 
-            const edge = {
+            uniqueEdges.add({
                 id: `${track.track.id}:${playlistId}`,
                 source: track.track.id,
                 target: playlistId,
                 color: getColor(playlistId),
                 desc: `Added ${track.track.name} to ${playlistName}`,
                 timeAdded
-            };
-
-            // Verify uniqueness (as maybe the track is in the playlist twice)
-            if (uniqueEdgeMap[edge.id] === undefined) {
-                uniqueEdgeMap[edge.id] = edge;
-            } else {
-                // We want the timestamp where it was added first
-                const currentTimeAdded = uniqueEdgeMap[edge.id].timeAdded || 0;
-                if (currentTimeAdded > edge.timeAdded) {
-                    uniqueEdgeMap[edge.id] = edge;
-                }
-            }
+            });
         }));
 
     let nodes: SigmaNode[] = [];
     nodes = nodes.concat(playListNodes);
-    nodes = nodes.concat(Object.values(uniqueNodeMap));
+    nodes = nodes.concat(uniqueNodes.get());
 
-    const edges: SigmaEdge[] = Object.values(uniqueEdgeMap);
+    const edges: SigmaEdge[] = uniqueEdges.get();
 
     return {
         nodes,

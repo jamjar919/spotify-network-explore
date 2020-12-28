@@ -34,6 +34,7 @@ type SigmaNode = {
     size?: number;
     color?: string;
     timeAdded?: number;
+    type?: string;
 }
 
 type SigmaEdge = {
@@ -43,6 +44,7 @@ type SigmaEdge = {
     label?: string,
     color?: string;
     timeAdded?: number;
+    desc?: string;
 }
 
 type ForceAtlas2Options = {
