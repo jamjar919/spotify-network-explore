@@ -27,10 +27,11 @@ export const genreGraph = (
 
             const timeAdded = Date.parse(track.added_at);
 
-            uniqueNodes.addOrIncrementSize({
+            uniqueNodes.add({
                 id: playlist.id,
                 label: `${playlist.name}`,
                 color: "#FFFFFF",
+                size: 10,
                 type: 'square',
                 image: getImageFromSpotifyArray(playlist.images),
                 timeAdded,
@@ -38,15 +39,16 @@ export const genreGraph = (
             });
 
             genres.forEach(genre => {
-                uniqueNodes.addOrIncrementSize({
+                uniqueNodes.add({
                     id: genre,
                     label: genre,
+                    size: 5,
                     color: colorFromString(genre),
                     ...getRandomPosition(),
                     timeAdded
                 });
 
-                uniqueEdges.addOrIncrementSize({
+                uniqueEdges.add({
                     id: `${playlist.id}:${genre}`,
                     source: playlist.id,
                     target: genre,
