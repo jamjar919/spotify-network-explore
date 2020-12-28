@@ -30,6 +30,11 @@ export default () => {
 
             currentBatch?.graph.edges.forEach((edge) => {
                 const playlist = playlists.filter(p => p.id === edge.target)[0];
+
+                if (!playlist) {
+                    return;
+                }
+
                 const track = tracks.tracksMap[playlist.id].filter(track => track.track.id === edge.source)[0];
 
                 if (!(playlist.id in playlistsAddedToMap)) {

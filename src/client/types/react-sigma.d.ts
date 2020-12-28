@@ -35,6 +35,14 @@ type SigmaNode = {
     color?: string;
     timeAdded?: number;
     type?: string;
+    image?: {
+        size: number;
+        url: string;
+        scale?: number;
+        clip?: number;
+        w?: number;
+        h?: number;
+    };
 }
 
 type SigmaEdge = {

@@ -2,25 +2,10 @@ import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import {getNodesFromPlaylists} from "./nodeGenerators";
 import {getRandomPosition, NodePosition, randomisePosition} from "./positionUtil";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
-import ImageObject = SpotifyApi.ImageObject;
 import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 import {colorFromString, initialiseGraphColour} from "../util/color";
 import {UniqueGraphObjectUtil} from "../util/uniqueGraphObjectUtil";
-
-const getImageFromSpotifyArray = (images: ImageObject[]) => {
-    if (images[0]) {
-        const biggestImage = images[0];
-        return {
-            size: 20,
-            url: biggestImage.url,
-            scale: 2,
-            clip: 2,
-            w: biggestImage.width,
-            h: biggestImage.height
-        };
-    }
-    return undefined;
-};
+import {getImageFromSpotifyArray} from "../util/spotifyImageUtil";
 
 export const tracksGraph = (
     playlists: PlaylistBaseObject[],
