@@ -4,8 +4,9 @@ import {getGenresForTrack} from "../util/artistUtil";
 import {UniqueGraphObjectUtil} from "../util/uniqueGraphObjectUtil";
 import {getRandomPosition} from "./positionUtil";
 import {colorFromString} from "../util/color";
+import {getImageFromSpotifyArray} from "../util/spotifyImageUtil";
 
-export const genreGraph = (
+export const playlistGenreGraph = (
     playlists: PlaylistBaseObject[],
     tracks: SpotifyTracksMap
 ): SigmaGraph => {
@@ -19,15 +20,26 @@ export const genreGraph = (
             track,
             genres: getGenresForTrack(track, tracks.artistsMap)
         })))
-        .forEach(({ track, genres }) => {
+        .forEach(({ playlist, track, genres }) => {
             if (!track.track.id) {
                 return;
             }
 
             const timeAdded = Date.parse(track.added_at);
 
+            uniqueNodes.add({
+                id: playlist.id,
+                label: `${playlist.name}`,
+                color: "#FFFFFF",
+                size: 10,
+                type: 'square',
+                image: getImageFromSpotifyArray(playlist.images),
+                timeAdded,
+                ...getRandomPosition()
+            });
+
             genres.forEach(genre => {
-                uniqueNodes.addOrIncrementSize({
+                uniqueNodes.add({
                     id: genre,
                     label: genre,
                     size: 5,
@@ -35,17 +47,13 @@ export const genreGraph = (
                     ...getRandomPosition(),
                     timeAdded
                 });
-            });
 
-            genres.forEach(genreOne => {
-                genres.forEach(genreTwo => {
-                    uniqueEdges.add({
-                        id: `${genreOne}:${genreTwo}`,
-                        source: genreOne,
-                        target: genreTwo,
-                        timeAdded
-                    });
-
+                uniqueEdges.add({
+                    id: `${playlist.id}:${genre}`,
+                    source: playlist.id,
+                    target: genre,
+                    desc: `Added ${track.track.name} to ${genre}`,
+                    timeAdded
                 });
             });
         });

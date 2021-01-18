@@ -27,7 +27,9 @@ const BatchedNetwork = ({
                 defaultLabelColor: "#f2f2f2",
                 defaultLabelHoverColor: "#2a2d32",
                 defaultHoverLabelBGColor: "#f2f2f2",
-                defaultNodeColor: "#f2f2f2"
+                defaultNodeColor: "#f2f2f2",
+                edgeHoverExtremities: true,
+                hideEdgesOnMove: true
             }}
             style={{
                 height: "100vh",
