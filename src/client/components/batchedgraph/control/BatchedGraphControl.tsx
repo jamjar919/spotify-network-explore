@@ -25,7 +25,6 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = () => {
     return (
         <div className="batched-graph-control">
             { currentBatch !== null ? (<>
-                    <BatchedGraphControlDisplay currentBatch={currentBatch} currentHoveredBatch={currentHoveredBatch} />
                     <BatchedGraphControlBatchControl />
                 </>) : ""
             }
@@ -44,6 +43,10 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = () => {
                 )
             }
             </div>
+            { currentBatch !== null ? (<>
+                    <BatchedGraphControlDisplay currentBatch={currentBatch} currentHoveredBatch={currentHoveredBatch} />
+                </>) : ""
+            }
         </div>
     );
 };

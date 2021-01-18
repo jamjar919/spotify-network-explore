@@ -39,7 +39,7 @@ export const genreGraph = (
 
             genres.forEach(genreOne => {
                 genres.forEach(genreTwo => {
-                    uniqueEdges.add({
+                    uniqueEdges.addOrIncrementSize({
                         id: `${genreOne}:${genreTwo}`,
                         source: genreOne,
                         target: genreTwo,

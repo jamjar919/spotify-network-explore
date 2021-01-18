@@ -1,0 +1,10 @@
+.overlay-base {
+  width: 336px;
+  padding: 0 8px 8px;
+  max-height: calc(100% - 64px);
+  max-width: 100%;
+  box-sizing: border-box;
+  position: absolute;
+  top: 24px;
+  left: 16px;
+}
