@@ -21,7 +21,7 @@ const BatchedNetwork = ({
 
     return (
         <Sigma
-            renderer="canvas"
+            renderer="webgl"
             settings={{
                 clone: true,
                 defaultLabelColor: "#f2f2f2",
