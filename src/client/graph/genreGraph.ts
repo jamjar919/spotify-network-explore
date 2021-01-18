@@ -27,7 +27,7 @@ export const genreGraph = (
             const timeAdded = Date.parse(track.added_at);
 
             genres.forEach(genre => {
-                uniqueNodes.addOrIncrementSize({
+                uniqueNodes.addOrIncrementSizeLog({
                     id: genre,
                     label: genre,
                     size: 5,
