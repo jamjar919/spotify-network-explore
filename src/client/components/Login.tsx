@@ -15,7 +15,7 @@ const Login = () => (
                 </div>
             </div>
             <div className="login-demo">
-                // demo here
+
             </div>
         </div>
         <div className="login-footer">
