@@ -53,6 +53,10 @@ export const genreGraph = (
     const nodes = uniqueNodes.get();
     const edges = uniqueEdges.get();
 
+    console.log({
+        nodes, edges
+    });
+
     return {
         nodes,
         edges

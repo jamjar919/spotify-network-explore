@@ -6,6 +6,7 @@ import CustomForceAtlas2 from "../CustomForceAtlas2";
 import {useDispatch} from "react-redux";
 import {selectNodeAction} from "../../actions/batchedGraphActions";
 import {selectShouldAnimateGraph} from "../../selectors/batchedGraphSelector";
+import {graphSettings, graphStyle} from "../../graph/graphSettings";
 
 type BatchedNetworkPropTypes = {
     batchedGraph: TimeBatchedGraph[],
@@ -22,18 +23,8 @@ const BatchedNetwork = ({
     return (
         <Sigma
             renderer="webgl"
-            settings={{
-                clone: true,
-                defaultLabelColor: "#f2f2f2",
-                defaultLabelHoverColor: "#2a2d32",
-                defaultHoverLabelBGColor: "#f2f2f2",
-                defaultNodeColor: "#f2f2f2",
-                edgeHoverExtremities: true,
-                hideEdgesOnMove: true
-            }}
-            style={{
-                height: "100vh",
-            }}
+            settings={graphSettings}
+            style={graphStyle}
             onSigmaException={(e: any) => console.error(e)}
             onClickNode={(e: SigmaEvent) => {
                 if (e.data.node?.id) {
@@ -41,18 +32,19 @@ const BatchedNetwork = ({
                 }
             }}
         >
-               <CustomForceAtlas2
-                    stopSimulation={!animating}
-                    slowDown={2}
-                    iterationsPerRender={1}
-                    barnesHutOptimize
-                    barnesHutTheta={1}
-                    linLogMode={true}
-                    gravity={0.1}
-                    worker
-                >
-                   <BatchedGraphLoader batchedGraph={batchedGraph} batchToLoad={currentBatch} />
-               </CustomForceAtlas2>
+            <CustomForceAtlas2
+                stopSimulation={!animating}
+                slowDown={2}
+                scalingRatio={2}
+                iterationsPerRender={1}
+                barnesHutOptimize
+                barnesHutTheta={1}
+                linLogMode={true}
+                gravity={0.01}
+                worker
+            >
+                <BatchedGraphLoader batchedGraph={batchedGraph} batchToLoad={currentBatch} />
+            </CustomForceAtlas2>
         </Sigma>
     );
 };

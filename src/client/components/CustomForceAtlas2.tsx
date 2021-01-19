@@ -17,7 +17,8 @@ type Props = {
     slowDown?: number,
     gravity?: number,
     sigma?: Sigma,
-    stopSimulation?: boolean
+    stopSimulation?: boolean,
+    startingIterations?: number
 };
 
 const stripOptions = (props: Props): Props => {

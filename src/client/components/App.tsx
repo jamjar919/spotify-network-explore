@@ -4,7 +4,7 @@ import {fetchProfileAction} from "../actions/spotifyProfileAction";
 import {fetchPlaylistsAction} from "../actions/spotifyPlaylistsAction";
 import {fetchTracksAction} from "../actions/spotifyTracksAction";
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
-import Login from "./Login";
+import Login from "./login/Login";
 import {AjaxState, isFailedFetch, isLoadingOrEmpty, isSuccessfulFetch} from "../reducers/ajaxState";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import UserObjectPrivate = SpotifyApi.UserObjectPrivate;

@@ -1,5 +1,6 @@
 import React from "react";
-import Logo from "../svg/logo-white.svg";
+import Logo from "../../svg/logo-white.svg";
+import {DemoGraph} from "./DemoGraph";
 
 const Login = () => (
     <div className="login-container">
@@ -20,7 +21,7 @@ const Login = () => (
                 </div>
             </div>
             <div className="login-demo">
-
+                <DemoGraph />
             </div>
         </div>
         <div className="login-footer">
