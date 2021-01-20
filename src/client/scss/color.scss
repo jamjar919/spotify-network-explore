@@ -10,7 +10,7 @@ $grey-800: #55575b;
 $grey-900: #2a2d32;
 $black:    #000 !default;
 
-$background: #2a2d32;
+$background: #f2f2f2;
 
 $dark-spring-green: #1b7d4bff;
 $green-cyan: #2f9963ff;
@@ -27,7 +27,7 @@ $spotify-green: #1DB954;
 
 body {
   background-color: $background;
-  color: $grey-100;
+  color: $grey-900;
 }
 
 a {

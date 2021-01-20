@@ -35,12 +35,12 @@ const BatchedNetwork = ({
             <CustomForceAtlas2
                 stopSimulation={!animating}
                 slowDown={2}
-                scalingRatio={2}
+                scalingRatio={1}
                 iterationsPerRender={1}
                 barnesHutOptimize
                 barnesHutTheta={1}
                 linLogMode={true}
-                gravity={0.01}
+                gravity={0.1}
                 worker
             >
                 <BatchedGraphLoader batchedGraph={batchedGraph} batchToLoad={currentBatch} />

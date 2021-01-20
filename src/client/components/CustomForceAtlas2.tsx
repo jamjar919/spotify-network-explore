@@ -62,6 +62,12 @@ const CustomForceAtlas2: FunctionComponent<Props> = (props) => {
                 sigma.startForceAtlas2(stripOptions(props));
             }
         }
+
+        return () => {
+            if (sigma) {
+                sigma.killForceAtlas2();
+            }
+        }
     });
 
     return <div>{ embedProps(children, { sigma }) }</div>;

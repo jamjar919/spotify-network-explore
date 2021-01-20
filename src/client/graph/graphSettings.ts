@@ -1,13 +1,13 @@
 export const graphSettings = {
     clone: true,
-    defaultLabelColor: "#f2f2f2",
-    defaultLabelHoverColor: "#2a2d32",
-    defaultHoverLabelBGColor: "#f2f2f2",
-    defaultNodeColor: "#f2f2f2",
-    edgeHoverExtremities: true,
+    defaultLabelColor: "#000",
+    defaultLabelHoverColor: "#f2f2f2",
+    defaultHoverLabelBGColor: "#000",
+    defaultNodeColor: "#000",
     hideEdgesOnMove: true,
     maxNodeSize: 10,
-    maxEdgeSize: 10
+    maxEdgeSize: 10,
+    drawEdges: false
 };
 
 export const graphStyle = {
