@@ -30,7 +30,7 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = () => {
             }
             <div className="batched-graph-slice-container">
             {
-                graph.map((batch, index) =>
+                graph?.map((batch, index) =>
                     <BatchedGraphControlTimeSlice
                         key={index}
                         batchIndex={index}
