@@ -1,4 +1,5 @@
 import React, {FunctionComponent, useState} from "react";
+import { Slider } from '@material-ui/core';
 import {TimeBatchedGraph} from "../../../graph/graphTimeBatcher";
 import {selectCurrentBatch, selectCurrentBatchIndex, selectCurrentGraph} from "../../../selectors/batchedGraphSelector";
 import {StatelessLoader} from "../../StatelessLoader";
@@ -22,32 +23,17 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = () => {
         return <StatelessLoader/>;
     }
 
+
     return (
-        <div className="batched-graph-control">
-            { currentBatch !== null ? (<>
-                    <BatchedGraphControlBatchControl />
-                </>) : ""
-            }
-            <div className="batched-graph-slice-container">
-            {
-                graph?.map((batch, index) =>
-                    <BatchedGraphControlTimeSlice
-                        key={index}
-                        batchIndex={index}
-                        batch={batch}
-                        isSelected={(currentBatch != null) && (currentBatchIndex >= index)}
-                        onClick={(_batch, batchIndex) => setBatchNumberAction(batchIndex)(dispatch)}
-                        onMouseEnter={(batch) => setHoveredBatch(batch)}
-                        onMouseLeave={() => setHoveredBatch(undefined)}
-                    />
-                )
-            }
-            </div>
-            { currentBatch !== null ? (<>
-                    <BatchedGraphControlDisplay currentBatch={currentBatch} currentHoveredBatch={currentHoveredBatch} />
-                </>) : ""
-            }
-        </div>
+        <Slider
+            defaultValue={0}
+            aria-labelledby="discrete-slider-small-steps"
+            step={1}
+            marks
+            min={}
+            max={0.0000001}
+            valueLabelDisplay="auto"
+        />
     );
 };
 
