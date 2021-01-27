@@ -1,55 +1,11 @@
 .batched-graph-control {
-
-  ul.batched-graph-display {
-    margin: 0 20px;
-
-    li {
-      margin-top: 10px;
-    }
-
-    li.current-selected-batch {
-      font-size: 28px;
-      font-weight: 800;
-    }
-
-    li.current-hovered-batch {
-      font-size: 20px;
-      font-weight: 500;
-    }
-  }
-
-  .batched-graph-slice-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: scroll;
-
-    .batched-graph-slice {
-      flex: 1 1;
-      height: 50px;
-      background-color: $grey-700;
-      border-top: 1px solid $grey-300;
-
-      &.selected {
-        background-color: $grey-300;
-
-        & + :not(.selected) {
-          border-left: 5px solid $spotify-green;
-        }
-      }
-
-      &:hover {
-        background-color: $spotify-green;
-      }
-    }
-  }
-
   .batch-controller {
     display: flex;
     flex-direction: row;
+    margin: 1.2em 0;
 
     button {
-      margin: 7px;
+      margin: auto;
       background-color: transparent;
       border: none;
       outline: none;
@@ -67,4 +23,52 @@
     }
   }
 
+  .batched-graph-control-slider-container {
+    display: flex;
+  }
+
+  .batched-graph-control-slider {
+    padding-top: 4em;
+    margin: auto;
+    width: calc(90% - 50px);
+  }
+
+  .MuiSlider-root {
+    color: $spotify-green;
+  }
+
+  .MuiSlider-rail, .MuiSlider-track, .MuiSlider-mark {
+    height: 10px;
+  }
+
+  .MuiSlider-thumb {
+    width: 20px;
+    height: 20px;
+
+    &.MuiSlider-active {
+      box-shadow: 0 0 0 14px rgba(29, 185, 84, 0.16);
+    }
+
+    &.Mui-focusVisible, &:hover {
+      box-shadow: 0 0 0 8px rgba(29, 185, 84, 0.16);
+    }
+  }
+
+  .MuiSlider-thumb {
+    display: block;
+  }
+
+  .slider-thumb {
+    position: relative;
+    width: 300px;
+    left: -145px;
+    bottom: 2.5em;
+    text-align: center;
+  }
+
+  .slider-thumb-content {
+    color: $white;
+    background-color: $spotify-green;
+    padding: .5em;
+  }
 }

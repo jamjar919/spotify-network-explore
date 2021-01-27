@@ -12,7 +12,7 @@ import {
 import {usePrevious} from "../../../hooks/usePrevious";
 import {selectIsPlaying, selectPlaybackTimeStep} from "../../../selectors/batchedGraphSelector";
 
-const BatchedGraphControlBatchControl: FunctionComponent<{}> = () => {
+const BatchedGraphControlPlayPause: FunctionComponent<{}> = () => {
     const dispatch = useDispatch();
     const [iteratorReference, setIteratorReference] = useState<NodeJS.Timeout | null>(null);
     const isPlaying = selectIsPlaying();
@@ -56,4 +56,4 @@ const BatchedGraphControlBatchControl: FunctionComponent<{}> = () => {
     );
 };
 
-export default BatchedGraphControlBatchControl;
+export default BatchedGraphControlPlayPause;
