@@ -25,7 +25,7 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = () => {
         setTimeout(() => {
             const startBatchIndex = Math.floor(graph.length * 0.85);
             setBatchNumberAction(startBatchIndex)(dispatch);
-        }, 100)
+        }, 100);
     }, [graph]);
 
     return (
