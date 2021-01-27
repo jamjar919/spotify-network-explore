@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from "react";
+import React, {FunctionComponent, useEffect} from "react";
 import { Slider } from "@material-ui/core";
 import moment from "moment";
 import {selectCurrentBatchIndex, selectCurrentGraph} from "../../../selectors/batchedGraphSelector";
@@ -20,6 +20,13 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = () => {
     if (graph === null || currentBatchIndex === null) {
         return <StatelessLoader/>;
     }
+
+    useEffect(() => {
+        setTimeout(() => {
+            const startBatchIndex = Math.floor(graph.length * 0.85);
+            setBatchNumberAction(startBatchIndex)(dispatch);
+        }, 100)
+    }, [graph]);
 
     return (
         <div className="batched-graph-control">
