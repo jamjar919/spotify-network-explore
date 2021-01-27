@@ -22,10 +22,12 @@ const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = () => {
     }
 
     useEffect(() => {
-        setTimeout(() => {
+        const timeoutId = setTimeout(() => {
             const startBatchIndex = Math.floor(graph.length * 0.85);
             setBatchNumberAction(startBatchIndex)(dispatch);
-        }, 100);
+        }, 1);
+
+        return () => clearTimeout(timeoutId);
     }, [graph]);
 
     return (
