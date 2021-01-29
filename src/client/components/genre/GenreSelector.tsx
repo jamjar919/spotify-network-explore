@@ -21,8 +21,19 @@ export const GenreSelector: FunctionComponent<{}> = () => {
 
     return (
         <div className="genre-selector">
-            {selectedGenre}
-            {JSON.stringify(selected)}
+            <h2>{selectedGenre}</h2>
+            {
+                selected.map(({ playlist, tracks }) => (
+                    <div key={playlist.id}>
+                        <h4>{playlist.name}</h4>
+                        <ul>
+                            {tracks.map((track) => (
+                                <li key={track.track.id}>{track.track.name}</li>
+                            ))}
+                        </ul>
+                    </div>
+                ))
+            }
         </div>
     );
 };
