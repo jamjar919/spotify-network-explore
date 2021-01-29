@@ -12,6 +12,9 @@ import BatchedGraphSettings from "./batchedgraph/settings/BatchedGraphSettings";
 import NotificationsBar from "./notificationsbar/NotificationsBar";
 import {genreGraph} from "../graph/genreGraph";
 import {OverlayBase} from "./overlayui/OverlayBase";
+import {OverlayBox} from "./overlayui/OverlayBox";
+import {OverlayHeader} from "./overlayui/OverlayHeader";
+import {GenreSelector} from "./genre/GenreSelector";
 
 type PlaylistNetworkViewerPropTypes = {
     playlists: PlaylistBaseObject[],
@@ -53,7 +56,13 @@ const PlaylistNetworkViewer = ({
             />
             <BatchedGraphSettings />
             <OverlayBase>
-                <BatchedGraphControl />
+                <OverlayHeader />
+                <OverlayBox>
+                    <BatchedGraphControl />
+                </OverlayBox>
+                <OverlayBox>
+                    <GenreSelector/>
+                </OverlayBox>
             </OverlayBase>
         </>
     );

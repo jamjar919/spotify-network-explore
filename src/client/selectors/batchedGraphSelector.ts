@@ -2,6 +2,11 @@ import {useSelector} from "react-redux";
 import {State} from "../reducers/rootReducer";
 import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 import {BatchTimeUnit} from "../reducers/batchedGraphReducer";
+import {isSuccessfulFetch} from "../reducers/ajaxState";
+import {getTracksAndPlaylistFromGenre} from "../util/artistUtil";
+import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
+import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
+import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 
 export const selectCurrentGraph = (): TimeBatchedGraph[] | null => useSelector((state: State) =>
     state.batchedGraph?.graph || null
@@ -40,6 +45,28 @@ export const selectIsPlaying = (): boolean => useSelector((state: State) =>
     state.batchedGraph?.playback || false
 );
 
-export const selectSelectedNodes = (): string[] => useSelector((state: State) =>
-    state.batchedGraph?.selectedNodes || []
+export const selectSelectedGenre = (): string | null => useSelector((state: State) =>
+    state.batchedGraph?.selectedNode || null
 );
+
+export const selectSelectedNodeInformation = (
+    genre: string | null
+): {
+    playlist: PlaylistBaseObject,
+    tracks: PlaylistTrackObject[]
+}[] | null => useSelector((state: State) => {
+    if (
+        genre !== null &&
+        state.batchedGraph &&
+        state.batchedGraph.selectedNode &&
+        state.batchedGraph.selectedNode.length > 0 &&
+        isSuccessfulFetch(state.spotifyTracks)
+    ) {
+        return getTracksAndPlaylistFromGenre(
+            genre,
+            state.spotifyTracks as SpotifyTracksMap,
+            state.spotifyPlaylists as PlaylistBaseObject[]
+        );
+    }
+    return null;
+});

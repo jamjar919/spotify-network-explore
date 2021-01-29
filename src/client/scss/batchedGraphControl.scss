@@ -2,7 +2,7 @@
   .batch-controller {
     display: flex;
     flex-direction: row;
-    margin: 1.2em 0;
+    padding: 1.2em 0;
 
     button {
       margin: auto;
@@ -30,7 +30,6 @@
   .batched-graph-control-slider {
     padding-top: 4em;
     margin: auto;
-    width: calc(90% - 50px);
   }
 
   .MuiSlider-root {

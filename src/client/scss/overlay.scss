@@ -3,13 +3,16 @@
   top: 32px;
   left: 72px;
   margin: 0 8px 8px;
-  max-height: calc(100% - 64px);
   max-width: 100%;
-  box-sizing: border-box;
   position: absolute;
+}
+
+.overlay-box {
   background-color: $white;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16);
   color: $grey-900;
+  padding: 0 50px;
+  margin-bottom: 1em;
 }
 
 .overlay-header {

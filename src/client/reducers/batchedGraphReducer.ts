@@ -5,7 +5,7 @@ export type BatchTimeUnit = "day" | "week" | "month" | "year";
 export type BatchedGraphState = {
     graph: TimeBatchedGraph[],
     currentBatchIndex: number,
-    selectedNodes: string[],
+    selectedNode: string | null,
     animate: boolean,
     batchUnit: BatchTimeUnit,
     playback: boolean,
@@ -19,7 +19,7 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
                 graph: action.payload.graph as TimeBatchedGraph[],
                 batchUnit: action.payload.batchUnit as BatchTimeUnit,
                 currentBatchIndex: 0,
-                selectedNodes: [],
+                selectedNode: null,
                 animate: state ? state.animate : false,
                 playback: false,
                 playbackTimeStep: 100
@@ -76,7 +76,7 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
             if (state) {
                 return {
                     ...state,
-                    selectedNodes: updateSelectedNodesList(state.selectedNodes, action.payload as string)
+                    selectedNode: updateSelectedNode(state.selectedNode, action.payload as string)
                 }
             }
             return state;
@@ -110,16 +110,10 @@ const isBatchNumberValid = (batchNumber: number, state: BatchedGraphState): bool
     return (batchNumber >= 0) && (batchNumber < state.graph.length)
 };
 
-const updateSelectedNodesList = (list: string[], newNode: string): string[] => {
-    if (list.length === 0) {
-        return [newNode];
+const updateSelectedNode = (current: string | null, newNode: string): string | null => {
+    if (current === newNode) {
+        return null;
     }
 
-    // Deselect a node if it was already selected
-    if (list.indexOf(newNode) > -1) {
-        return Object.assign([], list.filter(id => id !== newNode));
-    }
-
-    list.push(newNode);
-    return Object.assign([], list);
+    return newNode;
 };
