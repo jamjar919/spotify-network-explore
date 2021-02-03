@@ -20,7 +20,7 @@ export const tracksGraph = (
             const position = getRandomPosition();
             playlistNodeCoords[playlist.id] = position;
             return {
-                size: 500,
+                size: 50,
                 type: 'square',
                 image: getImageFromSpotifyArray(playlist.images),
                 ...position

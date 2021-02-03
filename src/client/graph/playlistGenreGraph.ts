@@ -1,24 +1,26 @@
-import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
+import {SpotifyArtistMap} from "../reducers/spotifyTracksReducer";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {getGenresForTrack} from "../util/artistUtil";
 import {UniqueGraphObjectUtil} from "../util/uniqueGraphObjectUtil";
 import {getRandomPosition} from "./positionUtil";
 import {colorFromString} from "../util/color";
 import {getImageFromSpotifyArray} from "../util/spotifyImageUtil";
+import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 
 export const playlistGenreGraph = (
     playlists: PlaylistBaseObject[],
-    tracks: SpotifyTracksMap
+    tracksMap: {[playlistId: string]: PlaylistTrackObject[]},
+    artistsMap: SpotifyArtistMap
 ): SigmaGraph => {
 
     const uniqueNodes = new UniqueGraphObjectUtil<SigmaNode>();
     const uniqueEdges = new UniqueGraphObjectUtil<SigmaEdge>();
 
-    Object.entries(tracks.tracksMap)
+    Object.entries(tracksMap)
         .flatMap(([playlistId, playlist]) => playlist.map(track => ({
             playlist: playlists.filter(playlist => playlist.id === playlistId)[0],
             track,
-            genres: getGenresForTrack(track, tracks.artistsMap)
+            genres: getGenresForTrack(track, artistsMap)
         })))
         .forEach(({ playlist, track, genres }) => {
             if (!track.track.id) {
