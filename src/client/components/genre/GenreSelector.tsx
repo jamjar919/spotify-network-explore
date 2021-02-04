@@ -5,9 +5,11 @@ import {SpotifyArtistMap, SpotifyTracksMap} from "../../reducers/spotifyTracksRe
 import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 import {AjaxState, isSuccessfulFetch} from "../../reducers/ajaxState";
 import {selectSpotifyTracks} from "../../selectors/spotifySelector";
-import {ForceAtlas2, Sigma} from "react-sigma";
+import {Sigma} from "react-sigma";
+import {graphSettings} from "../../graph/graphSettings";
 import GraphLoader from "../GraphLoader";
 import {tracksGraph} from "../../graph/tracksGraph";
+import CustomForceAtlas2 from "../CustomForceAtlas2";
 
 const NothingSelected = () => (
     <div className="genre-selector">
@@ -44,32 +46,32 @@ export const GenreSelector: FunctionComponent<{}> = () => {
             <h2>{selectedGenre}</h2>
             <Sigma
                 renderer="canvas"
+                settings={{
+                    ...graphSettings,
+                    drawEdges: true
+                }}
             >
                 <GraphLoader graph={graph}>
-                    <ForceAtlas2
+                    <CustomForceAtlas2
                         slowDown={2}
                         iterationsPerRender={1}
-                        barnesHutOptimize
-                        barnesHutTheta={1}
                         linLogMode={true}
-                        gravity={0.1}
-                        timeout={10000}
                         worker
                     />
                 </GraphLoader>
             </Sigma>
+            {
+                selected.map(({ playlist, tracks }) => (
+                    <div key={playlist.id}>
+                        <h4>{playlist.name}</h4>
+                        <ul>
+                            {tracks.map((track) => (
+                                <li key={track.track.id}>{track.track.name}</li>
+                            ))}
+                        </ul>
+                    </div>
+                ))
+            }
         </div>
     );
 };
-
-/**
- selected.map(({ playlist, tracks }) => (
- <div key={playlist.id}>
- <h4>{playlist.name}</h4>
- <ul>
- {tracks.map((track) => (
-        <li key={track.track.id}>{track.track.name}</li>
- ))}
- </ul>
- </div>
- )) */
