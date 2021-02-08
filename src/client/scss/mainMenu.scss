@@ -1,0 +1,13 @@
+.main-menu-container {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+
+  .main-menu-top-button {
+    border-width: 0;
+    border-style: solid;
+    border-color: #d2d6dc;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  }
+
+}

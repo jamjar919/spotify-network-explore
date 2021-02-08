@@ -8,13 +8,13 @@ import {StatelessLoader} from "./StatelessLoader";
 import {selectCurrentBatchIndex, selectCurrentGraph, selectCurrentTimeUnit} from "../selectors/batchedGraphSelector";
 import {useDispatch} from "react-redux";
 import {setGraphAction} from "../actions/batchedGraphActions";
-import BatchedGraphSettings from "./batchedgraph/settings/BatchedGraphSettings";
 import NotificationsBar from "./notificationsbar/NotificationsBar";
 import {genreGraph} from "../graph/genreGraph";
 import {OverlayBase} from "./overlayui/OverlayBase";
 import {OverlayBox} from "./overlayui/OverlayBox";
 import {OverlayHeader} from "./overlayui/OverlayHeader";
 import {GenreSelector} from "./genre/GenreSelector";
+import {MainMenu} from "./MainMenu";
 
 type PlaylistNetworkViewerPropTypes = {
     playlists: PlaylistBaseObject[],
@@ -54,7 +54,7 @@ const PlaylistNetworkViewer = ({
                 batchedGraph={graph}
                 currentBatch={currentBatchIndex}
             />
-            <BatchedGraphSettings />
+            <MainMenu />
             <OverlayBase>
                 <OverlayHeader />
                 <OverlayBox>
