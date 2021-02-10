@@ -4,10 +4,49 @@
   right: 32px;
 
   .main-menu-top-button {
-    border-width: 0;
-    border-style: solid;
-    border-color: #d2d6dc;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+    background-color: $black;
+    color: white;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16);
+    border: none;
+    display: flex;
+    padding: 10px 15px;
+    min-width: 100px;
+    margin-left: auto;
+
+    &:focus {
+      outline: none;
+    }
   }
 
+  .main-menu-caret-down {
+    height: 1.25rem;
+    width: 1.25rem;
+    margin: auto -0.25rem auto 0.5rem;
+  }
+
+  .main-menu-items {
+    background-color: white;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16);
+    color: black;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .main-menu-item {
+    text-align: left;
+    padding: 10px 15px;
+
+    &:focus {
+      outline: none;
+    }
+
+    &.active, &:hover {
+      background-color: $grey-300;
+    }
+  }
 }
