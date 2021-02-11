@@ -15,6 +15,7 @@
     padding: 10px 15px;
     min-width: 100px;
     margin: 0 0 .5rem auto;
+    cursor: pointer;
 
     &:focus {
       outline: none;
@@ -40,6 +41,7 @@
   .main-menu-item {
     display: flex;
     text-align: left;
+    cursor: pointer;
 
     &:focus {
       outline: none;
@@ -64,9 +66,7 @@
     padding: 10px 15px;
   }
 
-  hr {
-    margin: 0;
-    border-color: $grey-300;
-    border-width: 1px;
+  .divider {
+    border-bottom: 1px solid $grey-400;
   }
 }
