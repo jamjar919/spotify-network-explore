@@ -1,6 +1,7 @@
 export class Path {
     public static readonly SignIn = {
         SPOTIFY_SIGN_IN: '/spotify/login',
+        SPOTIFY_SIGN_OUT: '/spotify/logout',
         SPOTIFY_CALLBACK: '/spotify/callback',
         SPOTIFY_REFRESH_TOKEN: '/spotify/refreshToken'
     };

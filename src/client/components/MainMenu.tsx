@@ -29,23 +29,32 @@ export const MainMenu: FunctionComponent<{}> = () => {
                     >
                         <Menu.Items className="main-menu-items">
                             <Menu.Item>
+                                {() => (
+                                    <div className="main-menu-item-static">
+                                        <div>Signed in as</div>
+                                        <div><strong>{profile.email}</strong></div>
+                                    </div>
+                                )}
+                            </Menu.Item>
+                            <hr />
+                            <Menu.Item>
                                 {({ active }) => (
                                     <div className={classNames(active ? "menu-item-active" : "", "main-menu-item")}>
-                                        Sign Out
+                                        <a href="/spotify/logout">Sign Out</a>
                                     </div>
                                 )}
                             </Menu.Item>
                             <Menu.Item>
                                 {({ active }) => (
                                     <div className={classNames(active ? "menu-item-active" : "", "main-menu-item")}>
-                                        Settings
+                                        <span>Settings</span>
                                     </div>
                                 )}
                             </Menu.Item>
                             <Menu.Item>
                                 {({ active }) => (
                                     <div className={classNames(active ? "menu-item-active" : "", "main-menu-item")}>
-                                        Made by <a href="https://thejamespaterson.com">James Paterson</a>
+                                        <a href="https://thejamespaterson.com">Made by <u>James Paterson</u></a>
                                     </div>
                                 )}
                             </Menu.Item>

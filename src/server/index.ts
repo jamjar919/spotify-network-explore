@@ -7,6 +7,7 @@ import {Path} from "../common/path";
 import {playlistList} from "./routes/playlist";
 import {tracks} from "./routes/tracks";
 import {affinity} from "./routes/affinity";
+import {logout} from "./routes/spotifyLogout";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.static(__dirname + "/client"));
 
 // Spotify sign in
 app.get(Path.SignIn.SPOTIFY_SIGN_IN, login);
+app.get(Path.SignIn.SPOTIFY_SIGN_OUT, logout);
 app.get(Path.SignIn.SPOTIFY_CALLBACK, callback);
 app.get(Path.SignIn.SPOTIFY_REFRESH_TOKEN, refreshToken);
 
