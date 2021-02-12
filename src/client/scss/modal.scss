@@ -22,15 +22,14 @@
 
     min-width: 33vw;
 
-    color: $grey-100;
-    background-color: $grey-800;
-    border-radius: 1em;
+    color: black;
+    background-color: $white;
   }
 
   .modal-header {
     display: flex;
     flex-direction: row;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   .modal-close {
@@ -41,7 +40,7 @@
       border: none;
       outline: none;
       cursor: pointer;
-      color: $grey-100;
+      color: black;
       font-size: 20px;
 
       &:hover {

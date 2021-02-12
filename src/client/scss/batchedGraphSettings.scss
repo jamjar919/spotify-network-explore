@@ -15,3 +15,55 @@
     }
   }
 }
+
+.animation-control-wrapper {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+
+  button {
+    display: flex;
+    width: 75px;
+    height: 75px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 50px;
+    border: none;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16);
+    transition: box-shadow;
+    transition-timing-function: ease-in-out;
+    transition-duration:250ms;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      box-shadow: 0 0 0 16px rgb(0 0 0 / 5%);
+    }
+  }
+
+  svg {
+    overflow: visible;
+    margin: auto;
+
+    path {
+      fill: black;
+      stroke-width: 2px;
+      stroke: #000;
+    }
+  }
+
+  .active svg path {
+    stroke-dasharray: 100;
+    animation: dash 10s linear infinite;
+    fill: white;
+  }
+
+  @keyframes dash {
+    to {
+      stroke-dashoffset: 1000;
+    }
+  }
+}
