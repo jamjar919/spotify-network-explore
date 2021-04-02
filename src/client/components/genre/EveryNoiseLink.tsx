@@ -10,5 +10,5 @@ const getCompressedGenre = (genre: string) =>
         .replace(" ", "");
 
 export const EveryNoiseLink: FunctionComponent<EveryNoiseLinkProps> = ({ genre, children }) => (
-    <a href={`https://everynoise.com/engenremap-${getCompressedGenre(genre)}.html`}>{children}</a>
+    <a href={`https://everynoise.com/engenremap-${getCompressedGenre(genre)}.html`} target="_blank">{children}</a>
 );

@@ -51,10 +51,12 @@ const PlaylistNetworkViewer = ({
     return (
         <>
             <NotificationsBar />
-            <BatchedNetwork
-                batchedGraph={graph}
-                currentBatch={currentBatchIndex}
-            />
+            <div className="networkContainer">
+                <BatchedNetwork
+                    batchedGraph={graph}
+                    currentBatch={currentBatchIndex}
+                />
+            </div>
             <MainMenu />
             <AnimationControl />
             <OverlayBase>

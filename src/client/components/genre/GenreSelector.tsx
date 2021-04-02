@@ -4,7 +4,7 @@ import {SpotifyTracksMap} from "../../reducers/spotifyTracksReducer";
 import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 import {AjaxState, isSuccessfulFetch} from "../../reducers/ajaxState";
 import {selectSpotifyTracks} from "../../selectors/spotifySelector";
-import {Badge} from "../generic/Badge";
+import {Badge, BadgeRow} from "../generic/Badge";
 import {EveryNoiseLink} from "./EveryNoiseLink";
 import {colorFromString} from "../../util/color";
 
@@ -34,9 +34,13 @@ export const GenreSelector: FunctionComponent<{}> = () => {
     return (
         <div className="genre-selector">
             <h2>{selectedGenre}</h2>
-            <EveryNoiseLink genre={selectedGenre}>
-                <Badge color={colorFromString(selectedGenre)}>Every Noise</Badge>
-            </EveryNoiseLink>
+            <BadgeRow>
+                <Badge color={colorFromString(selectedGenre)}>
+                    <EveryNoiseLink genre={selectedGenre}>
+                        Every Noise
+                    </EveryNoiseLink>
+                </Badge>
+            </BadgeRow>
             {
                 selected.map(({ playlist, tracks }) => (
                     <div key={playlist.id}>

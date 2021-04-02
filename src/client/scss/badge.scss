@@ -1,5 +1,13 @@
 @import "color";
 
+.badgeRow {
+  margin: 10px -5px;
+
+  .badge {
+    margin: 5px;
+  }
+}
+
 .badge {
   font-size: 14px;
   border-radius: 10px;
@@ -10,5 +18,10 @@
 
   &:hover {
     opacity: 0.8;
+  }
+
+  a, span {
+    color: $white;
+    text-decoration: none;
   }
 }
