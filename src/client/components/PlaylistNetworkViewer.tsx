@@ -57,7 +57,6 @@ const PlaylistNetworkViewer = ({
                     currentBatch={currentBatchIndex}
                 />
             </div>
-            <MainMenu />
             <AnimationControl />
             <OverlayBase>
                 <OverlayHeader />
@@ -68,6 +67,7 @@ const PlaylistNetworkViewer = ({
                     <GenreSelector/>
                 </OverlayBox>
             </OverlayBase>
+            <MainMenu />
         </>
     );
 };
