@@ -7,6 +7,7 @@ import {getTracksAndPlaylistFromGenre} from "../util/artistUtil";
 import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
+import {useMemo} from "react";
 
 export const selectCurrentGraph = (): TimeBatchedGraph[] | null => useSelector((state: State) =>
     state.batchedGraph?.graph || null
@@ -54,19 +55,32 @@ export const selectSelectedNodeInformation = (
 ): {
     playlist: PlaylistBaseObject,
     tracks: PlaylistTrackObject[]
-}[] | null => useSelector((state: State) => {
-    if (
-        genre !== null &&
-        state.batchedGraph &&
-        state.batchedGraph.selectedNode &&
-        state.batchedGraph.selectedNode.length > 0 &&
-        isSuccessfulFetch(state.spotifyTracks)
-    ) {
+}[] | null => {
+    const [spotifyTracks, spotifyPlaylists] = useSelector((state: State) => {
+        if (
+            genre !== null &&
+            state.batchedGraph &&
+            state.batchedGraph.selectedNode &&
+            state.batchedGraph.selectedNode.length > 0 &&
+            isSuccessfulFetch(state.spotifyTracks)
+        ) {
+            return [
+                state.spotifyTracks as SpotifyTracksMap,
+                state.spotifyPlaylists as PlaylistBaseObject[]
+            ];
+        }
+        return [null, null];
+    });
+
+    return useMemo(() => {
+        if (genre === null || spotifyTracks === null || spotifyPlaylists === null) {
+            return null;
+        }
+
         return getTracksAndPlaylistFromGenre(
-            genre,
-            state.spotifyTracks as SpotifyTracksMap,
-            state.spotifyPlaylists as PlaylistBaseObject[]
+            genre as string,
+            spotifyTracks as SpotifyTracksMap,
+            spotifyPlaylists as PlaylistBaseObject[]
         );
-    }
-    return null;
-});
+    }, [genre, spotifyTracks, spotifyPlaylists])
+};

@@ -1,0 +1,14 @@
+@import "color";
+
+.badge {
+  font-size: 14px;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: $grey-700;
+  color: $white;
+  text-decoration: none;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

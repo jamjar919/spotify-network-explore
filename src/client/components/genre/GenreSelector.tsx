@@ -1,15 +1,12 @@
 import React, {FunctionComponent} from "react";
 import {selectSelectedGenre, selectSelectedNodeInformation} from "../../selectors/batchedGraphSelector";
-import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
-import {SpotifyArtistMap, SpotifyTracksMap} from "../../reducers/spotifyTracksReducer";
+import {SpotifyTracksMap} from "../../reducers/spotifyTracksReducer";
 import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 import {AjaxState, isSuccessfulFetch} from "../../reducers/ajaxState";
 import {selectSpotifyTracks} from "../../selectors/spotifySelector";
-import {Sigma} from "react-sigma";
-import {graphSettings} from "../../graph/graphSettings";
-import GraphLoader from "../GraphLoader";
-import {tracksGraph} from "../../graph/tracksGraph";
-import CustomForceAtlas2 from "../CustomForceAtlas2";
+import {Badge} from "../generic/Badge";
+import {EveryNoiseLink} from "./EveryNoiseLink";
+import {colorFromString} from "../../util/color";
 
 const NothingSelected = () => (
     <div className="genre-selector">
@@ -23,43 +20,23 @@ export const GenreSelector: FunctionComponent<{}> = () => {
     const selected = selectSelectedNodeInformation(selectedGenre);
     const tracksOrAjaxState: SpotifyTracksMap | AjaxState = selectSpotifyTracks();
 
-    if (selected === null || !isSuccessfulFetch(tracksOrAjaxState)) {
+    if (selectedGenre === null || selected === null || !isSuccessfulFetch(tracksOrAjaxState)) {
         return <NothingSelected />
     }
 
-    const playlists: PlaylistBaseObject[] = selected.map(item => item.playlist);
+    // const playlists: PlaylistBaseObject[] = selected.map(item => item.playlist);
     const tracksMap: {[playlistId: string]: PlaylistTrackObject[]} = {};
     selected.forEach((item) => {
         tracksMap[item.playlist.id] = item.tracks;
     });
-    const artistsMap: SpotifyArtistMap = (tracksOrAjaxState as SpotifyTracksMap).artistsMap;
-
-    const graph = tracksGraph(
-        playlists,
-        {tracksMap, artistsMap}
-    );
-
-    console.log(selectedGenre, selected, graph);
+    // const artistsMap: SpotifyArtistMap = (tracksOrAjaxState as SpotifyTracksMap).artistsMap;
 
     return (
         <div className="genre-selector">
             <h2>{selectedGenre}</h2>
-            <Sigma
-                renderer="canvas"
-                settings={{
-                    ...graphSettings,
-                    drawEdges: true
-                }}
-            >
-                <GraphLoader graph={graph}>
-                    <CustomForceAtlas2
-                        slowDown={2}
-                        iterationsPerRender={1}
-                        linLogMode={true}
-                        worker
-                    />
-                </GraphLoader>
-            </Sigma>
+            <EveryNoiseLink genre={selectedGenre}>
+                <Badge color={colorFromString(selectedGenre)}>Every Noise</Badge>
+            </EveryNoiseLink>
             {
                 selected.map(({ playlist, tracks }) => (
                     <div key={playlist.id}>
