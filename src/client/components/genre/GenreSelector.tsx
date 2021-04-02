@@ -7,7 +7,7 @@ import {selectSpotifyTracks} from "../../selectors/spotifySelector";
 import {Badge, BadgeRow} from "../generic/Badge";
 import {EveryNoiseLink} from "./EveryNoiseLink";
 import {colorFromString} from "../../util/color";
-import {Track} from "../generic/spotify/Track";
+import {PlaylistTab} from "./tab/PlaylistTab";
 
 const NothingSelected = () => (
     <div className="genre-selector">
@@ -42,16 +42,7 @@ export const GenreSelector: FunctionComponent<{}> = () => {
                     </EveryNoiseLink>
                 </Badge>
             </BadgeRow>
-            {
-                selected.map(({ playlist, tracks }) => (
-                    <div key={playlist.id}>
-                        <h4>{playlist.name}</h4>
-                        <ul>
-                            {tracks.map((track) => <Track track={track} />)}
-                        </ul>
-                    </div>
-                ))
-            }
+            {<PlaylistTab selected={selected} />}
         </div>
     );
 };
