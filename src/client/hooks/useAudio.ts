@@ -1,6 +1,13 @@
 
 // Global audio element
 let audio: HTMLAudioElement = new Audio();
+audio.addEventListener("canplaythrough", () => {
+    audio.play();
+});
+audio.addEventListener("ended", () => {
+    audio.currentTime = 0;
+    audio.pause();
+});
 
 /**
  * This hook lets you use a single global audio element, ensuring that multiple songs do not play at the same time. The
@@ -28,13 +35,6 @@ export const useAudio = (
             if (onPause) {
                 onPause(audio.src);
             }
-        });
-        audio.addEventListener("canplaythrough", () => {
-            audio.play();
-        });
-        audio.addEventListener("ended", () => {
-            audio.currentTime = 0;
-            audio.pause();
         });
     };
 

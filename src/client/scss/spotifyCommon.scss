@@ -1,0 +1,36 @@
+.spotify-playlist-dropdown {
+  margin: 1em 0;
+
+  .dropdown-button {
+    display: flex;
+    flex-direction: row;
+
+    cursor: pointer;
+    will-change: transform;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    .playlist-size {
+      margin: 0 .5em;
+      height: 19px;
+    }
+
+    .caret-down {
+      margin-left: auto;
+
+      svg {
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+
+  .tracks-container {
+    margin: 0.5em 0 0 0.5em;
+    padding-left: 0.5em;
+    border-left: 5px solid;
+  }
+}

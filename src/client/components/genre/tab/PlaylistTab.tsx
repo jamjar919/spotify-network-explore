@@ -1,8 +1,7 @@
-import React from "react";
-
+import React, {FunctionComponent} from "react";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
-import {Track} from "../../generic/spotify/Track";
+import {Playlist} from "../../generic/spotify/Playlist";
 
 type PlaylistTabProps = {
     selected: {
@@ -11,15 +10,16 @@ type PlaylistTabProps = {
     }[]
 };
 
-export const PlaylistTab: React.FunctionComponent<PlaylistTabProps> = ({ selected }) => (
-    <>
-    {selected.map(({ playlist, tracks }) => (
-        <div key={playlist.id}>
-            <h4>{playlist.name}</h4>
-            <ul>
-                {tracks.map((track) => <Track track={track} />)}
-            </ul>
-        </div>
-    ))}
-    </>
-);
+export const PlaylistTab: FunctionComponent<PlaylistTabProps> = ({ selected }) => {
+    const sorted = selected.sort((a, b) =>
+        b.tracks.length - a.tracks.length
+    );
+
+    return (
+        <>
+            {sorted.map(({ playlist, tracks }) => (
+                <Playlist playlist={playlist} tracks={tracks}/>
+            ))}
+        </>
+    )
+};

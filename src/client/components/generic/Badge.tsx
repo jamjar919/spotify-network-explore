@@ -11,7 +11,7 @@ export const BadgeRow: FunctionComponent<{}> = ({ children }) => (
 );
 
 export const Badge: FunctionComponent<BadgeProps> = ({ color, className, children }) => (
-    <span className={classNames("badge", className)} style={{ backgroundColor: color }}>
+    <div className={classNames("badge", className)} style={{ backgroundColor: color }}>
         {children}
-    </span>
+    </div>
 );
