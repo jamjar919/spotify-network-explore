@@ -1,6 +1,7 @@
 import React, {FunctionComponent, useEffect, useState} from "react";
 import Play from "../../../svg/play.svg";
 import Pause from "../../../svg/pause.svg";
+import {useAudio} from "../../../hooks/useAudio";
 
 type TrackProps = {
     track: SpotifyApi.PlaylistTrackObject
@@ -8,47 +9,37 @@ type TrackProps = {
 
 export const Track: FunctionComponent<TrackProps> = ({ track }) => {
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+    const { play, pause } = useAudio(
+        (newSrc) => setIsPlaying(newSrc === track.track.preview_url),
+        () => setIsPlaying(false)
+    );
     const canPlaySample = track.track.preview_url !== null;
 
+    const handleClick = () => {
+        if (canPlaySample) {
+            // Initialise Audio if not playing
+            if (!isPlaying) {
+                play(track.track.preview_url || "");
+            }
+
+            if (isPlaying) {
+                pause();
+            }
+        }
+    };
+
+    // Pause on unmount
     useEffect(() => {
-        // Initialise Audio if not playing
-        if (isPlaying && canPlaySample && audio === null) {
-            const newAudio = new Audio(track.track.preview_url || undefined);
-            newAudio.addEventListener("canplaythrough", () => {
-                newAudio.play();
-            });
-            newAudio.addEventListener("ended", () => {
-                newAudio.currentTime = 0;
-                newAudio.pause();
-                setIsPlaying(false);
-            });
-            setAudio(newAudio);
-        }
-
-        // Handle pause/play when audio is initialised
-        if (audio !== null) {
-            const isCurrentlyPlaying = !audio.paused;
-
-            if (!isCurrentlyPlaying && isPlaying) {
-                audio.play();
-            }
-
-            if (isCurrentlyPlaying && !isPlaying) {
-                audio.pause();
-            }
-        }
-
         return () => {
-            audio?.pause();
-        }
-
-    }, [isPlaying, audio, track]);
+            pause();
+            setIsPlaying(false);
+        };
+    }, []);
 
     return <div key={track.track.id} className="track">
         {
             canPlaySample &&
-            <button onClick={() => setIsPlaying((prevState => !prevState))}>
+            <button onClick={() => handleClick()}>
                 {isPlaying ? <Pause /> : <Play />}
             </button>
         }
