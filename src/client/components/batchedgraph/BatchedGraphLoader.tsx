@@ -6,6 +6,7 @@ import {usePrevious} from "../../hooks/usePrevious";
 type BatchedGraphLoaderProps = {
     batchedGraph: TimeBatchedGraph[];
     batchToLoad: number;
+    selectedId?: string;
     sigma?: Sigma;
 }
 
@@ -13,6 +14,7 @@ type BatchedGraphLoaderProps = {
  * This component loads a batched graph passed in when the property is changed.
  * @param graph
  * @param sigma
+ * @param selectedId optional selected node
  * @param children
  * @constructor
  */
@@ -20,6 +22,7 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
     batchedGraph,
     batchToLoad,
     sigma,
+    selectedId,
     children
 }) => {
     const [loaded, setLoaded] = useState(false);
@@ -77,10 +80,16 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
         setLoaded(true);
     }, [batchedGraph.length, batchToLoad]);
 
+    useEffect(() => {
+        if (sigma && selectedId) {
+            const node = sigma.graph.nodes(selectedId);
+            console.log(node);
+        }
+    }, [selectedId]);
+
     if (!loaded) {
         return null
     }
-
 
     return (<>{embedProps(children, { sigma })}</>);
 };

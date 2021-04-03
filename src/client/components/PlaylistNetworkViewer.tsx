@@ -5,7 +5,12 @@ import BatchedNetwork from "./batchedgraph/BatchedNetwork";
 import BatchedGraphControl from "./batchedgraph/control/BatchedGraphControl";
 import {graphTimeBatcher} from "../graph/graphTimeBatcher";
 import {StatelessLoader} from "./StatelessLoader";
-import {selectCurrentBatchIndex, selectCurrentGraph, selectCurrentTimeUnit} from "../selectors/batchedGraphSelector";
+import {
+    selectCurrentBatchIndex,
+    selectCurrentGraph,
+    selectCurrentTimeUnit,
+    selectSelectedGenre
+} from "../selectors/batchedGraphSelector";
 import {useDispatch} from "react-redux";
 import {setGraphAction} from "../actions/batchedGraphActions";
 import NotificationsBar from "./notificationsbar/NotificationsBar";
@@ -30,6 +35,7 @@ const PlaylistNetworkViewer = ({
     const graph = selectCurrentGraph();
     const currentBatchIndex = selectCurrentBatchIndex();
     const timeUnit = selectCurrentTimeUnit();
+    const selectedGenre = selectSelectedGenre();
 
     // Load the graph on render
     useEffect(() => {
@@ -55,6 +61,7 @@ const PlaylistNetworkViewer = ({
                 <BatchedNetwork
                     batchedGraph={graph}
                     currentBatch={currentBatchIndex}
+                    selectedId={selectedGenre || undefined}
                 />
             </div>
             <AnimationControl />

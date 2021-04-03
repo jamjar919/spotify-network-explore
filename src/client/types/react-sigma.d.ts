@@ -9,7 +9,7 @@ type Sigma = {
 };
 
 type ActiveSigmaGraph = {
-    nodes: () => SigmaNode[];
+    nodes: (id?: string) => SigmaNode[];
     edges: () => SigmaEdge[];
     addNode: (node: SigmaNode) => void;
     addEdge: (node: SigmaEdge) => void;

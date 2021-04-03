@@ -11,11 +11,13 @@ import {graphSettings, graphStyle} from "../../graph/graphSettings";
 type BatchedNetworkPropTypes = {
     batchedGraph: TimeBatchedGraph[],
     currentBatch: number;
+    selectedId?: string;
 };
 
 const BatchedNetwork = ({
     batchedGraph,
-    currentBatch
+    currentBatch,
+    selectedId
 }: BatchedNetworkPropTypes) => {
     const dispatch = useDispatch();
     const animating = selectShouldAnimateGraph();
@@ -43,7 +45,7 @@ const BatchedNetwork = ({
                 gravity={0.1}
                 worker
             >
-                <BatchedGraphLoader batchedGraph={batchedGraph} batchToLoad={currentBatch} />
+                <BatchedGraphLoader batchedGraph={batchedGraph} batchToLoad={currentBatch} selectedId={selectedId} />
             </CustomForceAtlas2>
         </Sigma>
     );
