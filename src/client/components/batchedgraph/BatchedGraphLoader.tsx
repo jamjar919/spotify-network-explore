@@ -28,6 +28,7 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
     const [loaded, setLoaded] = useState(false);
     const prevBatch = usePrevious(batchToLoad) || 0;
     const prevBatchGraphSize = usePrevious(batchedGraph.length) || 0;
+    const prevSelected = usePrevious(selectedId);
 
     useEffect(() => {
         // Can we load the batch?
@@ -82,14 +83,21 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
 
     useEffect(() => {
         if (sigma) {
-            const nodes = sigma.graph.nodes() as SigmaNode[];
-            nodes.forEach(node => delete node.type);
+            if (prevSelected) {
+                const node = sigma.graph.nodes(prevSelected) as SigmaNode;
+                if (node) {
+                    node.type = undefined;
+                }
+            }
 
             if (selectedId) {
                 const node = sigma.graph.nodes(selectedId) as SigmaNode;
-                node.type = "selected";
-                sigma.refresh();
+                if (node) {
+                    node.type = "selected";
+                }
             }
+
+            sigma.refresh();
         }
     }, [selectedId]);
 

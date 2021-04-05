@@ -7,7 +7,7 @@ import {graphTimeBatcher} from "../graph/graphTimeBatcher";
 import {StatelessLoader} from "./StatelessLoader";
 import {
     selectCurrentBatchIndex,
-    selectCurrentGraph,
+    selectBatchedGraph,
     selectCurrentTimeUnit,
     selectSelectedGenre
 } from "../selectors/batchedGraphSelector";
@@ -32,19 +32,17 @@ const PlaylistNetworkViewer = ({
     tracks,
  }: PlaylistNetworkViewerPropTypes) => {
     const dispatch = useDispatch();
-    const graph = selectCurrentGraph();
+    const graph = selectBatchedGraph();
     const currentBatchIndex = selectCurrentBatchIndex();
     const timeUnit = selectCurrentTimeUnit();
     const selectedGenre = selectSelectedGenre();
 
     // Load the graph on render
     useEffect(() => {
-        const graph = graphTimeBatcher(
-            genreGraph(playlists, tracks),
-            { timeUnit, removeEmpty: false }
-        );
+        const graph = genreGraph(playlists, tracks);
+        const batchedGraph = graphTimeBatcher(graph, { timeUnit, removeEmpty: false });
 
-        setGraphAction(graph, timeUnit)(dispatch);
+        setGraphAction(graph, batchedGraph, timeUnit)(dispatch);
     }, [timeUnit]);
 
     if (

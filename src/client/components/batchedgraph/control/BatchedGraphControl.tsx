@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useEffect} from "react";
 import { Slider } from "@material-ui/core";
 import moment from "moment";
-import {selectCurrentBatchIndex, selectCurrentGraph} from "../../../selectors/batchedGraphSelector";
+import {selectCurrentBatchIndex, selectBatchedGraph} from "../../../selectors/batchedGraphSelector";
 import {setBatchNumberAction} from "../../../actions/batchedGraphActions";
 import {useDispatch} from "react-redux";
 import {TimeBatchedGraph} from "../../../graph/graphTimeBatcher";
@@ -14,7 +14,7 @@ type BatchedGraphControlProps = {}
 const BatchedGraphControl: FunctionComponent<BatchedGraphControlProps> = () => {
      const dispatch = useDispatch();
 
-    const graph = selectCurrentGraph();
+    const graph = selectBatchedGraph();
     const currentBatchIndex = selectCurrentBatchIndex();
 
     if (graph === null || currentBatchIndex === null) {

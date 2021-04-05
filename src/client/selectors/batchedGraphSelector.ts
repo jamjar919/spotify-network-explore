@@ -9,7 +9,11 @@ import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {useMemo} from "react";
 
-export const selectCurrentGraph = (): TimeBatchedGraph[] | null => useSelector((state: State) =>
+export const selectGraph = (): SigmaGraph | null => useSelector((state: State) =>
+    state.batchedGraph?.rawGraph || null
+);
+
+export const selectBatchedGraph = (): TimeBatchedGraph[] | null => useSelector((state: State) =>
     state.batchedGraph?.graph || null
 );
 

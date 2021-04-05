@@ -5,16 +5,11 @@ import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 import {AjaxState, isSuccessfulFetch} from "../../reducers/ajaxState";
 import {selectSpotifyTracks} from "../../selectors/spotifySelector";
 import {Badge, BadgeRow} from "../generic/Badge";
-import {EveryNoiseLink} from "./EveryNoiseLink";
+import {EveryNoiseButton} from "./EveryNoiseButton";
 import {colorFromString} from "../../util/color";
 import {PlaylistTab} from "./tab/PlaylistTab";
-
-const NothingSelected = () => (
-    <div className="genre-selector">
-        <h2>Nothing Selected</h2>
-        <p>Click on a genre to display information about it</p>
-    </div>
-);
+import {NothingSelected} from "./NothingSelected";
+import {RandomGenreButton} from "./RandomGenreButton";
 
 export const GenreSelector: FunctionComponent<{}> = () => {
     const selectedGenre = selectSelectedGenre();
@@ -34,12 +29,17 @@ export const GenreSelector: FunctionComponent<{}> = () => {
 
     return (
         <div className="genre-selector">
-            <h2>{selectedGenre}</h2>
+            <h2 className="genre-title">
+                <div>{selectedGenre}</div>
+                <div className="inline-random-genre-button">
+                    <RandomGenreButton/>
+                </div>
+            </h2>
             <BadgeRow>
                 <Badge color={colorFromString(selectedGenre)}>
-                    <EveryNoiseLink genre={selectedGenre}>
+                    <EveryNoiseButton genre={selectedGenre}>
                         Every Noise
-                    </EveryNoiseLink>
+                    </EveryNoiseButton>
                 </Badge>
             </BadgeRow>
             {<PlaylistTab selected={selected} />}

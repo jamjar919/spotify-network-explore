@@ -4,6 +4,7 @@ import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 export type BatchTimeUnit = "day" | "week" | "month" | "year";
 export type BatchedGraphState = {
     graph: TimeBatchedGraph[],
+    rawGraph: SigmaGraph,
     currentBatchIndex: number,
     selectedNode: string | null,
     animate: boolean,
@@ -16,7 +17,8 @@ export default (state: BatchedGraphState = null, action: Action<any>): BatchedGr
     switch (action.type) {
         case ActionName.SET_GRAPH: {
             return {
-                graph: action.payload.graph as TimeBatchedGraph[],
+                graph: action.payload.batchedGraph as TimeBatchedGraph[],
+                rawGraph: action.payload.graph as SigmaGraph,
                 batchUnit: action.payload.batchUnit as BatchTimeUnit,
                 currentBatchIndex: 0,
                 selectedNode: null,

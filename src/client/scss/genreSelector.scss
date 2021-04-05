@@ -6,10 +6,6 @@
     flex-direction: row;
 
     button {
-      background-color: transparent;
-      border: none;
-      outline: none;
-      cursor: pointer;
       margin: auto 0;
       padding: 0 5px 0 0;
     }
@@ -20,5 +16,25 @@
       fill: $black;
       margin: auto;
     }
+  }
+}
+
+.genre-title {
+  display: flex;
+  flex-direction: row;
+
+  .inline-random-genre-button {
+    margin: auto 0 auto auto;
+  }
+}
+
+.randomGenreButton svg {
+  height: 24px;
+  width: 24px;
+  fill: $black;
+  margin: auto;
+
+  &:hover {
+    opacity: 0.5;
   }
 }

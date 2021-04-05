@@ -2,11 +2,11 @@ import {Action, ActionName} from "./action";
 import {TimeBatchedGraph} from "../graph/graphTimeBatcher";
 import {BatchTimeUnit} from "../reducers/batchedGraphReducer";
 
-export type SetGraphPayload = { graph: TimeBatchedGraph[], batchUnit: BatchTimeUnit };
-export const setGraphAction = (graph: TimeBatchedGraph[], batchUnit: BatchTimeUnit) => {
+export type SetGraphPayload = { graph: SigmaGraph, batchedGraph: TimeBatchedGraph[], batchUnit: BatchTimeUnit };
+export const setGraphAction = (graph: SigmaGraph, batchedGraph: TimeBatchedGraph[], batchUnit: BatchTimeUnit) => {
     return (dispatch: (action: Action<SetGraphPayload>) => void) => dispatch({
         type: ActionName.SET_GRAPH,
-        payload: { graph, batchUnit }
+        payload: { graph, batchedGraph, batchUnit }
     })
 };
 
