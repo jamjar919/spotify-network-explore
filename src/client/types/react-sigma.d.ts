@@ -6,10 +6,12 @@ type Sigma = {
     startForceAtlas2: (options?: ForceAtlas2Options) => void;
     stopForceAtlas2: () => void;
     killForceAtlas2: () => void;
+    utils: any;
+    canvas: any;
 };
 
 type ActiveSigmaGraph = {
-    nodes: (id?: string) => SigmaNode[];
+    nodes: (id?: string) => SigmaNode | SigmaNode[];
     edges: () => SigmaEdge[];
     addNode: (node: SigmaNode) => void;
     addEdge: (node: SigmaEdge) => void;
@@ -43,6 +45,7 @@ type SigmaNode = {
         w?: number;
         h?: number;
     };
+    [key: string]: any
 }
 
 type SigmaEdge = {

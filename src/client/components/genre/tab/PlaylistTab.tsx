@@ -18,7 +18,7 @@ export const PlaylistTab: FunctionComponent<PlaylistTabProps> = ({ selected }) =
     return (
         <>
             {sorted.map(({ playlist, tracks }) => (
-                <Playlist playlist={playlist} tracks={tracks}/>
+                <Playlist key={playlist.id} playlist={playlist} tracks={tracks}/>
             ))}
         </>
     )

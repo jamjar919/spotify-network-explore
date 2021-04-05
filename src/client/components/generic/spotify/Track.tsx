@@ -6,8 +6,8 @@ type TrackProps = {
 };
 
 export const Track: FunctionComponent<TrackProps> = ({ track }) => {
-     
-    return <div key={track.track.id} className="track">
+
+    return <div className="track">
         <PlayTrackSampleButton sampleUrl={track.track.preview_url}/>
         <span>
             {track.track.name}

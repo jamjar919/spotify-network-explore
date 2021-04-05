@@ -60,7 +60,7 @@ export const Playlist: FunctionComponent<PlaylistProps> = ({ playlist, tracks })
                     className="tracks-container"
                     style={{ borderColor: playlistColor}}
                 >
-                    {tracks.map((track) => <Track track={track} />)}
+                    {tracks.map((track) => <Track key={`${playlist.id}:${track.track.id}`} track={track} />)}
                 </div>
             </Transition>
         </div>

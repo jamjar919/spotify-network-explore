@@ -7,6 +7,9 @@ import rootReducer from './reducers/rootReducer';
 import {Provider} from "react-redux";
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+// Custom sigma stuff
+import "./sigma";
+
 import "./scss/app.scss";
 
 const composeEnhancers = composeWithDevTools({
