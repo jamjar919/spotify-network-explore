@@ -2,6 +2,7 @@ import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
 import {SpotifyApi, Endpoint, urlWithQueryParams} from "../api/spotifyApi";
 import {fetchWithRetry} from "./fetchWithRetryUtil";
 import MultipleArtistsResponse = SpotifyApi.MultipleArtistsResponse;
+import {partition} from "./partitionUtil";
 
 const MAX_ARTISTS_PER_REQUEST = 50;
 export const getArtists = (
@@ -9,19 +10,10 @@ export const getArtists = (
     accessToken: string
 ): Promise<ArtistObjectFull[]> => {
     // Partition into chunks
-    const partitions: Array<string[]> = [];
-    let currentPartition: string[] = [];
-    for (let i = 0; i < artistIds.length; i += 1) {
-        if (currentPartition.length >= MAX_ARTISTS_PER_REQUEST) {
-            partitions.push(currentPartition);
-            currentPartition = []
-        }
-        currentPartition.push(artistIds[i]);
-    }
-
-    if (currentPartition.length > 0) {
-        partitions.push(currentPartition);
-    }
+    const partitions = partition<string>(
+        artistIds,
+        MAX_ARTISTS_PER_REQUEST
+    );
 
     // Create requests
     const requests = partitions.map(partition => {

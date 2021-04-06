@@ -5,6 +5,7 @@ import {Endpoint, SpotifyApi} from "../api/spotifyApi";
 import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 import {getArtists} from "../util/artistsUtil";
 import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
+import {getAudioFeaturesForTracks} from "../util/audioFeatures";
 
 export const tracks = (req: Request, res: Response) => {
     const accessToken = getAccessTokenFromRequest(req);
@@ -28,30 +29,59 @@ export const tracks = (req: Request, res: Response) => {
 
     Promise.all(requests)
         .then(() => {
-            // Extract unique artists
-            const artistIds: string[] = Object.values(playlistToTracks)
-                .flatMap(array => array)
-                .flatMap(track => track.track.album.artists)
-                .map(artist => artist.id);
+            const tracks = Object.values(playlistToTracks)
+                .flatMap(array => array);
 
-            const uniqueArtistIds = artistIds
-                .filter((v,i) => artistIds.indexOf(v) === i);
+            // Extract audio features
+            getAudioFeaturesForTracks(
+                tracks,
+                accessToken
+            ).then(audioFeatures => {
+                Object.keys(playlistToTracks).forEach(playlistId => {
+                    playlistToTracks[playlistId] = playlistToTracks[playlistId]
+                        .map((track) => {
+                            if (track?.track?.id) {
+                                return {
+                                    ...track,
+                                    audioFeatures: audioFeatures[track.track.id]
+                                }
+                            }
 
-            getArtists(uniqueArtistIds, accessToken)
-                .then((artists) => {
-                    const artistsMap: {
-                        [artistId: string]: ArtistObjectFull
-                    } = { };
-
-                    artists.forEach(artist => {
-                        artistsMap[artist.id] = artist;
-                    });
-
-                    res.send({
-                        tracksMap: playlistToTracks,
-                        artistsMap
-                    });
+                            return track;
+                        })
                 });
+
+                // Extract unique artists
+                const artistIds: string[] = tracks
+                    .flatMap(track => track.track.album.artists)
+                    .filter(artist => typeof artist !== "undefined")
+                    .map(artist => artist.id);
+
+                const uniqueArtistIds = artistIds
+                    .filter((v,i) => artistIds.indexOf(v) === i);
+
+                getArtists(uniqueArtistIds, accessToken)
+                    .then((artists) => {
+                        const artistsMap: {
+                            [artistId: string]: ArtistObjectFull
+                        } = { };
+
+                        artists.forEach(artist => {
+                            if (artist) {
+                                artistsMap[artist.id] = artist;
+                            }
+                        });
+
+                        res.send({
+                            tracksMap: playlistToTracks,
+                            artistsMap
+                        });
+                    });
+
+            }).catch((err) => {
+                res.status(500);
+                res.send({error: err});
+            });
         })
         .catch((err) => {
             res.status(500);

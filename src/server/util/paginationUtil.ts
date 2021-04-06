@@ -63,8 +63,6 @@ export class PaginationUtil<PagedObject> {
             limit: this.maxPerRequest
         });
 
-        console.log(url);
-
         return fetchWithRetry(
             url,
             this.api,

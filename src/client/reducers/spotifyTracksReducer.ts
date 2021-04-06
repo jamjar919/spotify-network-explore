@@ -1,11 +1,14 @@
 import {Action, ActionName} from "../actions/action";
 import {AjaxState} from "./ajaxState";
-import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
+import AudioFeaturesObject = SpotifyApi.AudioFeaturesObject;
 
+export type TrackObjectWithAudioFeature  = SpotifyApi.PlaylistTrackObject & {
+    audioFeatures: AudioFeaturesObject
+};
 export type SpotifyArtistMap = {[artistId: string]: ArtistObjectFull};
 export type SpotifyTracksMap = {
-    tracksMap: {[playlistId: string]: PlaylistTrackObject[]},
+    tracksMap: {[playlistId: string]: TrackObjectWithAudioFeature[]},
     artistsMap: SpotifyArtistMap
 }
 export type SpotifyTracksState = SpotifyTracksMap | AjaxState
