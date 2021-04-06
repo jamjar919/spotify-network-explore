@@ -2,7 +2,7 @@ export type NodePosition =  { x: number, y: number };
 
 export const getRandomInt = (max: number) => Math.floor(Math.random() * Math.floor(max));
 
-const RANDOMISE_SCALE = 1000;
+export const RANDOMISE_SCALE = 1000;
 const SUBSEQUENT_RANDOMISE_SCALE = RANDOMISE_SCALE * .1;
 
 export const getRandomPosition = (): NodePosition => ({

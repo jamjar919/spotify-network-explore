@@ -2,8 +2,8 @@ import {SpotifyTracksMap} from "../reducers/spotifyTracksReducer";
 import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {getGenresForTrack} from "../util/artistUtil";
 import {UniqueGraphObjectUtil} from "../util/uniqueGraphObjectUtil";
-import {getRandomPosition} from "./positionUtil";
 import {colorFromString} from "../util/color";
+import {RANDOMISE_SCALE} from "./positionUtil";
 
 export const genreGraph = (
     playlists: PlaylistBaseObject[],
@@ -33,11 +33,14 @@ export const genreGraph = (
                     color: colorFromString(genre),
                     count: 1,
                     size: Math.log(2),
-                    ...getRandomPosition(),
+                    x: track.audioFeatures.danceability * RANDOMISE_SCALE,
+                    y: track.audioFeatures.valence * RANDOMISE_SCALE,
                     timeAdded
                 }, (node) => {
                     const count = node.count + 1;
                     return {
+                        x: (((node.x || 0) * node.count) + (track.audioFeatures.danceability * RANDOMISE_SCALE)) / count,
+                        y: (((node.y || 0) * node.count) + (track.audioFeatures.valence * RANDOMISE_SCALE)) / count,
                         size: Math.log(count),
                         count
                     };

@@ -29,6 +29,8 @@ const BatchedNetwork = ({
             style={graphStyle}
             onSigmaException={(e: any) => console.error(e)}
             onClickNode={(e: SigmaEvent) => {
+                console.log(e.data.node);
+
                 if (e.data.node?.id) {
                     selectNodeAction(e.data.node?.id)(dispatch);
                 }
