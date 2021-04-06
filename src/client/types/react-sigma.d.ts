@@ -56,6 +56,7 @@ type SigmaEdge = {
     color?: string;
     timeAdded?: number;
     desc?: string;
+    size?: number;
 }
 
 type ForceAtlas2Options = {

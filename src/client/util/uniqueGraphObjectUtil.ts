@@ -20,32 +20,18 @@ export class UniqueGraphObjectUtil<T extends GraphObject> {
         }
     }
 
-    addOrIncrementSize(object: T) {
+    addOrApplyFunction(object: T, extraProps: (object: T) => any) {
         if (this.uniqueGraphObjectMap[object.id] === undefined) {
             this.uniqueGraphObjectMap[object.id] = {
                 ...object,
-                size: 1
+                ...extraProps(object)
             };
         } else {
-            const currentSize = this.uniqueGraphObjectMap[object.id].size || 1;
             this.updateObjectInMapIfNewer(object);
-            this.uniqueGraphObjectMap[object.id].size = currentSize + 1;
-        }
-    }
-
-    addOrIncrementSizeLog(object: T) {
-        if (this.uniqueGraphObjectMap[object.id] === undefined) {
             this.uniqueGraphObjectMap[object.id] = {
-                ...object,
-                size: Math.log(2), // count + 1
-                count: 1
+                ...this.uniqueGraphObjectMap[object.id],
+                ...extraProps(this.uniqueGraphObjectMap[object.id])
             };
-        } else {
-            const newCount = (this.uniqueGraphObjectMap[object.id].count || 1) + 1;
-
-            this.updateObjectInMapIfNewer(object);
-            this.uniqueGraphObjectMap[object.id].size = Math.log(newCount + 1);
-            this.uniqueGraphObjectMap[object.id].count = newCount;
         }
     }
 

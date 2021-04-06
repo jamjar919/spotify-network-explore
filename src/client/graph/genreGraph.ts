@@ -27,23 +27,33 @@ export const genreGraph = (
             const timeAdded = Date.parse(track.added_at);
 
             genres.forEach(genre => {
-                uniqueNodes.addOrIncrementSizeLog({
+                uniqueNodes.addOrApplyFunction({
                     id: genre,
                     label: genre,
-                    size: 5,
                     color: colorFromString(genre),
+                    count: 1,
+                    size: Math.log(2),
                     ...getRandomPosition(),
                     timeAdded
+                }, (node) => {
+                    const count = node.count + 1;
+                    return {
+                        size: Math.log(count),
+                        count
+                    };
                 });
             });
 
             genres.forEach(genreOne => {
                 genres.forEach(genreTwo => {
-                    uniqueEdges.addOrIncrementSize({
+                    uniqueEdges.addOrApplyFunction({
                         id: `${genreOne}:${genreTwo}`,
                         source: genreOne,
                         target: genreTwo,
                         timeAdded
+                    }, (edge) => {
+                        const size = (edge.size || 0) + 1;
+                        return { size };
                     });
 
                 });
