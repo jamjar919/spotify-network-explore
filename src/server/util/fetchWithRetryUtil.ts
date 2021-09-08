@@ -23,7 +23,7 @@ export function fetchWithRetry<T> (
                     }, retryAfter);
                 }
 
-                resolve(response.json());
+                resolve(response.json() as any);
             });
     });
 }

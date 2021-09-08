@@ -56,7 +56,7 @@ export const callback = (req: Request, res: Response) => {
         }
     })
     .then(res => res.json())
-    .then((response) => {
+    .then((response: any) => {
         res.cookie(Cookies.ACCESS_TOKEN, response.access_token);
         res.cookie(Cookies.REFRESH_TOKEN, response.refresh_token);
         res.redirect(`/`);
@@ -81,7 +81,7 @@ export const refreshToken = (req: Request, res: Response) => {
         body: data
     })
     .then(res => res.json())
-    .then((response) => {
+    .then((response: any) => {
         res.send({ access_token: response.access_token });
     });
 };

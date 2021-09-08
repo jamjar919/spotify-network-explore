@@ -14,6 +14,6 @@ export const userInformation = (req: Request, res: Response) => {
     }
 
     fetch(SpotifyApi[Endpoint.ME].url, getFetchOptions(SpotifyApi[Endpoint.ME], accessToken))
-        .then(spotifyResponse => spotifyResponse.json())
+        .then(spotifyResponse => spotifyResponse.json() as any)
         .then((spotifyResponse: UserObjectPrivate) => sendJSON(spotifyResponse, res));
 };
