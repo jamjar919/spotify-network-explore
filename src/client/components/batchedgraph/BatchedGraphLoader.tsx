@@ -2,6 +2,7 @@ import React, {FunctionComponent, useEffect, useState} from 'react';
 import embedProps from "../../util/embedProps";
 import {TimeBatchedGraph} from "../../graph/graphTimeBatcher";
 import {usePrevious} from "../../hooks/usePrevious";
+import {NodePositionCache} from "./NodePositionCache";
 
 type BatchedGraphLoaderProps = {
     batchedGraph: TimeBatchedGraph[];
@@ -9,6 +10,8 @@ type BatchedGraphLoaderProps = {
     selectedId?: string;
     sigma?: Sigma;
 }
+
+const cache = new NodePositionCache();
 
 /**
  * This component loads a batched graph passed in when the property is changed.
@@ -51,7 +54,7 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
             ) {
                 // Are we adding nodes from just one batch?
                 const batch = batchedGraph[batchToLoad];
-                batch.graph.nodes.forEach(node => sigma.graph.addNode(node));
+                batch.graph.nodes.forEach(node => cache.addNodeWithCache(sigma.graph, node));
                 batch.graph.edges.forEach(edge => sigma.graph.addEdge(edge));
 
             } else if (prevBatch < batchToLoad) {
@@ -59,7 +62,7 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
                 const segments = batchedGraph.slice(prevBatch + 1, batchToLoad + 1); // include selected batch and exclude previously added nodes
 
                 segments.forEach((segment) => {
-                    segment.graph.nodes.forEach(node => sigma.graph.addNode(node));
+                    segment.graph.nodes.forEach(node => cache.addNodeWithCache(sigma.graph, node));
                     segment.graph.edges.forEach(edge => sigma.graph.addEdge(edge));
                 });
             } else {
@@ -72,7 +75,7 @@ const BatchedGraphLoader: FunctionComponent<BatchedGraphLoaderProps> = ({
                 });
 
                 segments.forEach((segment) => {
-                    segment.graph.nodes.forEach(node => sigma.graph.dropNode(node.id));
+                    segment.graph.nodes.forEach(node => cache.dropNodeWithCache(sigma.graph, node));
                 });
             }
             sigma.refresh();
