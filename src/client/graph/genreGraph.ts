@@ -3,7 +3,7 @@ import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
 import {getGenresForTrack} from "../util/artistUtil";
 import {UniqueGraphObjectUtil} from "../util/uniqueGraphObjectUtil";
 import {colorFromString} from "../util/color";
-import {RANDOMISE_SCALE} from "./positionUtil";
+import {getRandomPosition} from "./positionUtil";
 
 export const genreGraph = (
     playlists: PlaylistBaseObject[],
@@ -33,14 +33,11 @@ export const genreGraph = (
                     color: colorFromString(genre),
                     count: 1,
                     size: Math.log(2),
-                    x: track.audioFeatures.danceability * RANDOMISE_SCALE,
-                    y: track.audioFeatures.valence * RANDOMISE_SCALE,
+                    ...getRandomPosition(),
                     timeAdded
                 }, (node) => {
                     const count = node.count + 1;
                     return {
-                        x: (((node.x || 0) * node.count) + (track.audioFeatures.danceability * RANDOMISE_SCALE)) / count,
-                        y: (((node.y || 0) * node.count) + (track.audioFeatures.valence * RANDOMISE_SCALE)) / count,
                         size: Math.log(count),
                         count
                     };
