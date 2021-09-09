@@ -1,8 +1,12 @@
 import React, {FunctionComponent} from "react";
 import Logo from "../../svg/logo-white.svg";
 
-export const OverlayHeader: FunctionComponent<{}> = () => (
-    <div className="overlay-header">
+type OverlayHeaderProps = {
+    className?: string;
+}
+
+export const OverlayHeader: FunctionComponent<OverlayHeaderProps> = ({ className }) => (
+    <div className={`overlay-header ${className ? className : ""}`}>
         <Logo className="overlay-logo" height="45px" width="45px" />
         <div className="overlay-header-text">
             <h1>Genre Explorer</h1>

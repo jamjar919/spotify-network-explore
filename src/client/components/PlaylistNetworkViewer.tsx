@@ -21,6 +21,7 @@ import {OverlayHeader} from "./overlayui/OverlayHeader";
 import {GenreSelector} from "./genre/GenreSelector";
 import {MainMenu} from "./MainMenu";
 import {AnimationControl} from "./batchedgraph/settings/AnimationControl";
+import {OverlayRow} from "./overlayui/OverlayRow";
 
 type PlaylistNetworkViewerPropTypes = {
     playlists: PlaylistBaseObject[],
@@ -64,13 +65,21 @@ const PlaylistNetworkViewer = ({
             </div>
             <AnimationControl />
             <OverlayBase>
-                <OverlayHeader />
-                <OverlayBox>
+                <OverlayHeader className="batched-graph-control-overlay" />
+                <OverlayBox className="batched-graph-control-overlay">
                     <BatchedGraphControl />
                 </OverlayBox>
-                <OverlayBox>
-                    <GenreSelector/>
-                </OverlayBox>
+                <OverlayRow>
+                    <OverlayBox>
+                        <GenreSelector/>
+                    </OverlayBox>
+                    <OverlayBox>
+                        hello
+                    </OverlayBox>
+                    <OverlayBox>
+                        another one
+                    </OverlayBox>
+                </OverlayRow>
             </OverlayBase>
             <MainMenu />
         </>

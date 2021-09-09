@@ -1,9 +1,12 @@
+.batched-graph-control-overlay {
+  width: 500px;
+}
+
 .overlay-base {
-  width: 464px;
+  width: 50vw;
   top: 32px;
   left: 72px;
   margin: 0 8px 8px;
-  max-width: 100%;
   position: absolute;
 }
 
@@ -13,6 +16,23 @@
   color: $grey-900;
   padding: 0 50px;
   margin-bottom: 1em;
+}
+
+.overlay-row {
+  display: flex;
+  flex-direction: row;
+
+  .overlay-box:first-child {
+    width: 500px;
+  }
+
+  .overlay-box {
+    margin-right: 50px;
+  }
+
+  .overlay-box:last-child {
+    margin-right: 0;
+  }
 }
 
 .overlay-header {

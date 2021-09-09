@@ -1,7 +1,11 @@
 import React, {FunctionComponent} from "react";
 
-export const OverlayBox: FunctionComponent<{}>  = ({ children}) => (
-    <div className="overlay-box">
+type OverlayBoxProps = {
+    className?: string;
+}
+
+export const OverlayBox: FunctionComponent<OverlayBoxProps>  = ({ className, children}) => (
+    <div className={`overlay-box ${className ? className : ""}`}>
         {children}
     </div>
 );
