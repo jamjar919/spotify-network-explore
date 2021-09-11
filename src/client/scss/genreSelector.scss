@@ -1,22 +1,5 @@
 .genre-selector {
   padding: 25px 0;
-
-  .track {
-    display: flex;
-    flex-direction: row;
-
-    button {
-      margin: auto 0;
-      padding: 0 5px 0 0;
-    }
-
-    svg {
-      height: 16px;
-      width: 16px;
-      fill: $black;
-      margin: auto;
-    }
-  }
 }
 
 .genre-title {
@@ -36,5 +19,29 @@
 
   &:hover {
     opacity: 0.5;
+  }
+}
+
+.playlist-caret {
+  height: 16px;
+  width: 16px;
+  fill: $black;
+  margin: auto;
+}
+
+.track {
+  display: flex;
+  flex-direction: row;
+
+  button {
+    margin: auto 0;
+    padding: 0 5px 0 0;
+  }
+
+  svg {
+    height: 16px;
+    width: 16px;
+    fill: $black;
+    margin: auto;
   }
 }

@@ -2,15 +2,15 @@ import React, {FunctionComponent} from "react";
 import {PlayTrackSampleButton} from "./PlayTrackSampleButton";
 
 type TrackProps = {
-    track: SpotifyApi.PlaylistTrackObject
+    track: SpotifyApi.TrackObjectFull
 };
 
 export const Track: FunctionComponent<TrackProps> = ({ track }) => {
 
     return <div className="track">
-        <PlayTrackSampleButton sampleUrl={track.track.preview_url}/>
+        <PlayTrackSampleButton sampleUrl={track.preview_url}/>
         <span>
-            {track.track.name}
+            {track.name}
         </span>
     </div>
 };

@@ -1,32 +1,32 @@
 import React, {FunctionComponent, useState} from "react";
-import PlaylistBaseObject = SpotifyApi.PlaylistBaseObject;
-import PlaylistTrackObject = SpotifyApi.PlaylistTrackObject;
 import {Track} from "./Track";
 import classNames from "classnames";
 import {Transition} from "@headlessui/react";
 import {Badge} from "../Badge";
 import {colorFromString} from "../../../util/color";
+import ArtistObjectFull = SpotifyApi.ArtistObjectFull;
+import TrackObjectFull = SpotifyApi.TrackObjectFull;
 
 type PlaylistProps = {
-    /** The base playlist object with name/etc */
-    playlist: PlaylistBaseObject,
+    /** The artist object with name/etc */
+    artist: ArtistObjectFull,
     /** The list of tracks in the playlist */
-    tracks: PlaylistTrackObject[]
+    tracks: TrackObjectFull[]
 }
 
 /**
- * Renders a Spotify playlist as a dropdown list of songs.
+ * Renders a Spotify artist as a dropdown list of songs.
  */
-export const Playlist: FunctionComponent<PlaylistProps> = ({ playlist, tracks }) => {
+export const Artist: FunctionComponent<PlaylistProps> = ({ artist, tracks }) => {
     const [expanded, setExpanded] = useState<boolean>(false);
 
     const handleClick = () => setExpanded(!expanded);
 
-    const playlistColor = colorFromString(playlist.name);
+    const artistColor = colorFromString(artist.name);
 
     return (
         <div
-            key={playlist.id}
+            key={artist.id}
             className={classNames("spotify-playlist-dropdown", {
                 'expanded': expanded
             })}
@@ -34,10 +34,10 @@ export const Playlist: FunctionComponent<PlaylistProps> = ({ playlist, tracks })
             aria-haspopup={true}
         >
             <div className="dropdown-button" onClick={handleClick} role="button">
-                <div className="playlist-name">{playlist.name}</div>
+                <div className="playlist-name">{artist.name}</div>
                 <Badge
                     className="playlist-size"
-                    color={playlistColor}
+                    color={artistColor}
                 >
                     {tracks.length}
                 </Badge>
@@ -58,9 +58,9 @@ export const Playlist: FunctionComponent<PlaylistProps> = ({ playlist, tracks })
             >
                 <div
                     className="tracks-container"
-                    style={{ borderColor: playlistColor}}
+                    style={{ borderColor: artistColor}}
                 >
-                    {tracks.map((track) => <Track key={`${playlist.id}:${track.track.id}`} track={track.track} />)}
+                    {tracks.map((track) => <Track key={`${artist.id}:${track.id}`} track={track} />)}
                 </div>
             </Transition>
         </div>

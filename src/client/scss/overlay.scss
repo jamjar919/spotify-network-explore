@@ -16,23 +16,62 @@
   color: $grey-900;
   padding: 0 50px;
   margin-bottom: 1em;
+  width: 500px;
 }
 
 .overlay-row {
+  position: relative;
   display: flex;
   flex-direction: row;
+
+  .overlay-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-right: 50px;
+    will-change: transform;
+    transition: transform 1s ease-in-out;
+  }
 
   .overlay-box:first-child {
     width: 500px;
   }
 
-  .overlay-box {
-    margin-right: 50px;
-  }
-
   .overlay-box:last-child {
     margin-right: 0;
   }
+}
+
+.overlay-row-expanded {
+
+  @for $i from 0 through 3 {
+    .overlay-row-expand-control, .overlay-box{
+      &:nth-child(#{$i + 1}) {
+        transform: translateX($i * 516px);
+        z-index: #{300 - $i * 100};
+      }
+    }
+  }
+}
+
+@for $i from 0 through 3 {
+  .overlay-row-expand-control, .overlay-box{
+    &:nth-child(#{$i + 1}) {
+      z-index: #{300 - $i * 100};
+    }
+  }
+}
+
+.overlay-row-expand-control {
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  background-color: white;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.16);
+  z-index: 100;
+  will-change: transform;
+  transition: transform 1s ease-in-out;
+  transform: translateX(516px);
 }
 
 .overlay-header {
