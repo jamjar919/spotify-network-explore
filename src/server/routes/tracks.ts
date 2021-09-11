@@ -60,6 +60,8 @@ export const tracks = (req: Request, res: Response) => {
                 const uniqueArtistIds = artistIds
                     .filter((v,i) => artistIds.indexOf(v) === i);
 
+                // Missing artist id: 6KvhWUaXr9UGemUf3WSsNL
+
                 getArtists(uniqueArtistIds, accessToken)
                     .then((artists) => {
                         const artistsMap: {
@@ -71,6 +73,8 @@ export const tracks = (req: Request, res: Response) => {
                                 artistsMap[artist.id] = artist;
                             }
                         });
+
+                        console.log("Sending!")
 
                         res.send({
                             tracksMap: playlistToTracks,
