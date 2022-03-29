@@ -14,6 +14,8 @@ export const tracks = (req: Request, res: Response) => {
         [playlistId: string] : PlaylistTrackObject[]
     } = {};
 
+    console.log("hello!");
+
     const requests = playListIds.map(id => new PaginationUtil<PlaylistTrackObject>(
             SpotifyApi[Endpoint.PLAYLIST_TRACKS],
             accessToken,
@@ -23,6 +25,8 @@ export const tracks = (req: Request, res: Response) => {
                 getUrl: (url) => `${url}/${id}/tracks`
             }
         ).getAll().then((tracks: PlaylistTrackObject[]) => {
+            console.log("retrieved", tracks.length, "tracks");
+
             playlistToTracks[id] = tracks;
         })
     );
@@ -50,6 +54,8 @@ export const tracks = (req: Request, res: Response) => {
                             return track;
                         })
                 });
+
+                console.log("got audiofeatures")
 
                 // Extract unique artists
                 const artistIds: string[] = tracks
@@ -83,11 +89,13 @@ export const tracks = (req: Request, res: Response) => {
                     });
 
             }).catch((err) => {
+                console.error(err);
                 res.status(500);
                 res.send({error: err});
             });
         })
         .catch((err) => {
+            console.error(err);
             res.status(500);
             res.send({error: err});
         })

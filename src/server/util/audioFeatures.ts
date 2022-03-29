@@ -38,7 +38,11 @@ export const getAudioFeaturesForTracks = (
 
             const featureMap = {} as { [trackId: string]: AudioFeaturesResponse };
             audioFeatures.forEach((feature: AudioFeaturesObject) => {
-               featureMap[feature.id] = feature;
+                if (feature) {
+                    featureMap[feature.id] = feature;
+                } else {
+                    console.info("Null or undefined feature from API", feature)
+                }
             });
 
             return featureMap
